@@ -1,0 +1,9 @@
+﻿{% extends "page_ap/base.html" %}
+
+{% block title %}Witaj{% endblock %}
+
+{% block content %}
+<h1 class="col-12 mx-auto text-center">Witaj, {{ new_user.first_name }}!</h1>
+<p class="col-12 mx-auto text-center">Twoje konto zostało utworzone. Możesz się już <a
+        href="{% url "login" %}">zalogować</a>.</p>
+{% endblock %}

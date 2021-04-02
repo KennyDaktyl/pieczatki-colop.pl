@@ -1,0 +1,126 @@
+{% extends 'babilon/base_owner.html' %}
+{% load crispy_forms_tags %}
+{% crispy form.helper %}
+
+{% block content %}
+<nav aria-label="breadcrumb col-12 ">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item active" aria-current="page">Lista pracowników</li>
+    </ol>
+</nav>
+<div class="row col-12 m-0 p-0 d-flex align-items-start">
+<h3 class="col-12 text-center mx-auto">Pracownicy przypisani do lokalu {{user.profile.workplace_active.name}}</h3>
+  <div class="col-lg-2 mx-auto row text-center">
+    <form class="col-12 d-flex align-items-start" method="POST" action="">
+      {% csrf_token %}
+      <input name='q' class="mx-auto text-center col-12" type="hidden" value="-1">
+      {% if q == -1 %}
+      <button name='workers' class="btn btn-dark mx-auto text-center col-12">Wszyscy</button>
+      {% else %}
+      <button name='workers' class="btn btn-outline-dark mx-auto text-center col-12">Wszyscy</button>
+      {% endif %}
+    </form>
+
+    {% for el in emp_position %}
+    <form class="col-12" method="POST" action="">
+      {% csrf_token %}
+      <input name='q' class="mx-auto text-center col-12" type="hidden" value="{{el.0}}">
+      {% if q == el.0 %}
+      <button name='workers' type="submit" value="{{el.0}}"
+        class="btn btn-dark mx-auto text-center col-12">{{el.1}}</button>
+      {% else %}
+      <button name='workers' type="submit" value="{{el.0}}"
+        class="btn btn-outline-dark mx-auto text-center col-12">{{el.1}}</button>
+      {% endif %}
+    </form>
+    {% endfor %}
+    {% if q != -1 %}
+    <a class="col-12" href="{% url 'add_profile' pk=q %}">
+      <button class="btn btn-outline-success">Dodaj użytkownika</button>
+    </a>
+    {% endif %}
+  </div>
+
+  <div class="col-lg-10 mx-auto row text-center">
+    
+    <div id="table" class="m-0 p-0">
+      <table class="table table-bordered table-striped text-center mx-auto">
+        <thead>
+          <tr>
+            <th scope="col">L.P.</th>
+            <th scope="col">ID</th>
+            {% if drivers %}
+            <th scope="col" style="min-width: 150px;">Aktywacja</th>
+            {% endif %}
+            <th scope="col">Login</th>
+            <th scope="col">Hasło</th>
+            <th scope="col">Imię</th>
+            <th scope="col">Nazwisko</th>
+            <th scope="col">Stanowisko</th>
+            <th scope="col">Email</th>
+            <th scope="col">Telefon</th>
+            <th scope="col">Miejsca pracy</th>
+            <th scope="col">Akt. miejsce pracy</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for el in profiles %}
+          <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{el.id}}</td>
+            {% if drivers %}
+            <td class="text-center">
+              <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="driver_id" value="{{el.id}}">
+               {% if el.permission_day_active %}
+               <button name="driver_permission" value="False" class="btn btn-outline-success">Pracuje</button>
+               {% else %}
+              <button name="driver_permission" value="True" class="btn btn-outline-danger">Nie pracuje</button>
+              {% endif %}
+              </form>
+            </td>
+            {% endif %}
+            <td>{{el.user.username}}
+              <div class="col-12 m-0 p-0">
+                <a class="mx-auto p-1" href="{% url 'update_user' pk=el.user.id %}">
+                  <i class="fas fa-male"></i></a>
+                <a href="{% url 'update_profile' pk=el.id %}">
+                  <i class="fas fa-edit"></i></a>
+                <a class="mx-auto p-1">
+                  {% if el.user.is_active %}
+                  <i class="text-success fas fa-not-equal"></i>
+                  {% else %}
+                  <i class="text-danger fas fa-not-equal"></i>
+                  {% endif %}
+                </a>
+                <a href="{% url 'del_profile' pk=el.id %}" class="mx-auto p-1"><i class="far fa-trash-alt"></i></a>
+              </div>
+            </td>
+            <td>
+              <a href="{% url 'change_only_password' pk=el.id %}">
+                <button type="button" class="btn btn-outline-success" data-toggle="modal"
+                  data-target="#exampleModalPSWD{{el.id}}">
+                  Zmień hasło
+                </button>
+              </a>
+            </td>
+            <td>{{el.user.first_name}}</td>
+            <td>{{el.user.last_name}}</td>
+            <td>{{el.get_worker_position_display}}</td>
+            <td>{{el.user.email}}</td>
+            <td>{{el.phone_number}}</td>
+            <td>
+              {% for el in el.workplace.all %}
+              {{el.name}},
+              {% endfor %}
+            </td>
+            <td class="text-danger">{{el.workplace_active.name}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

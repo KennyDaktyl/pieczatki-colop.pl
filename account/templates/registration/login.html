@@ -1,0 +1,38 @@
+﻿{% extends "account/base.html" %}
+{% block title %}Logowanie{% endblock %}
+
+{% block content %}
+
+{% load crispy_forms_tags %}
+
+
+<div class="form col-lg-10 text-center mt-3 mx-auto border">
+  <h1>Logowanie</h1>
+  {% if form.errors %}
+  <p>
+    Nazwa użytkownika lub hasło są nieprawidłowe.
+    Spróbuj ponownie.
+  </p>
+  {% else %}
+  <p>Wypełnij poniższy formularz, aby się zalogować:</p>
+  {% endif %}
+  <form class="col-12 mx-auto" action="{% url 'login' %}" method="post">
+    <div class="row mx-auto col-lg-10 mt-3 mb-3">
+      <div class="col-lg-8 mx-auto text-center">
+        {{ form.username|as_crispy_field}}
+      </div>
+      <div class="col-lg-8 mx-auto text-center">
+        {{ form.password|as_crispy_field}}
+      </div>
+      {% csrf_token %}
+      <input type="hidden" name="next" value="{{ next }}" />
+    </div>
+    <button class="btn btn-success" type="submit" value="Zaloguj">Zaloguj</button>
+  </form>
+  <p><a href="{% url "password_reset" %}">Zapomniałeś hasła?</a></p>
+</div>
+{% endblock %}
+
+
+{% block script %}
+{% endblock %}

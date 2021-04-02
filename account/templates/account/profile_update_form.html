@@ -1,0 +1,41 @@
+{% extends 'babilon/base_owner.html' %}
+{% load crispy_forms_tags %}
+{% crispy form.helper %}
+
+{% block content %}
+<nav aria-label="breadcrumb col-12">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'profile_list' %}">Pracownicy</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Edycja profilu {{ object.user.username }}</li>
+  </ol>
+</nav>
+<form method="POST" enctype="multipart/form-data" class="col-12 mx-auto text-center uniForm">
+  {% csrf_token %}
+  <div class="col-12 mx-auto row mb-3">
+    <div class="col-lg-8 mx-auto text-center row">
+      
+      <div class="col-lg-6 p-1 mx-auto text-center">
+        {{ form.workplace|as_crispy_field}}
+      </div>
+      <div class="col-lg-6 p-1 mx-auto text-center">
+        {{ form.workplace_active|as_crispy_field}}
+      </div>
+      <div class="col-lg-6 p-1 mx-auto text-center">
+        {{ form.phone_number|as_crispy_field}}
+      </div>
+      <div class="col-lg-6 p-1 mx-auto text-center">
+        {{ form.rate_per_hour|as_crispy_field}}
+      </div>
+      <div class="col-lg-6 p-1 mx-auto text-center">
+        {{ form.rate_per_drive|as_crispy_field}}
+      </div>
+    </div>
+    <div class="col-12 mx-auto">
+      <input type="submit" value="Edytuj profil" class="col-5 btn btn-outline-success mt-2">
+    </div>
+</form>
+
+{% endblock %}
+
+{% block script %}
+{% endblock %}

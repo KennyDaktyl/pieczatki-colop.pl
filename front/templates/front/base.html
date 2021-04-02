@@ -1,0 +1,209 @@
+{% load static %}
+{% load thumbnail %}
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static "css/main.css" %}" />
+    <link href="{% static "lightbox/dist/css/lightbox.css" %}" rel="stylesheet" />
+    <link rel="shortcut icon" type="image/jpg" href="/media/images/postage_stamp.png" />
+    {% block head %}
+    {% endblock %}
+    <title>
+        {% block title %}
+        {% endblock %}
+    </title>
+</head>
+
+
+<div if="top" class="col-12 row mx-auto text-center m-0 p-0 bg-secondary">
+    <div class="col-2 d-none d-lg-flex align-items-center">
+        {% thumbnail "images/bablion_logo.png" "100" crop="center" as im %}
+        <a href="{% url 'welcome' %}" class="">
+            <img class="img-fluid img-thumbnail" src="{{ MEDIA_URL }}{{im}}" width="{{ im.width }}"
+                height="{{ im.height }}">
+        </a>
+        {% endthumbnail %}
+    </div>
+    <div class="ml-auto col-lg-2 m-1 p-0 wefewf row">
+        {% if user.is_authenticated %}
+        <a class="nav-link dropdown-toggle noHover" id="navbarDropdownMenuLink-333" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            <button class="btn btn-outline-light noHover">{{ user.username }}</button>
+            {% else %}
+            <div class="row d-flex align-items-center mx-auto col-12 mr-1 noHover">
+                <a class="dropdown-item mx-auto text-center col-6 mr-1 p-0 text-white" href="{% url "login" %}"><button
+                        class="col-12 m-0 p-0 btn text-white">Zaloguj</button></a>
+                <a class="dropdown-item mx-auto text-center col-6 mr-1 p-0 text-white noHover" href="">
+                    <button class="btn btn-outline-light noHover">Rejestracja</button>
+                </a>
+            </div>
+            {% endif %}
+        </a>
+        <div class="dropdown-menu dropdown-menu-right dropdown-default ml-auto"
+            aria-laborderledby="navbarDropdownMenuLink-333">
+            <a class="dropdown-item mx-auto text-center bg-white noHover" href="{% url "logout" %}"><span
+                    class="text-center">
+                    Wyloguj</span></a>
+        </div>
+    </div>
+</div>
+
+<body class="">
+    <nav class="col-12 navbar navbar-expand-lg navbar-light bg-light">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03"
+            aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="col-lg-12 collapse navbar-collapse" id="navbarTogglerDemo03">
+            <ul class="col-lg-9 row navbar-nav mx-auto m-0 p-0">
+                <li class="col-lg-2 nav-item d-flex align-items-center mx-auto text-center m-0 p-0">
+                    <a class="nav-link text-center mx-auto" href="{% url 'welcome' %}" title="Strona startowa"><strong
+                            class="mx-auto">Start</strong></a>
+                </li>
+                <li class="col-lg-2 nav-item d-flex align-items-center mx-auto text-center m-0 p-0">
+                    <a class="nav-link text-center mx-auto" href="" title="Pieczątki"><strong
+                            class="mx-auto">Pieczątki</strong></a>
+                </li>
+                <li class="col-lg-2 nav-item d-flex align-items-center mx-auto text-center m-0 p-0">
+                    <a class="nav-link text-center mx-auto" href="" title="Kreator pieczątek"><strong
+                            class="mx-auto">Kreator pieczątek</strong></a>
+                </li>
+                <li class="col-lg-2 nav-item d-flex align-items-center mx-auto text-center m-0 p-0">
+                    <a class="nav-link text-center mx-auto" href="" title="Artukuły bloga"><strong
+                            class="mx-auto">Blog</strong></a>
+                </li>
+
+                <li class="col-lg-2 nav-item d-flex align-items-center mx-auto text-center m-0 p-0">
+                    <a class="nav-link text-center mx-auto" href="{% url 'contact_view' %}"
+                        title="Kontak z restauracją"><strong class="mx-auto">Kontakt</strong></a>
+                </li>
+
+            </ul>
+    </nav>
+    {% if messages %}
+    <ul class="messages col-12 mt-2 bg-warning">
+        {% for message in messages %}
+        <li class="{{ message.tags }} col-10 mx-auto text-center">
+            {{ message|safe }}
+            <a href="#" class="close text-danger display-4">x</a>
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <div class="container-fluid mx-auto m-0 p-0" style="min-height: 101vh;">
+        <div class="row col-12 mx-auto m-0 p-0">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+    <footer id="footer" class="footer-1">
+        <div class="main-footer widgets-dark typo-light">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-xs-12 col-sm-6 col-md-3">
+                        <div class="widget subscribe no-box">
+                            <h5 class="widget-title">Michał Pielak Miktel<span></span></h5>
+                            <p>NIP: 6782805234, REGON: 120171088</p>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-6 col-md-3">
+                        <div class="widget no-box">
+                            <h5 class="widget-title">Na skróty<span></span></h5>
+                            <ul class="thumbnail-widget">
+                                <li>
+                                    <div class="thumb-content"><a href="{% url 'welcome' %}">Start</a></div>
+                                </li>
+                                <li>
+                                    <div class="thumb-content"><a href="">Pieczątki</a></div>
+                                </li>
+                                <li>
+                                    <div class="thumb-content"><a href="">Kreator pieczątek</a></div>
+                                </li>
+                                <li>
+                                    <div class="thumb-content"><a href="">Blog</a></div>
+                                </li>
+
+                                <li>
+                                    <div class="thumb-content"><a href="{% url 'contact_view' %}">Kontakt z nami</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-6 col-md-3">
+                        <div class="widget no-box">
+                            <h5 class="widget-title">Startujemy<span></span></h5>
+                            <p>Aktualnie trwają prace nad rejestracją klientów.</p>
+                            <a class="btn footer" href="#." target="_blank">Rejestracja</a>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-6 col-md-3">
+
+                        <div class="widget no-box">
+                            <h5 class="widget-title">Kontakt z nami<span></span></h5>
+
+                            <p><a href="mailto:{{business.email}}" title="glorythemes">{{business.email}}</a></p>
+                            <ul class="social-footer2 row">
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-copyright">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <p>Copyright Miktel Michał Pielak © 2021. All rights reserved.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous">
+    </script>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+    </script>
+    <script src="{% static "front/main.js" %}" type="text/javascript"></script>
+    <script src="{% static "lightbox/dist/js/lightbox.js" %}"></script>
+    <script>
+        lightbox.option({
+            'albumLabel': "Zdjęcie %1 z %2"
+        })
+    </script>
+    <script type="application/javascript">
+        $(document).ready(function () {
+            $('.close-cookies').click(function () {
+                $(this).parent().hide();
+            });
+        });
+    </script>
+    {% block script %}
+
+    {% endblock %}
+</body>
+
+</html>

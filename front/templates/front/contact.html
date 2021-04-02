@@ -1,0 +1,114 @@
+{% extends 'front/base.html' %}
+{% load static %}
+{% load thumbnail %}
+{% load crispy_forms_tags %}
+{% crispy form.helper %}
+
+{% block head %}
+<!-- <meta property="fb:app_id" content="{{app_id}}" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="{{request.build_absolute_uri}}" />
+<meta property="og:title" content="" />
+<meta property="og:image" content="" />
+<meta name="description" content=""> -->
+<meta name="description"
+    content="Kontakt z nami. Nasze lokale znajdują się w Krakowie na {% for el in workplaces %} {{el.name}}, {{el.street}}, {% endfor %}">
+<link rel="canonical" href="{{link}}">
+{% endblock %}
+
+{% block title %}
+{% for el in workplaces %}
+{{el.name}},
+{% endfor %}
+{% endblock %}
+
+
+{% block content %}
+<div class="col-10 col-lg-10 row mx-auto mt-2 border" style="margin-bottom: 100px;">
+    <h1 class="mx-auto text-center col-12 mt-2">Kontakt z nami</h1>
+    <div class="col-md-3 email_box">
+        <div class="contact-info">
+            <img src="https://image.ibb.co/kUASdV/contact-image.png" alt="image" />
+            <h2>Wyślij do nas email</h2>
+            <h4>Podziel się z nami swoją opinią !</h4>
+        </div>
+    </div>
+    <div class="col-md-9 contact-form">
+        <!-- <h3 class="mx-auto text-center col-12 mt-2">Kontakt email</h3> -->
+        <form method="POST" enctype="multipart/form-data" class="col-lg-10 mx-auto text-center uniForm row">
+            {% csrf_token %}
+            <div class="col-lg-6 mx-auto">
+                <div class="mt-2 m-0 p-1 mx-auto text-center col-lg-10">
+                    {{ contact_form.email|as_crispy_field}}
+                </div>
+                <div class="m-2 p-1 mx-auto text-center col-lg-10">
+                    {{ contact_form.subject|as_crispy_field}}
+                </div>
+            </div>
+            <div class="col-lg-6 mx-auto">
+                <div class="m-2 p-1 mx-auto text-center col-10" style="max-width: 100%;">
+                    {{ contact_form.message|as_crispy_field}}
+                </div>
+
+            </div>
+            <div class="g-recaptcha-outer mx-auto text-center m-2">
+                <div class="g-recaptcha-inner">
+                    {{ contact_form.captcha|as_crispy_field}}
+                </div>
+            </div>
+            <div class="col-12 mx-auto">
+                <input class="btn col-12 col-lg-4 mx-auto btn-secondary mb-2" type="submit" value="Wyślij email">
+            </div>
+        </form>
+    </div>
+</div>
+{% for el in workplaces %}
+<div class="col-lg-5 mx-auto text-center border-bottom mt-2">
+    <h2 class="mx-auto text-center col-12">{{el.name}}</h2>
+    <h3 class="mx-auto text-center col-12 ">{{el.street}}, {{el.city}}</h2>
+        <div class="col-12 row mx-auto text-center d-flex justify-content-center align-items-center">
+            <a href="tel:{{el.phone_number}}" class="card-text text-center m-1 row mx-auto d-flex align-items-center">
+                <h4 class="fas fa-phone text-dark m-0 p-0"></h4>
+                <h3 class="card-text ml-2 text-dark">{{el.phone_number}}</h3>
+            </a>
+        </div>
+        <div class="col-12 mx-auto text-center">
+            {{el.google_maps_link|safe}}
+        </div>
+        <span class="mx-auto text-center col-12">
+            {{el.info}}
+        </span>
+</div>
+{% endfor %}
+</div>
+{% endblock %}
+
+{% block script %}
+<script type="application/ld+json">
+    {
+        %
+        for workplace in workplaces %
+    } {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "{{workplace.name}}",
+        "description": "",
+        "telephone": "{{workplace.phone_number}}",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "{{workplace.street}}",
+            "addressLocality": "{{workplace.city}}",
+            "postalCode": "{{workplace.post_code}}",
+            "addressCountry": "PL"
+        },
+        "url": "https://pizzeria-babilon.pl",
+        "logo": "https://pizzeria-babilon.pl/{{ MEDIA_URL }}/images/bablion_logo.png",
+        "sameAs": [
+            https: //www.facebook.com/Pizza.Babilon"
+        ]
+    } {
+        %
+        endfor %
+    }
+</script>
+{% endblock %}

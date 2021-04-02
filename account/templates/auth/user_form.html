@@ -1,0 +1,26 @@
+{% extends 'babilon/base_owner.html' %}
+{% load crispy_forms_tags %}
+{% crispy form.helper %}
+
+{% block content %}
+<nav aria-label="breadcrumb col-12">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'workers' %}">Pracownicy</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Dodaj użytkownika</li>
+  </ol>
+</nav>
+<form method="post" class="uniForm col-lg-12 mx-auto text-center blueForms border h-100">
+  <form method="POST" enctype="multipart/form-data" class="col-12 mx-auto text-center uniForm">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <input type="submit" value="dodaj" class="btn btn-outline-success mt-2">
+  </form>
+  <div class="col-12 mx-auto text-center mt-3">
+    <p id="button" class="col-5 text-center mx-auto h-100"><input class="mx-auto text-center col-12" type="submit"
+        value="Utwórz konto"></p>
+  </div>
+</form>
+{% endblock %}
+
+{% block script %}
+{% endblock %}

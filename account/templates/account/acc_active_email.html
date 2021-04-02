@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email aktywacyjny</title>
+</head>
+
+<body>
+
+    {% autoescape off %}
+    <img class="col-12 mx-auto" src="http://ap-hutnik.krakow.pl/media/images/flaga_hks.webp" alt="">
+    <h1 class="mx-auto text-center">Cześć {{ user.username }}</h1>
+    <h3 class="mx-auto text-center">Kliknij w link aby wysłać link do aktywacji Twojego konta.</h3>
+    <h4 class="mx-auto text-center">http://{{ domain }}{% url 'activate' uidb64=uid token=token %}</h4>
+    {% endautoescape %}
+</body>
+
+</html>

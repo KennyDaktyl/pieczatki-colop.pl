@@ -1,0 +1,4 @@
+Sitemap: https://pizzeria-babilon.pl/sitemap.xml
+User-agent: *
+Disallow: /admin/
+Disallow: /polityka-prywatnosci/

@@ -1,0 +1,92 @@
+﻿{% extends "page_ap/base.html" %}
+{% load crispy_forms_tags %}
+<!-- {% crispy form.helper %} -->
+
+{% block title %}Utwórz konto{% endblock %}
+
+{% block content %}
+{% if messages %}
+<ul class="messages text-dark col-12 mx-auto text-center text-primary">
+  {% for message in messages %}
+  <li class="{{ message.tags }} text-dark col-12 mx-auto text-center text-primary">
+    {{ message|safe }}
+    <a href="#" class="close">x</a>
+  </li>
+  {% endfor %}
+</ul>
+{% endif %}
+<h1 class="col-12 text-center mx-auto ">Utwórz konto zawodnika</h1>
+{% if form.errors %}
+<p class="col-12 text-center mx-auto text-primary">
+  Nazwa użytkownika lub hasło są nieprawidłowe.
+  Spróbuj ponownie.
+  {% for key,value in user_form.errors.items %}
+  <li class="text-primary">{{ key|escape }} : {{ value|escape }}</li>
+  {% endfor %}
+</p>
+{% else %}
+<p class="col-12 text-center mx-auto text-primary">Wypełnij poniższy formularz, aby się zalogować:</p>
+{% endif %}
+<form action="." method="post" class="uniForm col-lg-6 mx-auto text-center blueForms border h-100">
+  {% csrf_token %}
+  <div class="col-12 mx-auto row mb-3">
+    <div class="col-lg-8 mx-auto text-center">
+      {{ form.username|as_crispy_field}}
+    </div>
+    <div class="col-lg-8 mx-auto text-center row">
+      <div class="col-lg-6 p-1 mx-auto text-center row">
+        {{ form.first_name|as_crispy_field}}
+      </div>
+      <div class="col-lg-6 p-1 mx-auto text-center row">
+        {{ form.last_name|as_crispy_field}}
+      </div>
+    </div>
+    <div class="col-lg-8 mx-auto text-center">
+      <div class="col-12 p-1 mx-auto text-center ">
+        {{ form.email|as_crispy_field}}
+      </div>
+    </div>
+    <div class="col-lg-8 mx-auto text-center row">
+      <div class="col-lg-6 p-1 mx-auto text-center ">
+        {{ form.password|as_crispy_field}}
+      </div>
+      <div class="col-lg-6 p-1 mx-auto text-center ">
+        {{ form.password2|as_crispy_field}}
+      </div>
+    </div>
+    <div class="col-lg-8 mx-auto text-center row">
+      <div class="col-6 p-1 mx-auto text-center ">
+        {{ form.team|as_crispy_field}}
+      </div>
+      <div class="col-lg-6 p-1 mx-auto text-center ">
+        {{ form.position|as_crispy_field}}
+      </div>
+    </div>
+    <div class="col-lg-8 mx-auto text-center">
+      <div class="col-12 p-1 mx-auto text-center ">
+        {{ form.date_of_birth|as_crispy_field}}
+      </div>
+    </div>
+    <div class="col-lg-8 mx-auto text-center">
+      <div class="m-2 p-1 mx-auto text-center ">
+        {{ form.phone_number|as_crispy_field}}
+      </div>
+    </div>
+    <div class="col-lg-8 mx-auto text-center">
+      <div class="col-12 p-1 mx-auto text-center text-primary">
+        <p class="text-left col-12 text-primary text-bold">Zgoda Rodo: (wyświetlanie zdjęcia oraz nazwiska?</p>
+        {{ form.rodo|as_crispy_field}}
+      </div>
+    </div>
+    <div class="col-12 col-lg-6 mx-auto text-center mt-3">
+      <div class="mt-3 mx-auto text-cneter">
+        {{ form.captcha|as_crispy_field}}
+      </div>
+    </div>
+  </div>
+  <div class="col-12 mx-auto text-center mt-3">
+    <p id="button" class="col-12 text-center mx-auto h-100"><input class="mx-auto text-center col-12" type="submit"
+        value="Utwórz konto zawodnika"></p>
+  </div>
+</form>
+{% endblock %}
