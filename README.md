@@ -1,0 +1,1 @@
+# pieczatki-colop.pl
