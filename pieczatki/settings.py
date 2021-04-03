@@ -56,7 +56,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.sitemaps',
     'social_django',
-    'social.apps.django_app.default',
+    # 'social.apps.django_app.default',
     'crispy_forms',
     'captcha',
     'sorl.thumbnail',
