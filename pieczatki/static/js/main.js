@@ -6,7 +6,7 @@ $(document).ready(function () {
     top_height = top.height();
     nav_height = nav.height();
     nav.css('margin-top', top_height);
-    page.css('margin-top', top_height + nav_height+20);
+    page.css('margin-top', top_height + nav_height + 20);
     console.log(top_height + nav_height);
     $(window).on('wheel', function (event) {
         if (event.originalEvent.deltaY < 0) {
@@ -44,5 +44,10 @@ $(document).ready(function () {
         localStorage.setItem('scrollpos', window.scrollY);
     };
 
-
+    var dropdown_basket = $('#dropdown_basket');
+    var basket_div = $('#basket_div');
+    dropdown_basket.click(function () {
+        basket_div.toggleClass('show');
+        
+    });
 })

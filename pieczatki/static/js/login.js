@@ -1,9 +1,9 @@
 $(document).ready(function () {
     var label = $('#id_username');
-    label.addClass('col-12');
+    label.addClass('col-lg-8');
 
     var password = $('#id_password');
-    password.addClass('col-12');
+    password.addClass('col-lg-8');
 
     FB.getLoginStatus(function (response) {
         statusChangeCallback(response);

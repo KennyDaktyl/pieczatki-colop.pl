@@ -4,8 +4,7 @@ from django.conf.urls import include, url
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    url(r"^accounts/", include("django.contrib.auth.urls")),
-    # url('', include('social.apps.django_app.urls', namespace='social')),
-    url(r'^oauth/', include('social_django.urls', namespace='social')),
+    # url(r"^accounts/", include("django.contrib.auth.urls")),
+    path('account/', include('account.urls')),
     path('', include('front.urls')),
 ]

@@ -6,8 +6,33 @@ a.dropdown-item:hover {
     background-color: transparent;
 }
 
-#wyloguj {
-    z-index: 20;
+#basket {
+    position: relative;
+    min-width: 210px;
+    height: 40px;
+}
+
+#basket_div {
+    display: none;
+    position: absolute;
+    /* transform: translate3d(-41px, 37px, 0px); */
+    top: 40px;
+    right: 0px;
+    min-width: 210px;
+    will-change: transform;
+    z-index: 1;
+}
+
+#basket_div.show {
+    display: block;
+    position: absolute;
+    z-index: 1999;
+    /* transform: translate3d(-41px, 37px, 0px); */
+}
+
+label {
+    margin-top: 20px;
+    width: 100%;
 }
 
 

@@ -78,18 +78,6 @@ class UserForm(forms.ModelForm):
         return email
 
 
-class ProfileForm(forms.ModelForm):
-    class Meta:
-        model = Profile
-        fields = ('workplace', 'workplace_active', 'phone_number',
-                  'rate_per_hour', 'rate_per_drive', 'type_of_employment',
-                  'info')
-
-        widgets = {
-            'workplace': forms.CheckboxSelectMultiple,
-        }
-
-
 class PasswordChangeForm(forms.Form):
     password = forms.CharField(label="Hasło",
                                widget=forms.PasswordInput,
