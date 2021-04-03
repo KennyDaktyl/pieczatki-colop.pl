@@ -20,7 +20,7 @@ SECRET_KEY = '81zleq=i2ocw$l97x6%9j#%(8gdgflpi^jl(!a5a@9j8b8y@is'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '*',
+    'pieczatki-colop.com',
 ]
 
 if socket.gethostname() == "Asus":
