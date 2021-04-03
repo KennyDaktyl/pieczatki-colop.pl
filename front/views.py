@@ -9,11 +9,14 @@ from django.contrib.sites.models import Site
 from django.contrib.sites.shortcuts import get_current_site
 
 from .forms import ContactForm
+from .models import Pages
 
 
 class WelcomeView(View):
     def get(self, request):
-        return render(request, "front/welcome.html")
+        page = Pages.objects.get(name='Strona główna')
+        ctx = {'page': page}
+        return render(request, "front/welcome.html", ctx)
 
 
 class ContactView(View):
@@ -22,12 +25,13 @@ class ContactView(View):
         # scheme = request.scheme
         scheme = 'https'
         link = scheme + "://" + site + "/kontakt-z-nami/"
-        ctx = {
-            'link': link,
-        }
+        contact_form = ContactForm()
+        ctx = {'link': link, 'contact_form': contact_form}
+
         return render(request, "front/contact.html", ctx)
 
     def post(self, request):
+        contact_form = ContactForm(request.POST)
         if contact_form.is_valid():
             email = request.POST.get("email")
             subject = request.POST.get("subject")

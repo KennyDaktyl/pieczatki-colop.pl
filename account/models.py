@@ -59,3 +59,11 @@ class Address(models.Model):
                                  max_length=6)
 
     main = models.BooleanField(verbose_name="Główny adres", default=False)
+
+    class Meta:
+        ordering = ("user_id", )
+        verbose_name_plural = "Adresy"
+
+    def __str__(self):
+        return "{}, {}, {}".format(self.user_id.username, self.street,
+                                   self.house)

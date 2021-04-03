@@ -13,13 +13,15 @@ class ContactForm(forms.Form):
     )
     subject = forms.CharField(
         label="Temat wiadomości",
-        widget=forms.TextInput(
-            attrs={'placeholder': 'Opinia na temat pizzy'}),
+        widget=forms.TextInput(attrs={'placeholder': ''}),
         required=True,
     )
     message = forms.CharField(
         label="Treść wiadomości",
-        widget=forms.Textarea(),
+        widget=forms.Textarea(attrs={
+            'size': 80,
+            'cols': 30
+        }),
         required=True,
     )
 
