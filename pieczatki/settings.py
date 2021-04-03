@@ -30,7 +30,7 @@ if socket.gethostname() == "Asus":
     DatabaseName = "colop_v1"
     SECURE_SSL_REDIRECT = False
 else:
-    DOMAIN = "pieczatki-colop.pl"
+    DOMAIN = "pieczatki-colop.com"
     DatabaseName = "colop_v1"
     DEBUG = True
     SECURE_SSL_REDIRECT = False
@@ -55,7 +55,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.sitemaps',
-    # 'social_django',
+    'social_django',
     'social.apps.django_app.default',
     'crispy_forms',
     'captcha',
