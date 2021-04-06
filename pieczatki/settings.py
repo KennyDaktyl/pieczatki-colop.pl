@@ -11,7 +11,7 @@ from pathlib import Path
 # BASE_DIR = Path(__file__).resolve().parent.parent
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = os.environ.get('SECRET_KEY')
-
+SECRET_KEY ='n%-7rs$4k2f&ur6y4*(9k922yi%ov4se64*cirq#(tq$le1ues'
 ALLOWED_HOSTS = [
     'pieczatki-colop.com',
 ]

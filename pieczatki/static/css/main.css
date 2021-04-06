@@ -285,6 +285,7 @@ ul.social-footer2 li a {
     transition: all 250ms ease-in-out 0s;
 
 }
+
 a.login {
     color: white;
 }
@@ -301,6 +302,11 @@ a.logout:hover {
     color: red;
 }
 
+div.motto_solid {
+ border: 1px solid;
+ box-shadow: 5px 10px #888888;
+}
+
 .motto a {
     color: black;
 }
@@ -309,6 +315,43 @@ a.logout:hover {
     color: red;
     text-decoration: none;
 }
+
+.motto_2 div {
+    height: 280px;
+    border: 1px solid;
+    padding: 10px;
+    box-shadow: 5px 10px #888888;
+}
+
+.title {
+    border: 1px solid;
+    padding: 10px;
+    box-shadow: 5px 10px #888888;
+}
+
+.motto_2 div:hover {
+    height: 280px;
+    border: 1px solid;
+    padding: 20px;
+    box-shadow: 7px 20px #888888;
+    transition: 0.5s;
+}
+
+.motto_2 h3 {
+    font-size: 25px;
+    transition: 0.5s;
+}
+
+.motto_2 h3:hover {
+    font-size: 27px;
+    transition: 0.5s;
+}
+
+.motto_2 i {
+    color: #ff8d1e;
+    font-size: 40px;
+}
+
 
 @media (max-width: 992px) {
 
@@ -334,6 +377,14 @@ a.logout:hover {
 
     .motto p {
         font-size: 1.0rem;
+    }
+
+    .motto_2 div {
+        height: 120px;
+    }
+
+    .motto_2 i {
+        font-size: 20px;
     }
 
 

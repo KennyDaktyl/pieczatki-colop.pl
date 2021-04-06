@@ -38,18 +38,37 @@
     {% endthumbnail %}
 </div>
 
-<div class="col-lg-8 mx-auto m-0 p-0 row d-flex align-items-center motto">
-    <div class="jumbotron jumbotron-fluid mt-2 col-12">
+<div class="col-lg-8 mx-auto m-0 p-0 row d-flex align-items-center motto ">
+    <div class="jumbotron jumbotron-fluid mt-2 col-12 motto_solid">
         <div class="container text-center">
             <h1 class="mx-auto text-center">Sklep z pieczątkami firmy Colop</h1>
             <p class="lead mx-auto text-center">Wykonamy każdy rodzaj pieczątki. Metoda laserowego wypalania gumy spełni
                 oczekiwania
                 najbardziej wymagającego projektu, również zawierającego grafikę np. dla pieczątki z logo.</p>
             <strong class="mx-auto text-center col-12">Zamów za minimum 50zł - wysłka gratis</strong>
+
         </div>
     </div>
-    <h2 class="col-12 mx-auto text-center">Pieczątki najczęściej kupowane</h2>
 </div>
+<div class="col-lg-8 mx-auto m-0 p-0 mt-2 row d-flex align-items-center motto motto_2">
+    <div class="col-11 col-lg-4 d-flex align-items-center row mx-auto">
+        <i class="mx-auto text-center far fa-clock col-12"></i>
+        <h3 class="mx-auto text-center col-12 m-0 p-0">Natychmiastowa realizacja projektu</h3>
+    </div>
+    <div class="col-11 col-lg-4 d-flex align-items-center row mx-auto">
+        <i class="mx-auto text-center fas fa-truck-moving col-12"></i>
+        <h3 class="mx-auto text-center col-12 m-0 p-0">Darmowa wysyłka zamówienia*</h3>
+    </div>
+    <div class="col-11 col-lg-4 d-flex align-items-center row mx-auto">
+        <i class="mx-auto text-center fab fa-slideshare col-12"></i>
+        <h3 class="mx-auto text-center col-12 m-0 p-0">Solidna firma od 2006r.</h3>
+    </div>
+</div>
+
+<div class="col-lg-8 mx-auto m-0 p-0 mt-2 row d-flex align-items-center motto_2">
+    <h2 class="col-12 mt-3 mx-auto text-center title">Pieczątki najczęściej kupowane</h2>
+</div>
+
 
 {% for cat in categorys %}
 <div class="col-12 mx-auto row mt-2 mb-2 p-0">
@@ -62,16 +81,16 @@
                 <source srcset="{{ im }}" type="image/webp">
                 {% thumbnail cat.image "350" crop='center' format="WEBP"  as im %}
                 <source srcset="{{ im }}" type="image/webp" />
-                <img class="img-fluid mx-auto mt-2" src="{{ MEDIA_URL }}{{im}}" alt="" title="">
-                {% endthumbnail %}
+                    <img class="img-fluid mx-auto mt-2" src="{{ MEDIA_URL }}{{im}}" alt="" title="">
+                    {% endthumbnail %}
             </a>
             {% endthumbnail %}
         </div>
         <div class="col-lg-6 m-0 p-0 mt-2 mx-auto text-center d-flex align-items-start row">
             <a href="" class="col-12 mx-auto text-center mt-2">
-                <h3 class="mx-auto text-center">{{cat.name}}</h3>
+                <h3 class="mx-auto text-center title">{{cat.name}}</h3>
             </a>
-            <div class="col-12 mx-auto text-center">
+            <div class="col-12 mt-2 mx-auto text-center">
                 <small class="mx-auto text-center m-0 p-0">{{cat.text}}</small>
             </div>
             <h4 class="mx-auto text-center mt-2 col-12">Wzornik pieczątek imiennych</h4>
@@ -98,9 +117,9 @@
         </div>
     </div>
     {% for prod in cat.products %}
-    <div class="col-lg-8 motto row m-0 p-0 mt-2 mb-2 mx-auto text-center border d-flex justify-content-around">
-        <h4 class="mx-auto text-center mt-2 col-12">Produkty z kategorii pieczątki imienne</h4>
-        <div class="col-6 col-lg-4 m-0 p-1 border">
+    <div class="col-lg-8 motto row m-0 p-0 mt-2 mb-2 mx-auto text-center border d-flex justify-content-center">
+        <h4 class="mx-auto text-center mt-2 col-12 title">Produkty z kategorii pieczątki imienne</h4>
+        <div class="col-6 col-lg-4 m-0 p-1 border d-flex align-items-start row mt-3">
             <div class="col-12 m-0 p-0">
                 {% thumbnail prod.image "350x100" crop='center' format="WEBP"  as im %}
                 <source srcset="{{ im }}" type="image/webp" />
@@ -110,14 +129,14 @@
             <a href="" class="col-12 mx-auto text-center mt-2">
                 <h4 class="col-12 mx-auto text-center">{{prod.name}}</h4>
             </a>
-            <div class="col-12">
+            <div class="col-12 mx-auto">
                 {% thumbnail prod.brand.logo "150x70" crop='center' format="WEBP"  as im %}
                 <source srcset="{{ im }}" type="image/webp" />
                 <img class="img-fluid mx-auto" src="{{ MEDIA_URL }}{{im}}" alt="" title="">
                 {% endthumbnail %}
             </div>
-            <small class="col-12 text-right">ID:{{prod.id}}</small>
-            <div class="col-12 row m-0 p-0 d-flex align-items-center">
+            <small class="col-12 text-center">ID:{{prod.id}}</small>
+            <div class="col-12 row m-0 p-0 mt-2 d-flex align-items-center">
                 <div class="col-lg-6 row m-0 p-0 pl-1 d-flex align-items-center">
                     <span class="mr-1">Cena:</span>
                     <p class="font-weight-bold text-danger m-0 p-0 mr-auto text-left">{{prod.price}} zł</p>
@@ -125,18 +144,20 @@
                 </div>
                 <div class="col-lg-6 row m-0 p-0 d-flex justify-content-end">
                     {% if prod.qty > 0 %}
-                    <small class="text-success ml-auto pr-1">Dostępny</small>
-                    {% else %}
-                    <small class="text-danger ml-auto pr-1">Brak</small>
-                    {% endif %}
+                    <small class="text-success ml-auto pr-1">Dostępny: {{prod.qty}}szt.</small>
                     <form class="col-12 m-0 p-0 text-right row d-flex justify-content-end" action="">
                         {% csrf_token %}
-                        <input type="number" name="qty" value="1" min="1" max="99">
+                        <input type="number" name="qty" value="1" min="1" max="{{prod.qty}}">
                         <span class="input-group-append">
                             <button class="btn btn-secondary stash" type="button" data-action="add">
                                 <i class="basket fa fa-cart-plus"></i> </button>
                         </span>
                     </form>
+                    {% else %}
+                    <small class="text-danger ml-auto pr-1 col-12 text-right">Brak w magazynie</small>
+                    <p class="m-0 p-0 mr-auto text-right col-12">Zadzwoń 506 029 980</p>
+                    {% endif %}
+
                 </div>
             </div>
         </div>
@@ -148,9 +169,34 @@
         </a>
     </div>
 </div>
-</div>
 <div class="col-12 border m-0 p-0"></div>
 {% endfor %}
+
+<div class="col-lg-8 motto row m-0 p-0 mt-2 mb-2 mx-auto text-center border d-flex justify-content-center">
+    <h4 class="mx-auto text-center mt-2 col-12 title">Technologia laserowego wypalenia pieczęci</h4>
+    <div class="col-12 m-0 p-0 mt-3">
+        {% thumbnail 'images/bcg-laser-.webp' "960x200" crop='center' format="WEBP"  as im %}
+        <source srcset="{{ im }}" type="image/webp" />
+        <img class="img-fluid mx-auto" src="{{ MEDIA_URL }}{{im}}" alt="" title="">
+        {% endthumbnail %}
+    </div>
+    <a href="" class="col-12 mx-auto text-center mt-2">
+        <h4 class="col-12 mx-auto text-center">{{prod.name}}</h4>
+    </a>
+    <div class="col-lg-6 mx-auto">
+        {% thumbnail "images/universal-laser-system-logo.webp" "800x294" crop='center' format="WEBP"  as im %}
+        <source srcset="{{ im }}" type="image/webp" />
+        <img class="img-fluid mx-auto" src="{{ MEDIA_URL }}{{im}}" alt="" title="">
+        {% endthumbnail %}
+    </div>
+    <div class="col-lg-6 row m-0 p-0 mt-2 d-flex align-items-center">
+        <p class="text-center col-12 mx-auto">
+            Pieczątki wykonujemy w technologii laserowego wypalania gumy. W ten sposób możliwe jest odwzorowanie wielu
+            szczegółów na pieczęci oraz wykonać doskonałe i trwałe odbicie. Posiadamy urządzenie amerykańskiej firmy
+            Universal Laser System uznawanej za lidera rynku urządzeń laserowych.
+        </p>
+    </div>
+</div>
 {% endblock %}
 
 {% block script %}
