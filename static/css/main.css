@@ -6,8 +6,33 @@ a.dropdown-item:hover {
     background-color: transparent;
 }
 
-#wyloguj {
-    z-index: 20;
+#basket {
+    position: relative;
+    min-width: 210px;
+    height: 40px;
+}
+
+#basket_div {
+    display: none;
+    position: absolute;
+    /* transform: translate3d(-41px, 37px, 0px); */
+    top: 40px;
+    right: 0px;
+    min-width: 210px;
+    will-change: transform;
+    z-index: 1;
+}
+
+#basket_div.show {
+    display: block;
+    position: absolute;
+    z-index: 1999;
+    /* transform: translate3d(-41px, 37px, 0px); */
+}
+
+label {
+    margin-top: 20px;
+    width: 100%;
 }
 
 
@@ -258,5 +283,58 @@ ul.social-footer2 li a {
     -ms-transition: all 250ms ease-in-out 0s;
     -o-transition: all 250ms ease-in-out 0s;
     transition: all 250ms ease-in-out 0s;
+
+}
+a.login {
+    color: white;
+}
+
+a.login:hover {
+    color: green;
+}
+
+a.logout {
+    color: white;
+}
+
+a.logout:hover {
+    color: red;
+}
+
+.motto a {
+    color: black;
+}
+
+.motto a:hover {
+    color: red;
+    text-decoration: none;
+}
+
+@media (max-width: 992px) {
+
+    .motto h1 {
+        font-size: 1.5rem;
+    }
+
+    .motto p.lead {
+        font-size: 1.0rem;
+    }
+
+    .motto h2 {
+        font-size: 1.4rem;
+    }
+
+    .motto h3 {
+        font-size: 1.3rem;
+    }
+
+    .motto h4 {
+        font-size: 1.2rem;
+    }
+
+    .motto p {
+        font-size: 1.0rem;
+    }
+
 
 }
