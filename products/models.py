@@ -9,6 +9,8 @@ from PIL import Image
 from io import BytesIO
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
+from decimal import Decimal
+
 
 def file_size(value):
     limit = 3 * 1024 * 1024
@@ -228,6 +230,12 @@ class Products(models.Model):
                                 default=0,
                                 decimal_places=2,
                                 max_digits=7)
+    price_netto = models.DecimalField(verbose_name="Cena podstawowa",
+                                      default=0,
+                                      decimal_places=2,
+                                      max_digits=7,
+                                      null=True,
+                                      blank=True)
     tax = models.ForeignKey(
         "Vat",
         on_delete=models.CASCADE,
@@ -250,6 +258,7 @@ class Products(models.Model):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
+        self.price_netto = self.price / Decimal("1." + str(self.tax.name))
         super(Products, self).save()
 
     class Meta:
