@@ -4,9 +4,4 @@ $(document).ready(function () {
 
     var password = $('#id_password');
     password.addClass('col-lg-8');
-
-    FB.getLoginStatus(function (response) {
-        statusChangeCallback(response);
-    });
-
 });

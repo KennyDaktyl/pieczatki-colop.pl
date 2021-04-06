@@ -285,3 +285,56 @@ ul.social-footer2 li a {
     transition: all 250ms ease-in-out 0s;
 
 }
+a.login {
+    color: white;
+}
+
+a.login:hover {
+    color: green;
+}
+
+a.logout {
+    color: white;
+}
+
+a.logout:hover {
+    color: red;
+}
+
+.motto a {
+    color: black;
+}
+
+.motto a:hover {
+    color: red;
+    text-decoration: none;
+}
+
+@media (max-width: 992px) {
+
+    .motto h1 {
+        font-size: 1.5rem;
+    }
+
+    .motto p.lead {
+        font-size: 1.0rem;
+    }
+
+    .motto h2 {
+        font-size: 1.4rem;
+    }
+
+    .motto h3 {
+        font-size: 1.3rem;
+    }
+
+    .motto h4 {
+        font-size: 1.2rem;
+    }
+
+    .motto p {
+        font-size: 1.0rem;
+    }
+
+
+}

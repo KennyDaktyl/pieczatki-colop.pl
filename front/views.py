@@ -10,12 +10,14 @@ from django.contrib.sites.shortcuts import get_current_site
 
 from .forms import ContactForm
 from .models import Pages
+from products.models import Category
 
 
 class WelcomeView(View):
     def get(self, request):
         page = Pages.objects.get(name='Strona główna')
-        ctx = {'page': page}
+        categorys = Category.objects.filter(on_page=True)
+        ctx = {'page': page, 'categorys': categorys}
         return render(request, "front/welcome.html", ctx)
 
 
