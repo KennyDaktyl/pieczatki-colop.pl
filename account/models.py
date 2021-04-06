@@ -6,6 +6,7 @@ from datetime import datetime
 
 
 class Profile(models.Model):
+    id = models.AutoField(primary_key=True)
     user = models.OneToOneField(settings.AUTH_USER_MODEL,
                                 on_delete=models.CASCADE)
 
@@ -32,6 +33,7 @@ class Profile(models.Model):
 
 
 class Address(models.Model):
+    id = models.AutoField(primary_key=True)
     user_id = models.OneToOneField(
         settings.AUTH_USER_MODEL,
         null=True,

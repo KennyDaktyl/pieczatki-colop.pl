@@ -20,6 +20,7 @@ def file_size(value):
 
 
 class Pages(models.Model):
+    id = models.AutoField(primary_key=True)
     name = models.CharField(
         verbose_name="Nazwa strony",
         max_length=13,
@@ -44,6 +45,7 @@ class Pages(models.Model):
 
 
 class Images(models.Model):
+    id = models.AutoField(primary_key=True)
     image = ResizedImageField(size=[1280, 960],
                               upload_to='images/',
                               validators=[file_size])
