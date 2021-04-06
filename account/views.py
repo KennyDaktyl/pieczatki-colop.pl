@@ -1,21 +1,11 @@
 from django.contrib.auth import authenticate, login, logout
-from rest_framework.authtoken.models import Token
-from datetime import datetime
-from django.views.generic.detail import DetailView
-from django.views.generic.list import ListView
 from django.views import View
-from django.views.generic.edit \
-    import UpdateView, DeleteView
-
-from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import PermissionRequiredMixin
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
-from django.utils.decorators import method_decorator
 
+from .forms import LoginForm
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -211,57 +201,34 @@ User = get_user_model()
 #         messages.success(self.request, self.success_message)
 #         return super(DeleteProfileView, self).delete(request, *args, **kwargs)
 
-# class LoginView(View):
-#     def get(self, request):
-#         form = LoginForm()
-#         ctx = {'form': form}
-#         return render(request, "auth/login.html", ctx)
 
-#     def post(self, request):
-#         form = LoginForm(request.POST)
-#         if form.is_valid():
-#             username = form.cleaned_data['username']
-#             password = form.cleaned_data['password']
-#             user = authenticate(request, username=username, password=password)
-#             if user is not None:
-#                 token = Token.objects.get_or_create(user=user)
-#                 login(request, user)
-#                 # workplace_session(request, user)
-#                 if user.profile.worker_position == 0:
-#                     return redirect('local_status')
-#                 if user.profile.worker_position == 1:
-#                     login(request, user)
-#                     workplace_session(request, user)
-#                     return redirect('local_status')
-#                 if user.profile.worker_position == 2:
-#                     login(request, user)
-#                     workplace_session(request, user)
-#                     return redirect('local_status')
-#                 if user.profile.worker_position == 3:
-#                     login(request, user)
-#                     workplace_session(request, user)
-#                     return redirect('kitchen_main_view')
-#                 if user.profile.worker_position == 4:
-#                     if driver_is_active(request, user):
-#                         login(request, user)
-#                         workplace_session(request, user)
-#                         return redirect('driver_main_view')
-#                     else:
-#                         return redirect('login')
-#                 if user.profile.worker_position == 5:
-#                     login(request, user)
-#                     workplace_session(request, user)
-#                     return redirect('local_status')
-#             else:
-#                 messages.error(request, 'Błędne hasło lub login')
-#                 ctx = {'form': form}
-#                 return render(request, "auth/login.html", ctx)
-#         else:
-#             messages.error(request, 'Błędne hasło lub login')
-#             ctx = {'form': form}
-#             return render(request, "auth/login.html", ctx)
+class LoginView(View):
+    def get(self, request):
+        form = LoginForm()
+        ctx = {'form': form}
+        return render(request, "registration/login.html", ctx)
 
-# class Logout(View):
-#     def get(self, request):
-#         logout(request)
-#         return redirect('welcome')
+    def post(self, request):
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                # token = Token.objects.get_or_create(user=user)
+                login(request, user)
+                return redirect('welcome')
+            else:
+                messages.error(request, 'Błędne hasło lub login')
+                ctx = {'form': form}
+                return render(request, "registration/login.html", ctx)
+        else:
+            messages.error(request, 'Błędne hasło lub login')
+            ctx = {'form': form}
+            return render(request, "registration/login.html", ctx)
+
+
+class Logout(View):
+    def get(self, request):
+        logout(request)
+        return redirect('welcome')

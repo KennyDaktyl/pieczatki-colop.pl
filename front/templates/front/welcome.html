@@ -8,11 +8,9 @@
 <meta property="og:url" content="{{request.build_absolute_uri}}" />
 <meta property="og:title" content="" />
 <meta property="og:image" content="" />
-<meta property="og:description"
-    content="" />
-<meta name="description"
-    content="{{page.description}}">
-<link rel="canonical" href="https://pieczatki-colop.pl/">
+<meta property="og:description" content="" />
+<meta name="description" content="{{page.description}}">
+<link rel="canonical" href="https://pieczatki-colop.com/">
 {% endblock %}
 
 {% block title %}
@@ -20,46 +18,161 @@
 {% endblock %}
 
 {% block content %}
-<div id="carouselExampleIndicators" class="carousel slide col-lg-10 mx-auto " data-ride="carousel"
-    style="margin-top: 30px;">
-    <ol class="carousel-indicators">
+<nav aria-label="breadcrumb" class="col-12 d-md-none row">
+    <li class="breadcrumb-item"><a href="#" class="text-dark">Strona startowa</a></li>
+    <!-- <li class="breadcrumb-item active" aria-current="page">Kontakt do sklepu</li> -->
+</nav>
 
-        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-        {% for im in images_carousel %}
-        <li data-target="#carouselExampleIndicators" data-slide-to="{{forloop.counter}}"></li>
-        {% endfor %}
-    </ol>
-    <div class="carousel-inner">
-        <div class="carousel-item active">
-            {% thumbnail xxx  "1280x350" crop='center' format="WEBP"  as im %}
-            <source srcset="" type="image/webp" />
-            <img class="d-block w-100 img-thumbnail" src="{{ MEDIA_URL }}{{im}}"
-                alt=""
-                title="">
-            {% endthumbnail %}
-        </div>
-
-        {% for im in images_carousel %}
-        <div class="carousel-item">
-            {% thumbnail xxx "1280x350" crop='center' format="WEBP"  as im %}
-            <source srcset="" type="image/webp" />
-            <img class="d-block w-100 img-thumbnail" src="{{ MEDIA_URL }}{{im}}"
-                alt=""
-                title="">
-            {% endthumbnail %}
-        </div>
-        {% endfor %}
-    </div>
-    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-    </a>
-    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-    </a>
+<div class="col-12 mx-auto m-0 p-0 row d-flex align-items-center motto">
+    {% thumbnail "images/bcg-stamp_LrTJcQE_YRKH6ut.webp" "590x200" crop='center' format="WEBP"  as im %}
+    <img src="{{ MEDIA_URL }}{{im}}" class="img-fluid mx-auto d-sm-none" title="" alt="">
+    {% endthumbnail %}
+    {% thumbnail "images/bcg-stamp_LrTJcQE_YRKH6ut.webp" "720x300" crop='center' format="WEBP"  as im %}
+    <img src="{{ MEDIA_URL }}{{im}}" class="img-fluid d-none d-sm-block d-md-none" title="" alt="">
+    {% endthumbnail %}
+    {% thumbnail "images/bcg-stamp_LrTJcQE_YRKH6ut.webp" "1280x350" crop='center' format="WEBP"  as im %}
+    <img src="{{ MEDIA_URL }}{{im}}" class="img-fluid d-none d-md-block d-lg-none" title="" alt="">
+    {% endthumbnail %}
+    {% thumbnail "images/bcg-stamp_LrTJcQE_YRKH6ut.webp" "1480x250" crop='center' format="WEBP"  as im %}
+    <img src="{{ MEDIA_URL }}{{im}}" class="img-fluid d-none d-lg-block col-12 m-0 p-0" title="" alt="">
+    {% endthumbnail %}
 </div>
+
+<div class="col-lg-8 mx-auto m-0 p-0 row d-flex align-items-center motto">
+    <div class="jumbotron jumbotron-fluid mt-2 col-12">
+        <div class="container text-center">
+            <h1 class="mx-auto text-center">Sklep z pieczątkami firmy Colop</h1>
+            <p class="lead mx-auto text-center">Wykonamy każdy rodzaj pieczątki. Metoda laserowego wypalania gumy spełni
+                oczekiwania
+                najbardziej wymagającego projektu, również zawierającego grafikę np. dla pieczątki z logo.</p>
+            <strong class="mx-auto text-center col-12">Zamów za minimum 50zł - wysłka gratis</strong>
+        </div>
+    </div>
+    <h2 class="col-12 mx-auto text-center">Pieczątki najczęściej kupowane</h2>
+</div>
+
+{% for cat in categorys %}
+<div class="col-12 mx-auto row mt-2 mb-2 ml-0 mr-0 p-0">
+    <div class="col-lg-8 mx-auto border m-0 p-0 row d-flex align-items-center motto">
+        <div class="col-lg-6 m-0 p-0 mt-2 mb-2 mx-auto text-center">
+            {% load thumbnail %}
+            {% thumbnail cat.image "1280" crop='center' format="WEBP"  as im %}
+            <a href="{{ MEDIA_URL }}{{im}}" data-lightbox="1" data-title=""
+                class="col-12 mx-auto text-center p-0 m-0 mt-2">
+                <source srcset="{{ im }}" type="image/webp">
+                {% thumbnail cat.image "350" crop='center' format="WEBP"  as im %}
+                <source srcset="{{ im }}" type="image/webp" />
+                <img class="img-fluid mx-auto mt-2" src="{{ MEDIA_URL }}{{im}}" alt="" title="">
+                {% endthumbnail %}
+            </a>
+            {% endthumbnail %}
+        </div>
+        <div class="col-lg-6 m-0 p-0 mt-2 mx-auto text-center">
+            <a href="" class="col-12 mx-auto text-center mt-2">
+                <h3 class="mx-auto text-center">{{cat.name}}</h3>
+            </a>
+            <div class="col-12 mx-auto text-center m-0 p-0">
+                <small class="mx-auto text-center m-0 p-0">{{cat.text}}</small>
+            </div>
+            <h4 class="mx-auto text-center mt-2 col-12">Wzornik pieczątek imiennych</h4>
+            <div class="col-12 m-0 p-0 mx-auto row">
+                {% for el in cat.images_stamp %}
+                {% load thumbnail %}
+                {% thumbnail el.image "1280" crop='center' format="WEBP"  as im %}
+                <a href="{{ MEDIA_URL }}{{im}}" data-lightbox="1" data-title=""
+                    class="mx-auto text-center p-0 m-0 mt-2">
+                    <source srcset="{{ im }}" type="image/webp">
+                    {% thumbnail  el.image "150x50" crop='center' format="WEBP"  as im %}
+                    <source srcset="{{ im }}" type="image/webp" />
+                    <img class="img-fluid mx-auto mt-2" src="{{ MEDIA_URL }}{{im}}" alt="" title="">
+                    {% endthumbnail %}
+                </a>
+                {% endthumbnail %}
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-12 mx-auto text-center mt-2 mb-2">
+            <a href="">
+                <button class="btn btn-outline-info">Przejdź do KATEGORII pieczątki imienne</button>
+            </a>
+        </div>
+    </div>
+    {% for prod in cat.products %}
+    <div class="col-lg-8 motto row m-0 p-0 mt-2 mb-2 mx-auto text-center border d-flex justify-content-around">
+        <h4 class="mx-auto text-center mt-2 col-12">Produkty z kategorii pieczątki imienne</h4>
+        <div class="col-6 col-lg-4 m-0 p-1 border">
+            <div class="col-12 m-0 p-0">
+                {% thumbnail prod.image "350x100" crop='center' format="WEBP"  as im %}
+                <source srcset="{{ im }}" type="image/webp" />
+                <img class="img-fluid mx-auto" src="{{ MEDIA_URL }}{{im}}" alt="" title="">
+                {% endthumbnail %}
+            </div>
+            <a href="" class="col-12 mx-auto text-center mt-2">
+                <h4 class="col-12 mx-auto text-center">{{prod.name}}</h4>
+            </a>
+            <div class="col-12">
+                {% thumbnail prod.brand.logo "150x70" crop='center' format="WEBP"  as im %}
+                <source srcset="{{ im }}" type="image/webp" />
+                <img class="img-fluid mx-auto" src="{{ MEDIA_URL }}{{im}}" alt="" title="">
+                {% endthumbnail %}
+            </div>
+            <small class="col-12 text-right">ID:{{prod.id}}</small>
+            <div class="col-12 row m-0 p-0 d-flex align-items-center">
+                <div class="col-lg-6 row m-0 p-0 pl-1 d-flex align-items-center">
+                    <span class="mr-1">Cena:</span>
+                    <p class="font-weight-bold text-danger m-0 p-0 mr-auto text-left">{{prod.price}} zł</p>
+                </div>
+                <div class="col-lg-6 row m-0 p-0 d-flex justify-content-end">
+                    {% if prod.qty > 0 %}
+                    <small class="text-success ml-auto pr-1">Dostępny</small>
+                    {% else %}
+                    <small class="text-danger ml-auto pr-1">Brak</small>
+                    {% endif %}
+                    <form class="col-12 m-0 p-0 text-right row d-flex justify-content-end" action="">
+                        {% csrf_token %}
+                        <input type="number" name="qty" value="1" min="1" max="99">
+                        <span class="input-group-append">
+                            <button class="btn btn-secondary stash" type="button" data-action="add">
+                                <i class="basket fa fa-cart-plus"></i> </button>
+                        </span>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    <div class="col-12 mx-auto text-center mt-2 mb-2">
+        <a href="">
+            <button class="btn btn-outline-info">Przejdź do PRODUKTY pieczątki imienne</button>
+        </a>
+    </div>
+</div>
+</div>
+<div class="col-12 border m-0 p-0"></div>
+{% endfor %}
 {% endblock %}
 
 {% block script %}
 {% endblock %}
+
+<!--     
+    <div id="basket" class="row m-0 p-0 ml-auto border basket">
+        <div class="col-3 m-0 p-0 bg-danger row d-flex align-items-center">
+            <i class="col-12 m-1 p-1 text-center mx-auto  text-white fas fa-shopping-basket"></i>
+        </div>
+        <div class="col-7 m-0 p-0 mx-auto text-center bg-dark row d-flex align-items-center">
+            <span class="ml-2 text-white">123,00</span><span class="text-white">PLN</span>
+        </div>
+        <div class="dropdown col-2 bg-dark m-0 p-0 mx-auto text-center">
+            <a id="dropdown_basket" class="btn btn-secondary dropdown-toggle" href="#" role="button">
+            </a>
+        </div>
+    </div> -->
+<!-- <div id="basket_div" class="border row m-0 p-0">
+        <a class="dropdown-item row" href="#">
+            <i class="text-danger fas fa-user"></i>
+            <small class="text-dark border-bottom">Towje konto</small>
+        </a>
+        <a class="dropdown-item" href="#">Another action</a>
+        <a class="dropdown-item col-11 bg-danger text-center mx-auto text-white" href="#">Podsumowanie</a>
+    </div> -->
