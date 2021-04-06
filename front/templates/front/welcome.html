@@ -66,7 +66,7 @@
 </div>
 
 <div class="col-lg-8 mx-auto m-0 p-0 mt-2 row d-flex align-items-center motto_2">
-    <h2 class="col-12 mt-3 mx-auto text-center title">Pieczątki najczęściej kupowane</h2>
+    <h2 class="col-12 mt-3 mx-auto text-center title">Popularne kategorie pieczątek</h2>
 </div>
 
 
@@ -81,8 +81,8 @@
                 <source srcset="{{ im }}" type="image/webp">
                 {% thumbnail cat.image "350" crop='center' format="WEBP"  as im %}
                 <source srcset="{{ im }}" type="image/webp" />
-                    <img class="img-fluid mx-auto mt-2" src="{{ MEDIA_URL }}{{im}}" alt="" title="">
-                    {% endthumbnail %}
+                <img class="img-fluid mx-auto mt-2" src="{{ MEDIA_URL }}{{im}}" alt="" title="">
+                {% endthumbnail %}
             </a>
             {% endthumbnail %}
         </div>
@@ -115,10 +115,11 @@
                 <button class="btn btn-outline-info">Przejdź do KATEGORII {{cat.name}}</button>
             </a>
         </div>
-    </div>
-    {% for prod in cat.products %}
-    <div class="col-lg-8 motto row m-0 p-0 mt-2 mb-2 mx-auto text-center border d-flex justify-content-center">
-        <h4 class="mx-auto text-center mt-2 col-12 title">Produkty z kategorii pieczątki imienne</h4>
+        {% for prod in cat.products %}
+        <div class="col-lg-8 motto row m-0 p-0 mt-2 mb-2 mx-auto text-center d-flex justify-content-center">
+        <div class="col-12 text-center mx-auto row">
+            <h4 class="mx-auto text-center mt-2 title">Produkty z kategorii {{cat.name}}</h4>
+        </div>
         <div class="col-6 col-lg-4 m-0 p-1 border d-flex align-items-start row mt-3">
             <div class="col-12 m-0 p-0">
                 {% thumbnail prod.image "350x100" crop='center' format="WEBP"  as im %}
@@ -169,7 +170,7 @@
         </a>
     </div>
 </div>
-<div class="col-12 border m-0 p-0"></div>
+<div class="col-12 border m-0 p-0 mt-2"></div>
 {% endfor %}
 
 <div class="col-lg-8 motto row m-0 p-0 mt-2 mb-2 mx-auto text-center border d-flex justify-content-center">

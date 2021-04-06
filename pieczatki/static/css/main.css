@@ -311,6 +311,9 @@ div.motto_solid {
     color: black;
 }
 
+.motto small {
+    font-size: 0.9rem;
+}
 .motto a:hover {
     color: red;
     text-decoration: none;
@@ -372,7 +375,7 @@ div.motto_solid {
     }
 
     .motto h4 {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
     }
 
     .motto p {
