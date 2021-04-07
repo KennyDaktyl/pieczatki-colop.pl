@@ -93,7 +93,7 @@
             <div class="col-12 mt-2 mx-auto text-center">
                 <small class="mx-auto text-center m-0 p-0">{{cat.text}}</small>
             </div>
-            <h4 class="mx-auto text-center mt-2 col-12">Wzornik pieczątek imiennych</h4>
+            <h4 class="mx-auto text-center mt-2 col-12">Przykładowe wzory odbicia</h4>
             <div class="col-12 m-0 p-0 mx-auto row">
                 {% for el in cat.images_stamp %}
                 {% load thumbnail %}
@@ -126,7 +126,7 @@
                 <h4 class="col-12 mx-auto text-center">{{prod.name}}</h4>
             </a>
             <div class="col-12 mx-auto">
-                {% thumbnail prod.brand.logo "150x70" crop='center' format="WEBP"  as im %}
+                {% thumbnail prod.brand.logo "250x150" crop='center' format="WEBP"  as im %}
                 <source srcset="{{ im }}" type="image/webp" />
                 <img class="img-fluid mx-auto" src="{{ MEDIA_URL }}{{im}}" alt="{{prod.brand.alt}}" title="{{prod.brand.title}}">
                 {% endthumbnail %}
