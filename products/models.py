@@ -20,6 +20,7 @@ def file_size(value):
 
 
 class Store(models.Model):
+    id = models.AutoField(primary_key=True)
     name = models.CharField(verbose_name="Nazwa magazynu", max_length=64)
     image = ResizedImageField(verbose_name="Zdjęcie główne",
                               size=[1280, 960],
@@ -85,6 +86,7 @@ class Store(models.Model):
 
 
 class Category(models.Model):
+    id = models.AutoField(primary_key=True)
     tag_desc = models.CharField(
         verbose_name="Meta description",
         max_length=156,
@@ -141,6 +143,7 @@ class Category(models.Model):
 
 
 class Brand(models.Model):
+    id = models.AutoField(primary_key=True)
     name = models.CharField(verbose_name="Nazwa marki", max_length=128)
     logo = ResizedImageField(verbose_name="Zdjęcie główne",
                              size=[1280, 960],
@@ -162,6 +165,7 @@ class Brand(models.Model):
 
 
 class Size(models.Model):
+    id = models.AutoField(primary_key=True)
     name = models.CharField(
         verbose_name="Rozmiar produktu (wielkość, pojemność, waga)",
         max_length=64)
@@ -185,6 +189,7 @@ class Size(models.Model):
 
 
 class Vat(models.Model):
+    id = models.AutoField(primary_key=True)
     name = models.IntegerField(verbose_name="Stawka VAT")
     is_active = models.BooleanField(verbose_name="Czy jest dostępny",
                                     default=True)
@@ -194,6 +199,7 @@ class Vat(models.Model):
 
 
 class Products(models.Model):
+    id = models.AutoField(primary_key=True)
     store_id = models.ForeignKey("Store",
                                  verbose_name="Magazyn",
                                  on_delete=models.CASCADE,
@@ -270,6 +276,7 @@ class Products(models.Model):
 
 
 class Images(models.Model):
+    id = models.AutoField(primary_key=True)
     image = ResizedImageField(size=[1280, 960],
                               upload_to='images/',
                               validators=[file_size])
