@@ -1,0 +1,224 @@
+{% extends 'front/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% crispy form.helper %}
+{% load templatetag %}
+{% load thumbnail %}
+
+
+{% block head %}
+<meta property="fb:app_id" content="{{app_id}}" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="{{request.build_absolute_uri}}" />
+<meta property="og:title" content="{{page.title}}" />
+<meta property="og:image" content="" />
+<meta property="og:description" content="{{page.description}}" />
+<meta name="description" content="{{page.description}}">
+<link rel="canonical" href="https://pieczatki-colop.com/pieczatki/">
+{% endblock %}
+
+{% block title %}
+{{page.title}}
+{% endblock %}
+
+{% block content %}
+<nav id="link_map" aria-label="breadcrumb" class="col-12 bg-white p-0 mx-auto d-md-none row fixed-top">
+    <li class="breadcrumb-item text-dark"><a href="{% url 'welcome' %}" class="text-dark">Strona startowa</a></li>
+    <li class="breadcrumb-item text-dark active" aria-current="page">Pieczątki</li>
+</nav>
+
+<div class="col-12 mx-auto text-center m-0 p-0 row d-flex align-items-center motto">
+    {% thumbnail "images/bcg-stamp_LrTJcQE_YRKH6ut.webp" "590x300" crop='center' format="WEBP"  as im %}
+    <img src="{{ MEDIA_URL }}{{im}}" class="img-fluid mx-auto text-center d-sm-none"
+        title="Prezentacja graficzna sklepu z pieczątki Colop" alt="Prezentacja graficzna sklepu z pieczątki Colop">
+    {% endthumbnail %}
+    {% thumbnail "images/bcg-stamp_LrTJcQE_YRKH6ut.webp" "720x300" crop='center' format="WEBP"  as im %}
+    <img src="{{ MEDIA_URL }}{{im}}" class="img-fluid mx-auto text-center d-none d-sm-block d-md-none"
+        title="Prezentacja graficzna sklepu z pieczątki Colop" alt="Prezentacja graficzna sklepu z pieczątki Colop">
+    {% endthumbnail %}
+    {% thumbnail "images/bcg-stamp_LrTJcQE_YRKH6ut.webp" "1280x350" crop='center' format="WEBP"  as im %}
+    <img src="{{ MEDIA_URL }}{{im}}" class="img-fluid mx-auto text-center d-none d-md-block d-lg-none"
+        title="Prezentacja graficzna sklepu z pieczątki Colop" alt="Prezentacja graficzna sklepu z pieczątki Colop">
+    {% endthumbnail %}
+    {% thumbnail "images/bcg-stamp_LrTJcQE_YRKH6ut.webp" "1480x250" crop='center' format="WEBP"  as im %}
+    <img src="{{ MEDIA_URL }}{{im}}" class="img-fluid mx-auto text-center d-none d-lg-block col-12 m-0 p-0"
+        title="Prezentacja graficzna sklepu z pieczątki Colop" alt="Prezentacja graficzna sklepu z pieczątki Colop">
+    {% endthumbnail %}
+</div>
+
+<div class="col-lg-8 mx-auto text-center mt-3 p-0 row">
+    <div class="col-lg-3 row m-0 p-0 border d-flex align-items-start">
+        <div class="col-12 m-0 p-0 bg-dark row d-flex align-items-center">
+            <i class="fas fa-list text-white mr-2 ml-1"></i>
+            <p class="text-center text-white card-header">KATEGORIE</p>
+        </div>
+        <ul class="nav flex-column">
+            {% for cat in categorys %}
+            <li class="nav-item dropdown-submenu">
+                <a class="nav-link text-left" href="">{{cat.name}}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <main class="col-lg-8 mx-auto row">
+        <section class="product-container row mx-auto">
+            <div class="headline m-1 mb-2">
+                <h1 class="ml-2">PRODUKTY: Pieczątki</h1>
+            </div>
+            {% for prod in products %}
+            <article class="product-list-item col-12 row  border">
+                <div class="col-3">
+                    {% load thumbnail %}
+                    {% thumbnail prod.image "1280" crop='center' format="WEBP"  as im %}
+                    <a href="{{ MEDIA_URL }}{{im}}" data-lightbox="{{prod.id}}" data-title="{{cat.name}}"
+                        class="mx-auto text-center p-0 m-0 mt-2" title="link duze foto {{prod.alt}}">
+                        <source srcset="{{ im }}" type="image/webp">
+                        {% thumbnail  prod.image "180x180" crop='center' format="WEBP"  as im %}
+                        <source srcset="{{ im }}" type="image/webp" />
+                        <img class="img-fluid mx-auto m-1" src="{{ MEDIA_URL }}{{im}}" alt="{{prod.alt}}"
+                            title="{{prod.title}}">
+                        {% endthumbnail %}
+                    </a>
+                    {% endthumbnail %}
+                </div>
+                <div class="col-7">
+                    <p class="product-title text-left mt-2">
+                        <a href="">{{prod.name}}</a>
+                    </p>
+                </div>
+                <div class="col-2">
+                </div>
+            </article>
+            {% endfor %}
+    </main>
+</div>
+
+<div class="col-12 input-group mb-3 mx-auto text-center text-wrap nav-scroller py-1 mb-2 nav_pagi">
+    <div class=""></div>
+    <nav aria-label="..." class="nav d-flex justify-content-center mx-auto text-center">
+        {% if products.has_other_pages %}
+        <ul class="pagination text-dark pagination pagination-lg flex-wrap text-wrap mx-auto text-center">
+            {% if products.has_previous %}
+            <li class="page-item">
+                <a class="page-link text-dark"
+                    href="?{% query_transform page=products.previous_page_number %}">Poprzednia</a>
+            </li>
+            <li class="page-item"><a class="page-link text-dark"
+                    href="?{% query_transform page=products.previous_page_number %}">&laquo;</a></li>
+            {% else %}
+            <li class="disabled"><span></span></li>
+            {% endif %}
+            {% for i in products.paginator.page_range %}
+            {% if products.number == i %}
+            <li class="page-item text-light text-dark active">
+                <span class="page-link text-light text-dark">
+                    {{ i }}
+                    <span class="sr-only text-dark">(current)</span>
+                </span>
+            </li>
+            {% else %}
+            <li class="page-item text-dark"></li><a class="page-link text-dark"
+                href="?{% query_transform  page=i  %}">{{ i }}</a>
+            </li>
+            {% endif %}
+            {% endfor %}
+            {% if products.has_next %}
+            <li class="page-item text-dark"><a class="page-link text-dark"
+                    href="?{% query_transform page=products.next_page_number %}">&raquo;</a>
+            </li>
+
+            <li class="page-item text-dark ">
+                <a class="page-link text-dark" href="?{% query_transform page=products.next_page_number %}">Następna</a>
+            </li>
+            {% else %}
+            <li class="disabled"><span></span></li>
+            {% endif %}
+        </ul>
+        {% endif %}
+    </nav>
+</div>
+{% endblock %}
+
+{% block script %}
+
+{% endblock %}
+
+<div class="col-12 row text-center mx-auto d-flex align-items-start">
+    <div class="col-lg-2 mr-auto text-center">
+        <p class="col-12 font-weight-bold">Kategorie:</p>
+        {% for el in cats %}
+        <button class="col-12 m-0 p-0 row">
+            <a href="{% url 'products_category' pk=el.id %}" class="col-12  m-0 p-0">{{el.number}} {{el.name}}</a>
+            <div class="row mx-auto text-center">
+                <a class="col-3"><i class="fas fa-info"></i></a>
+                <a href="{% url 'update_category' pk=el.id %}" class="col-3"><i class="fas fa-edit"></i></a>
+                <a class="col-3">
+                    {% if el.is_active %}
+                    <i class="text-success fas fa-not-equal"></i>
+                    {% else %}
+                    <i class="text-danger fas fa-not-equal"></i>
+                    {% endif %}
+                </a>
+                <a href="{% url 'delete_category' pk=el.id %}" class="col-3"><i class="far fa-trash-alt"></i></a>
+            </div>
+        </button>
+        {% endfor %}
+        <a class="col-12" href="{% url 'add_cat' %}">
+            <button class="btn btn-outline-success">Dodaj</button>
+        </a>
+    </div>
+
+    <div class="col-lg-2 mr-auto text-center">
+        <p class="col-12 font-weight-bold">Rozmiary:</p>
+        {% for el in sizes %}
+        <button class="col-12 m-0 p-0">
+            <a href="{% url 'products_size' pk=el.id %}" class="col-12 m-0 p-0">{{el.name}} ({{el.category.name}})</a>
+            <div class="row mx-auto text-center">
+                <a class="col-3"><i class="fas fa-info"></i></a>
+                <a href="{% url 'update_product_size' pk=el.id %}" class="col-3"><i class="fas fa-edit"></i></a>
+                <a class="col-3">
+                    {% if el.is_active %}
+                    <i class="text-success fas fa-not-equal"></i>
+                    {% else %}
+                    <i class="text-danger fas fa-not-equal"></i>
+                    {% endif %}
+                </a>
+                <a href="{% url 'delete_product_size' pk=el.id %}" class="col-3"><i class="far fa-trash-alt"></i></a>
+            </div>
+        </button>
+        {% endfor %}
+        <a class="col-12" href="{% url "add_product_size" %}">
+            <button class="btn btn-outline-success">Dodaj</button>
+        </a>
+    </div>
+    <div class="col-lg-8 mx-auto text-center row ">
+        <p class="col-12 font-weight-bold">Produkty:</p>
+        {% for el in products %}
+        <button class="row col-6 col-lg-3 mx-auto">
+            <span class="col-12 m-0 p-0">L.P. {{el.menu_number}}, Kod: {{el.code_number}}</span>
+            <span class="col-12 m-0 p-0">{{el.category.name}}</span>
+            <span class="col-12 m-0 p-0">{{el.name}}</span>
+            <span class="col-12 m-0 p-0 ">{% for topp in el.toppings.all %}
+                <span class="text-muted">{{topp.name}},</span>
+                {% empty %}
+                <span class="text-muted">Bez dodatków</span>
+                {% endfor %}
+            </span>
+            <span class="col-12 m-0 p-0">{{el.price}}zł</span>
+            <span class="col-12 m-0 p-0">{{el.size.name}}</span>
+            <div class="row mx-auto text-center">
+                <a href="" class="col-3"><i class="fas fa-info"></i></a>
+                <a href="{% url 'update_product' pk=el.id %}" class="col-3"><i class="fas fa-edit"></i></a>
+                <a class="col-3">
+                    {% if el.is_active %}
+                    <i class="text-success fas fa-not-equal"></i>
+                    {% else %}
+                    <i class="text-danger fas fa-not-equal"></i>
+                    {% endif %}
+                </a>
+                <a href="{% url 'delete_product' pk=el.id %}" class="col-3"><i class="far fa-trash-alt"></i></a>
+            </div>
+        </button>
+        {% endfor %}
+    </div>
+</div>

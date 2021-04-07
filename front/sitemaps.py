@@ -95,12 +95,14 @@ from django.urls import reverse
 #                            "pk": items.id,
 #                        })
 
-# class StaticViewSiteMap(Sitemap):
-#     def items(self):
-#         return [
-#             'welcome',
-#             'contact_view',
-#         ]
 
-#     def location(self, items):
-#         return reverse(items)
+class StaticViewSiteMap(Sitemap):
+    def items(self):
+        return [
+            'welcome',
+            'products_list',
+            'contact_view',
+        ]
+
+    def location(self, items):
+        return reverse(items)
