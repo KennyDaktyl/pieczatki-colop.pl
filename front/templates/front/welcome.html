@@ -65,8 +65,8 @@
     </div>
 </div>
 
-<div class="col-lg-8 mx-auto m-0 p-0 mt-2 row d-flex align-items-center motto_2">
-    <h2 class="col-12 mt-3 mx-auto text-center title">Popularne kategorie pieczątek</h2>
+<div class="col-lg-8 m-0 p-0 mx-auto mt-2 row d-flex align-items-center motto_2">
+    <h2 class=" mt-3 mx-auto text-center title">Popularne kategorie pieczątek</h2>
 </div>
 
 
@@ -101,7 +101,7 @@
                 <a href="{{ MEDIA_URL }}{{im}}" data-lightbox="1" data-title=""
                     class="mx-auto text-center p-0 m-0 mt-2">
                     <source srcset="{{ im }}" type="image/webp">
-                    {% thumbnail  el.image "150x50" crop='center' format="WEBP"  as im %}
+                    {% thumbnail  el.image "150" crop='center' format="WEBP"  as im %}
                     <source srcset="{{ im }}" type="image/webp" />
                     <img class="img-fluid mx-auto mt-2" src="{{ MEDIA_URL }}{{im}}" alt="" title="">
                     {% endthumbnail %}
@@ -110,15 +110,10 @@
                 {% endfor %}
             </div>
         </div>
-        <div class="col-12 mx-auto text-center mt-2 mb-2">
-            <a href="">
-                <button class="btn btn-outline-info">Przejdź do KATEGORII {{cat.name}}</button>
-            </a>
-        </div>
         {% for prod in cat.products %}
         <div class="col-lg-8 motto row m-0 p-0 mt-2 mb-2 mx-auto text-center d-flex justify-content-center">
         <div class="col-12 text-center mx-auto row">
-            <h4 class="mx-auto text-center mt-2 title">Produkty z kategorii {{cat.name}}</h4>
+            <h4 class="mx-auto text-center mt-2 title">Przykładowe produkty z kategorii</h4>
         </div>
         <div class="col-6 col-lg-4 m-0 p-1 border d-flex align-items-start row mt-3">
             <div class="col-12 m-0 p-0">
@@ -166,7 +161,7 @@
     {% endfor %}
     <div class="col-12 mx-auto text-center mt-2 mb-2">
         <a href="">
-            <button class="btn btn-outline-info">Przejdź do PRODUKTY pieczątki imienne</button>
+            <button class="btn btn-outline-info">Produkty z kategorii</button>
         </a>
     </div>
 </div>

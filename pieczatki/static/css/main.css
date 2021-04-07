@@ -354,6 +354,10 @@ div.motto_solid {
     color: #ff8d1e;
     font-size: 40px;
 }
+.motto_2 i:hover {
+    font-size: 58px;
+    transition: 0.5s;
+}
 
 
 @media (max-width: 992px) {
@@ -367,6 +371,10 @@ div.motto_solid {
     }
 
     .motto h2 {
+        font-size: 1.4rem;
+    }
+
+    .motto_2 h2 {
         font-size: 1.4rem;
     }
 
@@ -385,10 +393,22 @@ div.motto_solid {
     .motto_2 div {
         height: 120px;
     }
+    .motto_2 div:hover {
+        height: 180px;
+        border: 1px solid;
+        padding: 20px;
+        box-shadow: 7px 20px #888888;
+        transition: 0.5s;
+    }
+
 
     .motto_2 i {
         font-size: 20px;
     }
+    .motto_2 i:hover {
+        font-size: 58px;
+    }
+
 
 
 }
