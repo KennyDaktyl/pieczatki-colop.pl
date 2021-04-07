@@ -3,11 +3,13 @@ $(document).ready(function () {
     var nav = $('#nav');
     var page = $('#page');
     var link_map = $('#link_map');
+    var navbarTogglerDemo03 = $('#navbarTogglerDemo03');
 
     top_height = top.height();
     nav_height = nav.height();
     link_map_height = link_map.height();
     nav.css('margin-top', top_height);
+    navbarTogglerDemo03.css('margin-top', link_map_height);
     link_map.css('margin-top', top_height + nav_height+ 15);
     page.css('margin-top', top_height + nav_height + link_map_height + 20);
     console.log(top_height + nav_height);
