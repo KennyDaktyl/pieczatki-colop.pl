@@ -65,7 +65,7 @@
                             class="mx-auto">Start</strong></a>
                 </li>
                 <li class="col-lg-2 nav-item d-flex align-items-center mx-auto text-center m-0 p-0">
-                    <a class="nav-link text-center mx-auto" href="" title="Pieczątki"><strong
+                    <a class="nav-link text-center mx-auto" href="{% url 'products_list' %}" title="Pieczątki"><strong
                             class="mx-auto">Pieczątki</strong></a>
                 </li>
                 <li class="col-lg-2 nav-item d-flex align-items-center mx-auto text-center m-0 p-0">
@@ -92,7 +92,7 @@
         {% endfor %}
     </ul>
     {% endif %}
-    <div id="page" class="mx-auto m-0 p-0 col-12" style="min-height: 101vh;">
+    <div id="page" class="mx-auto p-0 col-12" style="min-height: 101vh;">
         <div class="row col-12 mx-auto m-0 p-0">
             {% block content %}
             {% endblock %}

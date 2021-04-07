@@ -8,9 +8,12 @@ from django.conf import settings
 from django.contrib.sites.models import Site
 from django.contrib.sites.shortcuts import get_current_site
 
+from django.views.generic.list import ListView
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 from .forms import ContactForm
 from .models import Pages
-from products.models import Category, Brand
+from products.models import Category, Brand, Products
 
 
 class WelcomeView(View):
@@ -26,6 +29,36 @@ class WelcomeView(View):
             'logo_universal': logo_universal
         }
         return render(request, "front/welcome.html", ctx)
+
+
+class ProductsListView(ListView):
+    model = Products
+    paginate_by = 50
+
+    def get_context_data(self, **kwargs):
+        context = super(ProductsListView, self).get_context_data(**kwargs)
+        category = self.request.GET.get('category')
+        size = self.request.GET.get('size')
+        products = Products.objects.filter(is_active=True)
+        categorys = Category.objects.filter(is_active=True)
+        if category:
+            cat = Category.objects.get(pk=category)
+            products = products.filter(category=cat)
+
+        if size:
+            products = products.filter(size=size)
+        paginator = Paginator(products, self.paginate_by)
+        page = self.request.GET.get('page')
+        try:
+            toppings = paginator.page(page)
+        except PageNotAnInteger:
+            toppings = paginator.page(1)
+        except EmptyPage:
+            toppings = paginator.page(paginator.num_pages)
+        context['products'] = products
+        context['categorys'] = categorys
+        # context['form'] = CategoryForm2
+        return context
 
 
 class ContactView(View):

@@ -286,6 +286,41 @@ ul.social-footer2 li a {
 
 }
 
+.card-header {
+    padding: .5rem 1rem;
+}
+
+.headline h1 {
+    border-bottom: 2px solid #d80000;
+    text-transform: uppercase;
+    font-weight: 400;
+    font-size: 19px;
+}
+
+.product-list-item .product-title {
+    font-size: 10pt;
+    margin: 0 0 5px 0;
+    text-transform: uppercase;
+    font-weight: 500;
+    line-height: 1.2;
+}
+.product-title a {
+        color: #000;
+        text-decoration: none;
+        background-color: transparent;
+}
+
+.product-title a:hover {
+    color: red;
+}
+
+.quantity {
+    display: table;
+    position: relative;
+    white-space: nowrap;
+    border: 1px solid #dee2e6;
+    float: right;
+}
 a.login {
     color: white;
 }
@@ -302,9 +337,9 @@ a.logout:hover {
     color: red;
 }
 
-div.motto_solid {
- border: 1px solid;
- box-shadow: 5px 10px #888888;
+red;
+    border: 1px solid;
+    box-shadow: 5px 10px #888888;
 }
 
 .motto a {
@@ -314,6 +349,7 @@ div.motto_solid {
 .motto small {
     font-size: 0.9rem;
 }
+
 .motto a:hover {
     color: red;
     text-decoration: none;
@@ -324,7 +360,7 @@ div.motto_solid {
     border: 1px solid;
     padding: 10px;
     box-shadow: 5px 10px #888888;
-     transition: 0.5s;
+    transition: 0.5s;
 }
 
 .title {
@@ -356,6 +392,7 @@ div.motto_solid {
     font-size: 40px;
     transition: 0.5s;
 }
+
 .motto_2 i:hover {
     font-size: 58px;
     transition: 0.5s;
@@ -400,6 +437,7 @@ div.motto_solid {
     .motto_2 div {
         height: 120px;
     }
+
     .motto_2 div:hover {
         height: 180px;
         border: 1px solid;
@@ -412,6 +450,7 @@ div.motto_solid {
     .motto_2 i {
         font-size: 20px;
     }
+
     .motto_2 i:hover {
         font-size: 58px;
     }
