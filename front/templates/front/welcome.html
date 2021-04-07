@@ -198,8 +198,7 @@
             {% thumbnail logo_universal.logo "380" crop='center' format="WEBP"  as im %}
             <source srcset="{{ im }}" type="image/webp" />
             <a href="https://www.ulsinc.com/" class="col-12 m-0 p-0" title="Link do firmy Universal Laser System">
-                <img class="img-fluid mx-auto" src="{{ MEDIA_URL }}{{im}}"
-                    alt="{{logo_universal.alt}}"
+                <img class="img-fluid mx-auto" src="{{ MEDIA_URL }}{{im}}" alt="{{logo_universal.alt}}"
                     title="{{logo_universal.title}}"></a>
             {% endthumbnail %}
         </div>
@@ -207,34 +206,33 @@
             {% thumbnail logo_universal.logo "500" crop='center' format="WEBP"  as im %}
             <source srcset="{{ im }}" type="image/webp" />
             <a href="https://www.ulsinc.com/" class="col-12 m-0 p-0" title="Link do firmy Universal Laser System">
-                <img class="img-fluid mx-auto" src="{{ MEDIA_URL }}{{im}}"
-                    alt="{{logo_universal.alt}}"
+                <img class="img-fluid mx-auto" src="{{ MEDIA_URL }}{{im}}" alt="{{logo_universal.alt}}"
                     title="{{logo_colop.title}}"></a>
             {% endthumbnail %}
         </div>
         <div class="col-12 row m-0 p-0 mt-2 d-flex align-items-center">
             <p class="text-center col-lg-8 mx-auto">
-                 {{logo_universal.desc}}
+                {{logo_universal.desc}}
             </p>
         </div>
         <div class="d-block d-lg-none col-12 mx-auto">
             {% thumbnail  logo_colop.logo "380" crop='center' format="WEBP"  as im %}
             <source srcset="{{ im }}" type="image/webp" />
             <a href="https://www.colop.pl/" class="col-12 m-0 p-0" title="Link do firmy Colop producenta pieczątek">
-                <img class="img-fluid mx-auto" src="{{ MEDIA_URL }}{{im}}"
-                     alt="{{logo_colop.alt}}" title="{{logo_colop.title}}"></a>
+                <img class="img-fluid mx-auto" src="{{ MEDIA_URL }}{{im}}" alt="{{logo_colop.alt}}"
+                    title="{{logo_colop.title}}"></a>
             {% endthumbnail %}
         </div>
-        
+
         <div class="d-none d-lg-block col-12 mx-auto">
             {% thumbnail logo_colop.logo "500" crop='center' format="WEBP"  as im %}
             <source srcset="{{ im }}" type="image/webp" />
             <a href="https://www.colop.pl/" class="col-12 m-0 p-0" title="Link do firmy Colop producenta pieczątek">
-                <img class="img-fluid mx-auto" src="{{ MEDIA_URL }}{{im}}"
-                     alt="{{logo_colop.alt}}" title="{{logo_colop.title}}"></a>
+                <img class="img-fluid mx-auto" src="{{ MEDIA_URL }}{{im}}" alt="{{logo_colop.alt}}"
+                    title="{{logo_colop.title}}"></a>
             {% endthumbnail %}
         </div>
-        
+
         <div class="col-12 row m-0 p-0 mt-2 d-flex align-items-center">
             <p class="text-center col-lg-8 mx-auto">
                 {{logo_colop.desc}}
@@ -242,12 +240,12 @@
         </div>
     </div>
 </div>
-    {% endblock %}
+{% endblock %}
 
-    {% block script %}
-    {% endblock %}
+{% block script %}
+{% endblock %}
 
-    <!--     
+<!--     
     <div id="basket" class="row m-0 p-0 ml-auto border basket">
         <div class="col-3 m-0 p-0 bg-danger row d-flex align-items-center">
             <i class="col-12 m-1 p-1 text-center mx-auto  text-white fas fa-shopping-basket"></i>
@@ -260,7 +258,7 @@
             </a>
         </div>
     </div> -->
-    <!-- <div id="basket_div" class="border row m-0 p-0">
+<!-- <div id="basket_div" class="border row m-0 p-0">
         <a class="dropdown-item row" href="#">
             <i class="text-danger fas fa-user"></i>
             <small class="text-dark border-bottom">Towje konto</small>
