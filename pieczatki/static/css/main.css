@@ -341,18 +341,19 @@ div.motto_solid {
 }
 
 .motto_2 h3 {
-    font-size: 25px;
+    font-size: 22px;
     transition: 0.5s;
 }
 
 .motto_2 h3:hover {
-    font-size: 27px;
+    font-size: 25px;
     transition: 0.5s;
 }
 
 .motto_2 i {
     color: #ff8d1e;
     font-size: 40px;
+    transition: 0.5s;
 }
 .motto_2 i:hover {
     font-size: 58px;
@@ -380,6 +381,11 @@ div.motto_solid {
 
     .motto h3 {
         font-size: 1.3rem;
+    }
+
+    .motto_2 h3:hover {
+        font-size: 1.4rem;
+        transition: 0.5s;
     }
 
     .motto h4 {

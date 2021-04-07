@@ -51,15 +51,15 @@
     </div>
 </div>
 <div class="col-lg-8 mx-auto m-0 p-0 mt-2 row d-flex align-items-center motto motto_2">
-    <div class="col-11 col-lg-4 d-flex align-items-center row mx-auto">
+    <div class="col-11 m-0 p-0 col-lg-4 d-flex align-items-center row mx-auto">
         <i class="mx-auto text-center far fa-clock col-12"></i>
         <h3 class="mx-auto text-center col-12 m-0 p-0">Natychmiastowa realizacja projektu</h3>
     </div>
-    <div class="col-11 col-lg-4 d-flex align-items-center row mx-auto">
+    <div class="col-11 m-0 p-0 col-lg-4 d-flex align-items-center row mx-auto">
         <i class="mx-auto text-center fas fa-truck-moving col-12"></i>
         <h3 class="mx-auto text-center col-12 m-0 p-0">Darmowa wysyłka zamówienia*</h3>
     </div>
-    <div class="col-11 col-lg-4 d-flex align-items-center row mx-auto">
+    <div class="col-11 m-0 p-0 col-lg-4 d-flex align-items-center row mx-auto">
         <i class="mx-auto text-center fab fa-slideshare col-12"></i>
         <h3 class="mx-auto text-center col-12 m-0 p-0">Solidna firma od 2006r.</h3>
     </div>
@@ -76,7 +76,7 @@
         <div class="col-lg-6 m-0 p-0 mt-2 mb-2 mx-auto text-center d-flex align-items-center">
             {% load thumbnail %}
             {% thumbnail cat.image "1280" crop='center' format="WEBP"  as im %}
-            <a href="{{ MEDIA_URL }}{{im}}" data-lightbox="1" data-title=""
+            <a href="{{ MEDIA_URL }}{{im}}" data-lightbox="{{cat.id}}" data-title="{{cat.name}}"
                 class="col-12 mx-auto text-center p-0 m-0 mt-2">
                 <source srcset="{{ im }}" type="image/webp">
                 {% thumbnail cat.image "350" crop='center' format="WEBP"  as im %}
@@ -98,12 +98,12 @@
                 {% for el in cat.images_stamp %}
                 {% load thumbnail %}
                 {% thumbnail el.image "1280" crop='center' format="WEBP"  as im %}
-                <a href="{{ MEDIA_URL }}{{im}}" data-lightbox="1" data-title=""
+                <a href="{{ MEDIA_URL }}{{im}}" data-lightbox="wzornik {{cat.id}}" data-title="Wzornik pieczątek w kategorii {{cat.name}}"
                     class="mx-auto text-center p-0 m-0 mt-2">
                     <source srcset="{{ im }}" type="image/webp">
                     {% thumbnail  el.image "150" crop='center' format="WEBP"  as im %}
                     <source srcset="{{ im }}" type="image/webp" />
-                    <img class="img-fluid mx-auto mt-2" src="{{ MEDIA_URL }}{{im}}" alt="" title="">
+                    <img class="img-fluid mx-auto mt-2" src="{{ MEDIA_URL }}{{im}}" alt="{{el.alt}}" title="{{el.title}}">
                     {% endthumbnail %}
                 </a>
                 {% endthumbnail %}
@@ -119,7 +119,7 @@
             <div class="col-12 m-0 p-0">
                 {% thumbnail prod.image "350x100" crop='center' format="WEBP"  as im %}
                 <source srcset="{{ im }}" type="image/webp" />
-                <img class="img-fluid mx-auto" src="{{ MEDIA_URL }}{{im}}" alt="" title="">
+                <img class="img-fluid mx-auto" src="{{ MEDIA_URL }}{{im}}" alt="{{prod.alt}}" title="{{prod.title}}">
                 {% endthumbnail %}
             </div>
             <a href="" class="col-12 mx-auto text-center mt-2">
@@ -128,7 +128,7 @@
             <div class="col-12 mx-auto">
                 {% thumbnail prod.brand.logo "150x70" crop='center' format="WEBP"  as im %}
                 <source srcset="{{ im }}" type="image/webp" />
-                <img class="img-fluid mx-auto" src="{{ MEDIA_URL }}{{im}}" alt="" title="">
+                <img class="img-fluid mx-auto" src="{{ MEDIA_URL }}{{im}}" alt="{{prod.brand.alt}}" title="{{prod.brand.title}}">
                 {% endthumbnail %}
             </div>
             <small class="col-12 text-center">ID:{{prod.id}}</small>
