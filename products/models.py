@@ -106,6 +106,16 @@ class Category(models.Model):
                               validators=[file_size],
                               null=True,
                               blank=True)
+    alt = models.CharField(
+        verbose_name="Alternatywny text dla obrazka",
+        max_length=125,
+        blank=True,
+        null=True,
+    )
+    title = models.CharField(verbose_name="Title dla obrazka",
+                             blank=True,
+                             null=True,
+                             max_length=70)
     name = models.CharField(verbose_name="Nazwa kategorii", max_length=128)
     text = models.TextField(verbose_name="Opis kategorii")
     slug = models.SlugField(verbose_name="Slug",
@@ -151,6 +161,16 @@ class Brand(models.Model):
                              validators=[file_size],
                              null=True,
                              blank=True)
+    alt = models.CharField(
+        verbose_name="Alternatywny text dla obrazka",
+        max_length=125,
+        blank=True,
+        null=True,
+    )
+    title = models.CharField(verbose_name="Title dla obrazka",
+                             blank=True,
+                             null=True,
+                             max_length=70)
 
     class Meta:
         ordering = ("name", )
@@ -231,7 +251,16 @@ class Products(models.Model):
                               validators=[file_size],
                               null=True,
                               blank=True)
-
+    alt = models.CharField(
+        verbose_name="Alternatywny text dla obrazka",
+        max_length=125,
+        blank=True,
+        null=True,
+    )
+    title = models.CharField(verbose_name="Title dla obrazka",
+                             blank=True,
+                             null=True,
+                             max_length=70)
     price = models.DecimalField(verbose_name="Cena podstawowa",
                                 default=0,
                                 decimal_places=2,
@@ -280,6 +309,16 @@ class Images(models.Model):
     image = ResizedImageField(size=[1280, 960],
                               upload_to='images/',
                               validators=[file_size])
+    alt = models.CharField(
+        verbose_name="Alternatywny text dla obrazka",
+        max_length=125,
+        blank=True,
+        null=True,
+    )
+    title = models.CharField(verbose_name="Title dla obrazka",
+                             blank=True,
+                             null=True,
+                             max_length=70)
     category = models.ForeignKey("Category",
                                  on_delete=models.CASCADE,
                                  blank=True,

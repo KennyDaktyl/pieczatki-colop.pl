@@ -103,7 +103,7 @@
                     <source srcset="{{ im }}" type="image/webp">
                     {% thumbnail  el.image "150" crop='center' format="WEBP"  as im %}
                     <source srcset="{{ im }}" type="image/webp" />
-                    <img class="img-fluid mx-auto mt-2" src="{{ MEDIA_URL }}{{im}}" alt="{{el.alt}}" title="{{el.title}}">
+                    <img class="img-fluid mx-auto m-1" src="{{ MEDIA_URL }}{{im}}" alt="{{el.alt}}" title="{{el.title}}">
                     {% endthumbnail %}
                 </a>
                 {% endthumbnail %}
