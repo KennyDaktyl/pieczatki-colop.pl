@@ -6,9 +6,9 @@
 <meta property="fb:app_id" content="{{app_id}}" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="{{request.build_absolute_uri}}" />
-<meta property="og:title" content="" />
-<meta property="og:image" content="" />
-<meta property="og:description" content="" />
+<meta property="og:title" content="{{page.title}}" />
+<meta property="og:image" content="{{ MEDIA_URL }}images/bcg-stamp_LrTJcQE_YRKH6ut.webp" />
+<meta property="og:description" content="{{page.description}}" />
 <meta name="description" content="{{page.description}}">
 <link rel="canonical" href="https://pieczatki-colop.com/">
 {% endblock %}
@@ -25,16 +25,16 @@
 
 <div class="col-12 mx-auto m-0 p-0 row d-flex align-items-center motto">
     {% thumbnail "images/bcg-stamp_LrTJcQE_YRKH6ut.webp" "590x200" crop='center' format="WEBP"  as im %}
-    <img src="{{ MEDIA_URL }}{{im}}" class="img-fluid mx-auto d-sm-none" title="" alt="">
+    <img src="{{ MEDIA_URL }}{{im}}" class="img-fluid mx-auto d-sm-none" title="Prezentacja graficzna sklepu z pieczątki Colop" alt="Prezentacja graficzna sklepu z pieczątki Colop">
     {% endthumbnail %}
     {% thumbnail "images/bcg-stamp_LrTJcQE_YRKH6ut.webp" "720x300" crop='center' format="WEBP"  as im %}
-    <img src="{{ MEDIA_URL }}{{im}}" class="img-fluid d-none d-sm-block d-md-none" title="" alt="">
+    <img src="{{ MEDIA_URL }}{{im}}" class="img-fluid d-none d-sm-block d-md-none" title="Prezentacja graficzna sklepu z pieczątki Colop" alt="Prezentacja graficzna sklepu z pieczątki Colop">
     {% endthumbnail %}
     {% thumbnail "images/bcg-stamp_LrTJcQE_YRKH6ut.webp" "1280x350" crop='center' format="WEBP"  as im %}
-    <img src="{{ MEDIA_URL }}{{im}}" class="img-fluid d-none d-md-block d-lg-none" title="" alt="">
+    <img src="{{ MEDIA_URL }}{{im}}" class="img-fluid d-none d-md-block d-lg-none" title="Prezentacja graficzna sklepu z pieczątki Colop" alt="Prezentacja graficzna sklepu z pieczątki Colop">
     {% endthumbnail %}
     {% thumbnail "images/bcg-stamp_LrTJcQE_YRKH6ut.webp" "1480x250" crop='center' format="WEBP"  as im %}
-    <img src="{{ MEDIA_URL }}{{im}}" class="img-fluid d-none d-lg-block col-12 m-0 p-0" title="" alt="">
+    <img src="{{ MEDIA_URL }}{{im}}" class="img-fluid d-none d-lg-block col-12 m-0 p-0" title="Prezentacja graficzna sklepu z pieczątki Colop" alt="Prezentacja graficzna sklepu z pieczątki Colop">
     {% endthumbnail %}
 </div>
 
@@ -77,7 +77,7 @@
             {% load thumbnail %}
             {% thumbnail cat.image "1280" crop='center' format="WEBP"  as im %}
             <a href="{{ MEDIA_URL }}{{im}}" data-lightbox="{{cat.id}}" data-title="{{cat.name}}"
-                class="col-12 mx-auto text-center p-0 m-0 mt-2">
+                class="col-12 mx-auto text-center p-0 m-0 mt-2" title="Link do dużego foto proezentującego kategorię {{cat.name}}">
                 <source srcset="{{ im }}" type="image/webp">
                 {% thumbnail cat.image "350" crop='center' format="WEBP"  as im %}
                 <source srcset="{{ im }}" type="image/webp" />
@@ -87,7 +87,7 @@
             {% endthumbnail %}
         </div>
         <div class="col-lg-6 m-0 p-0 mt-2 mx-auto text-center d-flex align-items-start row">
-            <a href="" class="col-12 mx-auto text-center mt-2">
+            <a href="" class="col-12 mx-auto text-center mt-2" title="Link do produktów z kategorii {{cat.name}}">
                 <h3 class="mx-auto text-center title">{{cat.name}}</h3>
             </a>
             <div class="col-12 mt-2 mx-auto text-center">
@@ -99,7 +99,7 @@
                 {% load thumbnail %}
                 {% thumbnail el.image "1280" crop='center' format="WEBP"  as im %}
                 <a href="{{ MEDIA_URL }}{{im}}" data-lightbox="wzornik {{cat.id}}" data-title="Wzornik pieczątek w kategorii {{cat.name}}"
-                    class="mx-auto text-center p-0 m-0 mt-2">
+                    class="mx-auto text-center p-0 m-0 mt-2" title="link duze foto {{el.alt}}">
                     <source srcset="{{ im }}" type="image/webp">
                     {% thumbnail  el.image "150" crop='center' format="WEBP"  as im %}
                     <source srcset="{{ im }}" type="image/webp" />
@@ -122,13 +122,15 @@
                 <img class="img-fluid mx-auto" src="{{ MEDIA_URL }}{{im}}" alt="{{prod.alt}}" title="{{prod.title}}">
                 {% endthumbnail %}
             </div>
-            <a href="" class="col-12 mx-auto text-center mt-2">
+            <a href="" class="col-12 mx-auto text-center mt-2" title="Link do produktu {{prod.name}}">
                 <h4 class="col-12 mx-auto text-center">{{prod.name}}</h4>
             </a>
             <div class="col-12 mx-auto">
                 {% thumbnail prod.brand.logo "150x50" crop='center' format="WEBP"  as im %}
                 <source srcset="{{ im }}" type="image/webp" />
+                 <a href="https://www.ulsinc.com/" class="col-12 m-0 p-0" title="Link do firmy Colop producenta pieczątek">
                 <img class="img-fluid mx-auto" src="{{ MEDIA_URL }}{{im}}" alt="{{prod.brand.alt}}" title="{{prod.brand.title}}">
+                </a>
                 {% endthumbnail %}
             </div>
             <small class="col-12 text-center">ID:{{prod.id}}</small>
@@ -160,7 +162,7 @@
     </div>
     {% endfor %}
     <div class="col-12 mx-auto text-center mt-2 mb-2">
-        <a href="">
+        <a href="" title="Link do produktów z kategorii {{cat.name}}">
             <button class="btn btn-outline-info">Produkty z kategorii</button>
         </a>
     </div>
@@ -173,16 +175,14 @@
     <div class="col-12 m-0 p-0 mt-3">
         {% thumbnail 'images/bcg-laser-.webp' "960x200" crop='center' format="WEBP"  as im %}
         <source srcset="{{ im }}" type="image/webp" />
-        <img class="img-fluid mx-auto" src="{{ MEDIA_URL }}{{im}}" alt="" title="">
+        <img class="img-fluid mx-auto" src="{{ MEDIA_URL }}{{im}}" alt="Grafika przedstawiająca pracę urządzenia laserowego" title="Grafika przedstawiająca pracę urządzenia laserowego">
         {% endthumbnail %}
     </div>
-    <a href="" class="col-12 mx-auto text-center mt-2">
-        <h4 class="col-12 mx-auto text-center">{{prod.name}}</h4>
-    </a>
     <div class="col-lg-6 mx-auto">
         {% thumbnail "images/universal-laser-system-logo.webp" "800x294" crop='center' format="WEBP"  as im %}
         <source srcset="{{ im }}" type="image/webp" />
-        <img class="img-fluid mx-auto" src="{{ MEDIA_URL }}{{im}}" alt="" title="">
+        <a href="https://www.ulsinc.com/" class="col-12 m-0 p-0" title="Link do firmy Universal Laser System">
+        <img class="img-fluid mx-auto" src="{{ MEDIA_URL }}{{im}}" alt="Logo firmy universal-laser-system producenta urządzeń laserowych" title="Logo firmy universal-laser-system producenta urządzeń laserowych"></a>
         {% endthumbnail %}
     </div>
     <div class="col-lg-6 row m-0 p-0 mt-2 d-flex align-items-center">
