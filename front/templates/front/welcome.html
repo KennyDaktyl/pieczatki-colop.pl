@@ -117,7 +117,7 @@
         </div>
         <div class="col-6 col-lg-4 m-0 p-1 border d-flex align-items-start row mt-3">
             <div class="col-12 m-0 p-0">
-                {% thumbnail prod.image "350x100" crop='center' format="WEBP"  as im %}
+                {% thumbnail prod.image "350x180" crop='center' format="WEBP"  as im %}
                 <source srcset="{{ im }}" type="image/webp" />
                 <img class="img-fluid mx-auto" src="{{ MEDIA_URL }}{{im}}" alt="{{prod.alt}}" title="{{prod.title}}">
                 {% endthumbnail %}
