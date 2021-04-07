@@ -171,6 +171,7 @@ class Brand(models.Model):
                              blank=True,
                              null=True,
                              max_length=70)
+    desc = models.TextField(verbose_name="Brand info", blank=True, null=True)
 
     class Meta:
         ordering = ("name", )
