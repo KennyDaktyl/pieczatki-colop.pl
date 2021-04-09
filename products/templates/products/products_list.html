@@ -52,28 +52,28 @@
             <i class="fas fa-list text-white mr-2 ml-1"></i>
             <p class="text-center text-white card-header">KATEGORIE</p>
         </div>
-        <ul class="nav">
+        <ul class="nav cat_nav">
             {% for cat in categorys %}
             <li class="nav-item dropdown-submenu ">
-                <a class="nav-link text-left " href="">{{cat.name}}</a>
+                <a class="nav-link text-left" href="">{{cat.name}}</a>
             </li>
             {% endfor %}
         </ul>
     </div>
     <main class="col-lg-8 mx-auto row">
         <section class="product-container row mx-auto">
-            <div class="headline m-1 mb-2">
-                <h1 class="ml-2">PRODUKTY: Pieczątki</h1>
+            <div class="text-left headline m-1 mb-2">
+                <h1 class="mt-2">PRODUKTY: Pieczątki</h1>
             </div>
             {% for prod in products %}
-            <article class="product-list-item col-12 row mx-auto border">
-                <div class="col-3">
+            <article class="product-list-item col-10 col-lg-12 pb-2 row mx-auto border d-flex align-items-start">
+                <div class="col-lg-3 m-0 p-0">
                     {% load thumbnail %}
                     {% thumbnail prod.image "1280" crop='center' format="WEBP"  as im %}
-                    <a href="{{ MEDIA_URL }}{{im}}" data-lightbox="{{prod.id}}" data-title="{{cat.name}}"
-                        class="mx-auto text-center p-0 m-0 mt-2" title="link duze foto {{prod.alt}}">
+                    <a href="{{ MEDIA_URL }}{{im}}" data-lightbox="{{prod.id}}" data-title="{{prod.name}}"
+                        class="mx-auto text-center p-0 m-0 mt-2" title="Link do dużego zdcjęcia {{prod.name}}">
                         <source srcset="{{ im }}" type="image/webp">
-                        {% thumbnail  prod.image "180x180" crop='center' format="WEBP"  as im %}
+                        {% thumbnail  prod.image "75x75" crop='center' format="WEBP"  as im %}
                         <source srcset="{{ im }}" type="image/webp" />
                         <img class="img-fluid mx-auto m-1" src="{{ MEDIA_URL }}{{im}}" alt="{{prod.alt}}"
                             title="{{prod.title}}">
@@ -81,12 +81,84 @@
                     </a>
                     {% endthumbnail %}
                 </div>
-                <div class="col-7">
-                    <p class="product-title text-left mt-2">
-                        <a href="">{{prod.name}}</a>
-                    </p>
+                <div class="col-lg-7 row m-0 p-0">
+                    <div class="col-12 m-0 p-0 mx-auto row d-flex align-items-center">
+                        <a href="" class="mx-auto text-left mt-2 p-0" title="Link do produktu {{prod.name}}">
+                            <p class="col-12 mx-auto text-center">{{prod.name}}</p>
+                        </a>
+                    </div>
+                    {% thumbnail prod.brand.logo "50" crop='center' format="WEBP"  as im %}
+                    <source srcset="{{ im }}" type="image/webp" />
+                    <a href="https://www.colop.pl/" class="col-12 m-0 p-0"
+                        title="Link do firmy {{prod.brand.title}} producenta pieczątek">
+                        <img class="img-fluid mx-auto" src="{{ MEDIA_URL }}{{im}}" alt="{{prod.brand.alt}}"
+                            title="{{prod.brand.title}}">
+                    </a>
+                    {% endthumbnail %}
                 </div>
-                <div class="col-2">
+                <div class="col-lg-2 m-0 p-0 row">
+                    <small class="col-12 mt-2 p-0 text-right">ID:{{prod.id}}</small>
+                    <a href="" class="col-12 mt-2 p-0 text-right">
+                        <!-- <i class="text-left fas fa-arrow-left col-3 m-0 p-0"></i> -->
+                        <small class="col-12 m-0 p-0 text-right">Szczegóły</small>
+                    </a>
+                </div>
+                <div class="col-12 row m-0 p-0 mt-2">
+                    <div class="col-lg-6 m-0 p-0 mt-2 row d-flex align-items-center">
+                        <strong class="m-0 p-0 text-left">Kolor obudowy: </strong><span class="ml-2 {{prod.color.class_text}}">{{prod.color.name}}</span>
+                        <div class="col-12 row m-0 p-0 ">
+                            <small class="col-12 m-0 p-0 text-left">Inne kolory dostępne:</small>
+                            <a href="">
+                                <small class="text-primary m-1">Niebieski</small>
+                            </a>
+                            <a href="">
+                                <small class="text-danger m-1">Czerowny</small>
+                            </a>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-6 m-0 p-0 row text-right mt-2">
+                        <small class="col-12 m-0 p-0 text-right">Kolor odbicia: {{prod.color}}</small>
+                        <form action="" class="text-right m-0 p-0 ml-auto row">
+                            <select name="color_s" class="custom-select" id="inputGroupSelect01">
+                                <option selected>Czarny</option>
+                                <option value="1">Niebieski</option>
+                                <option value="2">Czerwony</option>
+                                <option value="3">Żółty</option>
+                            </select>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-12 row m-0 p-0 mt-2 d-flex align-items-center">
+                    <div class="col-6 row m-0 p-0 d-flex align-items-start">
+                        {% if prod.price_promo %}
+                        <del class="text-dark m-0 p-0 mr-auto text-left" data-ng-bind-html="discount | currency_format">{{prod.price}} zł</del>
+                        <span class="mr-1">Cena promo:</span>
+                        <p class="font-weight-bold text-danger m-0 p-0 mr-auto text-left" >{{prod.price_promo}} zł</p>
+                        <small class="m-0 p-0 col-12 text-left">Netto: {{prod.price_netto}} + VAT 23%</small>
+                        {% else %}
+                        <span class="mr-1">Cena:</span>
+                        <p class="font-weight-bold text-danger m-0 p-0 mr-auto text-left">{{prod.price}} zł</p>
+                        <small class="m-0 p-0 col-12 text-left">Netto: {{prod.price_netto}} + VAT 23%</small>
+                        {% endif %}
+                    </div>
+                    {% if prod.qty > 0 %}
+                    <form class="col-6 m-0 p-0 text-right row d-flex justify-content-end" action="">
+                        <small class="col-12 text-success ml-auto pr-1">Dostępny: {{prod.qty}}szt.</small>
+                        {% csrf_token %}
+                        <input type="number" name="qty" value="1" min="1" max="{{prod.qty}}">
+                        <span class="input-group-append">
+                            <button class="btn btn-secondary stash" type="button" data-action="add">
+                                <i class="basket fa fa-cart-plus"></i> </button>
+                        </span>
+                    </form>
+                    {% else %}
+                    <small class="text-danger ml-auto pr-1 col-12 text-right">Brak w magazynie</small>
+                    <p class="m-0 p-0 mr-auto text-right col-12">Zadzwoń 506 029 980</p>
+                    {% endif %}
+                </div>
+                <div class="col-12 mx-auto row m-0 p-0 mt-2">
+                    
                 </div>
             </article>
             {% endfor %}

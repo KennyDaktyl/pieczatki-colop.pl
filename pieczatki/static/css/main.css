@@ -291,11 +291,21 @@ ul.social-footer2 li a {
 }
 
 .headline h1 {
-    border-bottom: 2px solid #d80000;
+    border-bottom: 2px solid #ff8d1e;
     text-transform: uppercase;
     font-weight: 400;
     font-size: 19px;
 }
+
+.cat_nav a {
+    color: black;
+}
+
+.cat_nav a:hover {
+    color: #ff8d1e;
+}
+
+
 
 .product-list-item .product-title {
     font-size: 10pt;
@@ -311,7 +321,17 @@ ul.social-footer2 li a {
 }
 
 .product-title a:hover {
-    color: red;
+    color: #ff8d1e;
+    
+}
+
+.nav-link a {
+    transition: 0.5s;
+}
+
+.nav-link strong:hover {
+    color: #ff8d1e;
+    transition: 0.5s;
 }
 
 .quantity {
@@ -337,21 +357,18 @@ a.logout:hover {
     color: red;
 }
 
-red;
-    border: 1px solid;
-    box-shadow: 5px 10px #888888;
-}
 
 .motto a {
     color: black;
 }
+
 
 .motto small {
     font-size: 0.9rem;
 }
 
 .motto a:hover {
-    color: red;
+    color: #ff8d1e;
     text-decoration: none;
 }
 
@@ -398,6 +415,20 @@ red;
     transition: 0.5s;
 }
 
+.custom-select {
+    font-size: 12px;
+}
+.product-list-item a:hover {
+    text-decoration: none;
+}
+.product-list-item p{
+    color: black;
+    font-weight: 700;
+}
+
+.product-list-item p:hover {
+    color: #ff8d1e;
+}
 
 @media (max-width: 992px) {
 
