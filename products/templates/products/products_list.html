@@ -66,7 +66,7 @@
                 <h1 class="mt-2">PRODUKTY: Pieczątki</h1>
             </div>
             {% for prod in products %}
-            <article class="product-list-item col-10 col-lg-12 pb-2 row mx-auto border d-flex align-items-start">
+            <article class="product-list-item col-10 col-lg-12 mt-2 pb-2 row mx-auto border d-flex align-items-start">
                 <div class="col-lg-3 m-0 p-0">
                     {% load thumbnail %}
                     {% thumbnail prod.image "1280" crop='center' format="WEBP"  as im %}
@@ -118,13 +118,13 @@
 
                     </div>
                     <div class="col-lg-6 m-0 p-0 row text-right mt-2">
-                        <small class="col-12 m-0 p-0 text-right">Kolor odbicia: {{prod.color}}</small>
+                        <small class="col-12 m-0 p-0 text-right">Kolor odbicia:</small>
                         <form action="" class="text-right m-0 p-0 ml-auto row">
                             <select name="color_s" class="custom-select" id="inputGroupSelect01">
-                                <option selected>Czarny</option>
-                                <option value="1">Niebieski</option>
-                                <option value="2">Czerwony</option>
-                                <option value="3">Żółty</option>
+                                <option selected class="text-dark">Czarny</option>
+                                <option value="1" class="text-primary">Niebieski</option>
+                                <option value="2" class="text-danger">Czerwony</option>
+                                <option value="3" class="text-warning">Żółty</option>
                             </select>
                         </form>
                     </div>
