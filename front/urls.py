@@ -2,7 +2,8 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 
-from .views import WelcomeView, ProductsListView, ContactView
+from .views import WelcomeView, ProductsListView, ContactView, \
+    ProductDetailsView
 from .sitemaps import *
 
 sitemaps = {
@@ -17,6 +18,10 @@ sitemaps = {
 }
 urlpatterns = [
     path('', WelcomeView.as_view(), name='welcome'),
-    path('pieczatki/', ProductsListView.as_view(), name='products_list'),
+    path('produkty/', ProductsListView.as_view(), name='products_list'),
+    path(
+        'produkty/<slug:category>/<slug:product>/<slug:color>/<slug:store>/<int:pk>/',
+        ProductDetailsView.as_view(),
+        name='product_details'),
     path('kontakt-z-nami/', ContactView.as_view(), name='contact_view'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

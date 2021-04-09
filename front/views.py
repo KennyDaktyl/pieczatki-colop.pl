@@ -9,6 +9,7 @@ from django.contrib.sites.models import Site
 from django.contrib.sites.shortcuts import get_current_site
 
 from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from .forms import ContactForm
@@ -59,6 +60,15 @@ class ProductsListView(ListView):
         context['categorys'] = categorys
         # context['form'] = CategoryForm2
         return context
+
+
+class ProductDetailsView(DetailView):
+    model = Products
+
+    def get_context_data(self, **kwargs):
+        ctx = super(ProductDetailsView, self).get_context_data(**kwargs)
+        ctx['categorys'] = Category.objects.filter(is_active=True)
+        return ctx
 
 
 class ContactView(View):
