@@ -83,7 +83,7 @@
                 </div>
                 <div class="col-lg-7 row m-0 p-0">
                     <div class="col-12 m-0 p-0 mx-auto row d-flex align-items-center">
-                        <a href="" class="mx-auto text-left mt-2 p-0" title="Link do produktu {{prod.name}}">
+                        <a href="{% url 'product_details' category=prod.category.slug product=prod.slug color=other.color.slug store=prod.store.slug pk=prod.pk %}" class="mx-auto text-left mt-2 p-0" title="Link do produktu {{prod.name}}">
                             <p class="col-12 mx-auto text-center">{{prod.name}}</p>
                         </a>
                     </div>
@@ -98,7 +98,7 @@
                 </div>
                 <div class="col-lg-2 m-0 p-0 row">
                     <small class="col-12 mt-2 p-0 text-right">ID:{{prod.id}}</small>
-                    <a href="" class="col-12 mt-2 p-0 text-right">
+                    <a href="{% url 'product_details' category=prod.category.slug product=prod.slug color=other.color.slug store=prod.store.slug pk=other.pk %}" class="col-12 mt-2 p-0 text-right">
                         <!-- <i class="text-left fas fa-arrow-left col-3 m-0 p-0"></i> -->
                         <small class="col-12 m-0 p-0 text-right">Szczegóły</small>
                     </a>
