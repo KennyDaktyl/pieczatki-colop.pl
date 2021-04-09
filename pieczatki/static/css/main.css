@@ -430,6 +430,17 @@ a.logout:hover {
     color: #ff8d1e;
 }
 
+div.modal-content {
+    background-color: rgb(228, 255, 228);
+}
+
+span.basket {
+        border-bottom: 2px solid #ff8d1e;
+        text-transform: uppercase;
+        font-weight: 400;
+        font-size: 19px;
+}
+
 @media (max-width: 992px) {
 
     .motto h1 {

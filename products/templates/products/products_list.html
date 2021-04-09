@@ -105,15 +105,18 @@
                 </div>
                 <div class="col-12 row m-0 p-0 mt-2">
                     <div class="col-lg-6 m-0 p-0 mt-2 row d-flex align-items-center">
-                        <strong class="m-0 p-0 text-left">Kolor obudowy: </strong><span class="ml-2 {{prod.color.class_text}}">{{prod.color.name}}</span>
+                        <strong class="m-0 p-0 text-left">Kolor obudowy: </strong><span
+                            class="ml-2 {{prod.color.class_text}}">{{prod.color.name}}</span>
                         <div class="col-12 row m-0 p-0 ">
                             <small class="col-12 m-0 p-0 text-left">Inne kolory dostępne:</small>
-                            <a href="">
-                                <small class="text-primary m-1">Niebieski</small>
+                            {% for other in prod.other_colors %}
+                            <a
+                                href="{% url 'product_details' category=prod.category.slug product=prod.slug color=other.color.slug store=prod.store.slug pk=other.pk %}">
+                                <small class="{{other.color.class_text}} m-1">{{other.color.name}}</small>
                             </a>
-                            <a href="">
-                                <small class="text-danger m-1">Czerowny</small>
-                            </a>
+                            {% empty %}
+                            <small class="col-12 m-0 p-0 text-left">Brak innych kolorów</small>
+                            {% endfor %}
                         </div>
 
                     </div>
@@ -132,9 +135,10 @@
                 <div class="col-12 row m-0 p-0 mt-2 d-flex align-items-center">
                     <div class="col-6 row m-0 p-0 d-flex align-items-start">
                         {% if prod.price_promo %}
-                        <del class="text-dark m-0 p-0 mr-auto text-left" data-ng-bind-html="discount | currency_format">{{prod.price}} zł</del>
+                        <del class="text-dark m-0 p-0 mr-auto text-left"
+                            data-ng-bind-html="discount | currency_format">{{prod.price}} zł</del>
                         <span class="mr-1">Cena promo:</span>
-                        <p class="font-weight-bold text-danger m-0 p-0 mr-auto text-left" >{{prod.price_promo}} zł</p>
+                        <p class="font-weight-bold text-danger m-0 p-0 mr-auto text-left">{{prod.price_promo}} zł</p>
                         <small class="m-0 p-0 col-12 text-left">Netto: {{prod.price_netto}} + VAT 23%</small>
                         {% else %}
                         <span class="mr-1">Cena:</span>
@@ -147,18 +151,76 @@
                         <small class="col-12 text-success ml-auto pr-1">Dostępny: {{prod.qty}}szt.</small>
                         {% csrf_token %}
                         <input type="number" name="qty" value="1" min="1" max="{{prod.qty}}">
-                        <span class="input-group-append">
+                        <span class="input-group-append" data-toggle="modal" data-target="#exampleModal{{prod.id}}">
                             <button class="btn btn-secondary stash" type="button" data-action="add">
                                 <i class="basket fa fa-cart-plus"></i> </button>
                         </span>
                     </form>
+                    <div class="modal fade" id="exampleModal{{prod.id}}" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content p-1 col-12">
+                                <div class="modal-header d-flex align-items-center row">
+                                    <div class="col-12 row d-flex align-items-center">
+                                        <i class="fas fa-clipboard-check"></i>
+                                        <h5 class="modal-title ml-1" id="exampleModalLabel">Produkt dodano do koszyka
+                                        </h5>
+                                    </div>
+                                    <div class="col-12 row d-flex align-items-center">
+                                        <span class="">Nazwa:</span>
+                                        <p class="p-0 m-0 ml-1">{{prod.name}}</p>
+                                    </div>
+                                    <div class="col-12 row d-flex align-items-center">
+                                        <span class="">Kolor obudowy:</span>
+                                        <p class="p-0 m-0 ml-1 {{prod.color.class_text}}">{{prod.color.name}}</p>
+                                    </div>
+                                    <div class="col-12 row d-flex align-items-center">
+                                        <span class="">Ilość:</span>
+                                        <p class="p-0 m-0 ml-1">2szt.</p>
+                                    </div>
+                                    <div class="col-12 mt-2 mx-auto row d-flex align-items-center">
+                                        <span class="basket">KOSZYK</span><br>
+                                        <button type="button" class="btn btn-primary ml-auto col-5 m-1 p-1 row">
+                                            <i class="text-center mx-auto text-white fas fa-shopping-basket"></i>
+                                            Koszyk
+                                        </button>
+                                    </div>
+                                    <div class="col-12 mt-2 row d-flex align-items-center">
+                                        <span class="">Ilość produktów w koszyku:</span>
+                                        <p class="p-0 m-0 ml-1">2szt.</p>
+                                    </div>
+                                    <div class="col-12 mt-2 row d-flex align-items-center">
+                                        <span class="">Kwota brutto:</span>
+                                        <p class="p-0 m-0 ml-1">255,95 PLN</p>
+                                    </div>
+                                </div>
+                                <div class="modal-body">
+
+                                </div>
+                                <div class="col-12 row m-0 p-0">
+                                    <button type="button"
+                                        class="btn btn-success mx-auto col-5 m-1 p-1">Kontynuuj</button>
+
+                                    <button type="button" class="btn btn-primary mx-auto col-5 m-1 p-1 row">
+                                        <i class="fas fa-cogs"></i>
+                                        <span class="">Utwórz projekt</span>
+                                    </button>
+                                    <button type="button" class="btn btn-secondary ml-auto mx-auto m-1 p-1 col-5"
+                                        data-dismiss="modal">Zamknij</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-outline-secondary mt-1">
+                        <i class="fas fa-cogs"></i>
+                        <span class="">Utwórz projekt</span>
+                    </button>
                     {% else %}
                     <small class="text-danger ml-auto pr-1 col-12 text-right">Brak w magazynie</small>
                     <p class="m-0 p-0 mr-auto text-right col-12">Zadzwoń 506 029 980</p>
                     {% endif %}
                 </div>
                 <div class="col-12 mx-auto row m-0 p-0 mt-2">
-                    
                 </div>
             </article>
             {% endfor %}

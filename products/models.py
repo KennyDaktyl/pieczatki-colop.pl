@@ -68,8 +68,7 @@ class Store(models.Model):
         return Products.objects.filter(store_id=self).filter(is_active=True)
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.name + "-" + self.street + "-" + self.home +
-                            "-" + self.city)
+        self.slug = slugify(self.name)
         super(Store, self).save()
 
     # def get_absolute_url(self):
@@ -216,6 +215,10 @@ class Colors(models.Model):
         verbose_name="Text dla koloru klasay",
         max_length=32,
     )
+    slug = models.SlugField(verbose_name="Slug",
+                            blank=True,
+                            null=True,
+                            max_length=128)
 
     class Meta:
         ordering = ("name", )
@@ -241,11 +244,11 @@ class Vat(models.Model):
 
 class Products(models.Model):
     id = models.AutoField(primary_key=True)
-    store_id = models.ForeignKey("Store",
-                                 verbose_name="Magazyn",
-                                 on_delete=models.CASCADE,
-                                 db_index=True,
-                                 default=1)
+    store = models.ForeignKey("Store",
+                              verbose_name="Magazyn",
+                              on_delete=models.CASCADE,
+                              db_index=True,
+                              default=1)
     category = models.ForeignKey(
         "Category",
         verbose_name="Kategoria produktu",
@@ -311,15 +314,20 @@ class Products(models.Model):
     is_active = models.BooleanField(verbose_name="Czy jest dostępny",
                                     default=True)
 
+    def other_colors(self):
+        return Products.objects.filter(name=self.name).exclude(
+            pk=self.pk).filter(is_active=True)
+
     def images(self):
         return Images.objects.filter(product_id=self)
 
     def get_absolute_url(self):
-        return reverse("product_details_front",
+        return reverse("product_details",
                        kwargs={
-                           "magasize": self.workplace_id.slug,
-                           "cat": self.sub_category.category.slug,
-                           "slug": self.slug,
+                           "category": self.category.slug,
+                           "product": self.slug,
+                           "color": self.color.slug,
+                           "store": self.store.slug,
                            "pk": self.id,
                        })
 
