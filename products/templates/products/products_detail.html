@@ -103,18 +103,20 @@
                         <strong class="m-0 p-0 text-left">Kolor obudowy: </strong><span
                             class="ml-2 {{object.color.class_text}}">{{object.color.name}}</span>
                         <div class="col-12 row m-0 p-0 ">
-                            <small class="col-12 m-0 p-0 text-left">Inne kolory dostępne:</small>
-                            <a href="">
-                                <small class="text-primary m-1">Niebieski</small>
+                            <strong class="m-0 p-0 text-left">Inne kolory dostępne:</strong>
+                            {% for other in object.other_colors %}
+                            <a
+                                href="{% url 'product_details' category=object.category.slug product=object.slug color=other.color.slug store=object.store.slug pk=other.pk %}">
+                                <small class="{{other.color.class_text}} m-1">{{other.color.name}}</small>
                             </a>
-                            <a href="">
-                                <small class="text-danger m-1">Czerowny</small>
-                            </a>
+                            {% empty %}
+                            <small class="col-12 m-0 p-0 text-left">Brak innych kolorów</small>
+                            {% endfor %}
                         </div>
 
                     </div>
                     <div class="col-lg-6 m-0 p-0 row text-right mt-2">
-                        <small class="col-12 m-0 p-0 text-right">Kolor odbicia:</small>
+                        <strong class="m-0 p-0 text-right col-12">Kolory odbicia:</strong>
                         <form action="" class="text-right m-0 p-0 ml-auto row">
                             <select name="color_s" class="custom-select" id="inputGroupSelect01">
                                 <option selected class="text-dark">Czarny</option>
@@ -190,6 +192,25 @@
 
                 </div>
             </article>
+            <div class="text-left headline m-1 mb-2">
+                <h2 class="mt-2">Galeria zdjęć produktu</h2>
+                {% for image in object.images %}
+                {% load thumbnail %}
+                    {% thumbnail image.image "1280" crop='center' format="WEBP"  as im %}
+                    <a href="{{ MEDIA_URL }}{{im}}" data-lightbox="{{image.id}}" data-title="{{image.name}}"
+                        class="mx-auto text-center p-0 m-0 mt-2" title="Galeria zdjęć produktu {{object.name}}">
+                        <source srcset="{{ im }}" type="image/webp">
+                        {% thumbnail  image.image "75x75" crop='center' format="WEBP"  as im %}
+                        <source srcset="{{ im }}" type="image/webp" />
+                        <img class="img-fluid mx-auto m-1 border" src="{{ MEDIA_URL }}{{im}}" alt="{{image.alt}}"
+                            title="{{image.title}}">
+                        {% endthumbnail %}
+                    </a>
+                    {% endthumbnail %}
+                {% empty %}
+                 <small class="ml-auto pr-1 col-12 text-right">Brak zdjęć</small>
+                {% endfor %}
+            </div>
     </main>
 </div>
 

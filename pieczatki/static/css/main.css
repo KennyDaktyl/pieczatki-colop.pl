@@ -297,6 +297,12 @@ ul.social-footer2 li a {
     font-size: 19px;
 }
 
+.headline h2 {
+    border-bottom: 2px solid #ff8d1e;
+    text-transform: uppercase;
+    font-weight: 400;
+    font-size: 18px;
+}
 .cat_nav a {
     color: black;
 }
