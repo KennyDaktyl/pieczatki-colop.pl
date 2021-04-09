@@ -209,6 +209,26 @@ class Size(models.Model):
         return self.name
 
 
+class Colors(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(verbose_name="Nazwa coloru", max_length=32)
+    class_text = models.CharField(
+        verbose_name="Text dla koloru klasay",
+        max_length=32,
+    )
+
+    class Meta:
+        ordering = ("name", )
+        verbose_name_plural = "Kolory"
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Colors, self).save()
+
+    def __str__(self):
+        return self.name
+
+
 class Vat(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.IntegerField(verbose_name="Stawka VAT")
@@ -237,6 +257,11 @@ class Products(models.Model):
                               on_delete=models.CASCADE,
                               null=True,
                               blank=True)
+    color = models.ForeignKey("Colors",
+                              verbose_name="Kolor produktu",
+                              on_delete=models.CASCADE,
+                              null=True,
+                              blank=True)
     name = models.CharField(verbose_name="Nazwa produktu", max_length=128)
     qty = models.IntegerField(default=1,
                               verbose_name="Ilość produktu na stanie")
@@ -255,8 +280,6 @@ class Products(models.Model):
     alt = models.CharField(
         verbose_name="Alternatywny text dla obrazka",
         max_length=125,
-        blank=True,
-        null=True,
     )
     title = models.CharField(verbose_name="Title dla obrazka",
                              blank=True,
@@ -266,7 +289,15 @@ class Products(models.Model):
                                 default=0,
                                 decimal_places=2,
                                 max_digits=7)
-    price_netto = models.DecimalField(verbose_name="Cena podstawowa",
+    price_promo = models.DecimalField(
+        verbose_name="Cena promocyjna",
+        default=0,
+        decimal_places=2,
+        max_digits=7,
+        blank=True,
+        null=True,
+    )
+    price_netto = models.DecimalField(verbose_name="Cena netto",
                                       default=0,
                                       decimal_places=2,
                                       max_digits=7,
@@ -294,7 +325,11 @@ class Products(models.Model):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
-        self.price_netto = self.price / Decimal("1." + str(self.tax.name))
+        if self.price_promo:
+            self.price_netto = self.price_promo / Decimal("1." +
+                                                          str(self.tax.name))
+        else:
+            self.price_netto = self.price / Decimal("1." + str(self.tax.name))
         super(Products, self).save()
 
     class Meta:

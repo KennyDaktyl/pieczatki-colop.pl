@@ -2,12 +2,18 @@ from django.contrib import admin
 
 # Register your models here.
 
-from .models import Products, Size, Category, Store, Vat, Images, Brand
+from .models import Products, Size, Category, Store, Vat, Images, \
+    Brand, Colors
 
 
 @admin.register(Store)
 class StoreAdmin(admin.ModelAdmin):
     list_display = [f.name for f in Store._meta.fields]
+
+
+@admin.register(Colors)
+class ColorsAdmin(admin.ModelAdmin):
+    list_display = [f.name for f in Colors._meta.fields]
 
 
 @admin.register(Vat)
@@ -16,7 +22,7 @@ class VatAdmin(admin.ModelAdmin):
 
 
 @admin.register(Brand)
-class VatAdmin(admin.ModelAdmin):
+class BrandAdmin(admin.ModelAdmin):
     list_display = [f.name for f in Brand._meta.fields]
 
 

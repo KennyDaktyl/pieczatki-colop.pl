@@ -134,10 +134,10 @@
                     {% endthumbnail %}
                 </div>
                 <a href="" class="col-12 mx-auto text-center mt-2" title="Link do produktu {{prod.name}}">
-                    <h4 class="col-12 mx-auto text-center">{{prod.name}}</h4>
+                    <p class="col-12 mx-auto text-center">{{prod.name}}</p>
                 </a>
                 <div class="col-12 mx-auto">
-                    {% thumbnail prod.brand.logo "150x50" crop='center' format="WEBP"  as im %}
+                    {% thumbnail prod.brand.logo "50" crop='center' format="WEBP"  as im %}
                     <source srcset="{{ im }}" type="image/webp" />
                     <a href="https://www.ulsinc.com/" class="col-12 m-0 p-0"
                         title="Link do firmy Colop producenta pieczątek">
