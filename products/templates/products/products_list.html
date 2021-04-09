@@ -83,7 +83,8 @@
                 </div>
                 <div class="col-lg-7 row m-0 p-0">
                     <div class="col-12 m-0 p-0 mx-auto row d-flex align-items-center">
-                        <a href="{% url 'product_details' category=prod.category.slug product=prod.slug color=other.color.slug store=prod.store.slug pk=prod.pk %}" class="mx-auto text-left mt-2 p-0" title="Link do produktu {{prod.name}}">
+                        <a href="{% url 'product_details' category=prod.category.slug product=prod.slug color=prod.color.slug store=prod.store.slug pk=prod.pk %}"
+                            class="mx-auto text-left mt-2 p-0" title="Link do produktu {{prod.name}}">
                             <p class="col-12 mx-auto text-center">{{prod.name}}</p>
                         </a>
                     </div>
@@ -98,7 +99,8 @@
                 </div>
                 <div class="col-lg-2 m-0 p-0 row">
                     <small class="col-12 mt-2 p-0 text-right">ID:{{prod.id}}</small>
-                    <a href="{% url 'product_details' category=prod.category.slug product=prod.slug color=other.color.slug store=prod.store.slug pk=other.pk %}" class="col-12 mt-2 p-0 text-right">
+                    <a href="{% url 'product_details' category=prod.category.slug product=prod.slug color=prod.color.slug store=prod.store.slug pk=prod.pk %}"
+                        class="col-12 mt-2 p-0 text-right">
                         <!-- <i class="text-left fas fa-arrow-left col-3 m-0 p-0"></i> -->
                         <small class="col-12 m-0 p-0 text-right">Szczegóły</small>
                     </a>
@@ -108,7 +110,7 @@
                         <strong class="m-0 p-0 text-left">Kolor obudowy: </strong><span
                             class="ml-2 {{prod.color.class_text}}">{{prod.color.name}}</span>
                         <div class="col-12 row m-0 p-0 ">
-                            <small class="col-12 m-0 p-0 text-left">Inne kolory dostępne:</small>
+                            <strong class="m-0 p-0 text-left">Inne kolory dostępne:</strong>
                             {% for other in prod.other_colors %}
                             <a
                                 href="{% url 'product_details' category=prod.category.slug product=prod.slug color=other.color.slug store=prod.store.slug pk=other.pk %}">
@@ -121,7 +123,7 @@
 
                     </div>
                     <div class="col-lg-6 m-0 p-0 row text-right mt-2">
-                        <small class="col-12 m-0 p-0 text-right">Kolor odbicia:</small>
+                        <strong class="m-0 p-0 text-right col-12">Kolory odbicia:</strong>
                         <form action="" class="text-right m-0 p-0 ml-auto row">
                             <select name="color_s" class="custom-select" id="inputGroupSelect01">
                                 <option selected class="text-dark">Czarny</option>
