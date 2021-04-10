@@ -120,11 +120,12 @@
                 {% endfor %}
             </div>
         </div>
-        {% for prod in cat.products %}
+
         <div class="col-lg-8 motto row m-0 p-0 mt-2 mb-2 mx-auto text-center d-flex justify-content-center">
             <div class="col-12 text-center mx-auto row">
                 <h4 class="mx-auto text-center mt-2 title">Przykładowe produkty z kategorii</h4>
             </div>
+            {% for prod in cat.products %}
             <div class="col-6 col-lg-4 m-0 p-1 border d-flex align-items-start row mt-3">
                 <div class="col-12 m-0 p-0">
                     {% thumbnail prod.image "350x180" crop='center' format="WEBP"  as im %}
@@ -172,8 +173,9 @@
                     </div>
                 </div>
             </div>
+            {% endfor %}
         </div>
-        {% endfor %}
+
         <div class="col-12 mx-auto text-center mt-2 mb-2">
             <a href="" title="Link do produktów z kategorii {{cat.name}}">
                 <button class="btn btn-outline-info">Produkty z kategorii</button>

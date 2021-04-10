@@ -39,14 +39,24 @@ else:
 # Application definition
 
 INSTALLED_APPS = [
-    'account.apps.AccountConfig', 'django.contrib.admin',
-    'django.contrib.auth', 'django.contrib.contenttypes',
-    'django.contrib.sessions', 'django.contrib.messages',
-    'django.contrib.staticfiles', 'django.contrib.sites',
-    'django.contrib.sitemaps', 'crispy_forms', 'captcha', 'sorl.thumbnail',
-    'front', 'products'
+    'account.apps.AccountConfig',
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'django.contrib.sitemaps',
+    'crispy_forms',
+    'captcha',
+    'sorl.thumbnail',
+    'front',
+    'products',
+    'orders',
+    'card',
 ]
-
+CART_SESSION_ID = 'cart'
 SITE_ID = 1
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
