@@ -311,7 +311,9 @@ ul.social-footer2 li a {
     color: #ff8d1e;
 }
 
-
+.violet {
+    color:violet;
+}
 
 .product-list-item .product-title {
     font-size: 10pt;
