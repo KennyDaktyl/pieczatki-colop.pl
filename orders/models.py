@@ -10,6 +10,7 @@ from .constants import PAY_METHOD, ORDER_STATUS, DELIVERY_TYPE
 
 
 class PayMethod(models.Model):
+    id = models.AutoField(primary_key=True)
     number = models.IntegerField(verbose_name="Numer wyświetlania")
     name = models.CharField(verbose_name="Nazwa metody płatności",
                             max_length=64)
@@ -40,6 +41,7 @@ class PayMethod(models.Model):
 
 # Pay_Method have to not NONE - order have to get pay_method id
 class Orders(models.Model):
+    id = models.AutoField(primary_key=True)
     number = models.CharField(verbose_name="Numer zamówienia", max_length=64)
     status = models.IntegerField(verbose_name="Status zamówienia",
                                  choices=ORDER_STATUS,
