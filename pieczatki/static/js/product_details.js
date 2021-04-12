@@ -31,8 +31,10 @@ $(document).ready(function () {
             },
         }).done(function (result) {
             var result_js = $.parseJSON(result);
-            total_price.text(result_js['total']);
-            total_price_modal.text(result_js['total']);
+            var result_total = result_js['total'];
+            result_total = result_total.toFixed(2);
+            total_price.text(result_total);
+            total_price_modal.text(result_total);
             len.text(result_js['len'] + 'szt.');
             len_modal.text(result_js['len']);
             in_stock = result_js['in_stock'];
