@@ -36,13 +36,13 @@ class Cart(object):
         """
         Dodanie produktu do koszyka lub edycja parametrów
         """
-        product = str(product.id)
+        product_id = str(product.id)
         if product not in self.cart:
-            self.cart[product] = {
+            self.cart[product_id] = {
                 'quantity': 0,
                 'price': str(product.price),
                 'discount': str(discount),
-                'info': str(info),
+                'info': str(product.info),
             }
         if price:
             self.cart[product_id]['price'] = float(price)
@@ -51,9 +51,9 @@ class Cart(object):
         if update_quantity:
             self.cart[product_id]['quantity'] = int(quantity)
         else:
-            self.cart[product]['quantity'] += int(quantity)
+            self.cart[product_id]['quantity'] += int(quantity)
         if info:
-            self.cart[product]['info'] = info
+            self.cart[product_id]['info'] = info
 
         self.save()
 
@@ -64,9 +64,9 @@ class Cart(object):
         """
         Usuwanie produktu z koszyka
         """
-        product = str(product.id)
+        product_id = str(product.id)
         if product in self.cart:
-            del self.cart[product]
+            del self.cart[product_id]
             self.save()
 
     def get_total_price(self):
@@ -74,14 +74,15 @@ class Cart(object):
         Obliczanie wartości koszyka wraz z rabatem
         """
 
-        # item['price'] = (
-        #     ((100 - item['discount']) / 100) + item['extra_price'])
-        return sum(
+        # item['price'] = (((100 - item['discount']) / 100) +
+        #                  item['extra_price'])
+        _sum = sum(
             round(
                 Decimal((float(item['price'] * (float(
                     (100 - float(item['discount'])) / 100)))) *
                         int(item['quantity'])), 2)
             for item in self.cart.values())
+        return Decimal(_sum)
 
     def __iter__(self):
         """
@@ -90,15 +91,15 @@ class Cart(object):
         products_ids = self.cart.keys()
         products = ProductCopy.objects.filter(pk__in=products_ids)
         cart = self.cart.copy()
-
         for product in products:
             cart[str(product.id)]['product'] = product
 
         for item in cart.values():
             item['price'] = Decimal(item['price'])
-            item['discount'] = item['discount']
-            item['total_price'] = item['quantity'] * (
-                (item['price'] * (100 - int(item['discount'] / 100))))
+            item['discount'] = int(item['discount'])
+            # item['total_price'] = int(item['quantity']) * (
+            #     (item['price'] * (100 - item['discount'] / 100)))
+            item['total_price'] = (int(item['quantity']) * (item['price']), 2)
             yield item
 
     def len(self):

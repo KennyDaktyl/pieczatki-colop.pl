@@ -1,10 +1,11 @@
 STAMP_COLORS = (
-    (0, 'Czarne'),
-    (1, 'Czerwone'),
-    (2, 'Niebieskie'),
-    (3, 'Zielone'),
-    (4, 'Fioletowe'),
+    (1, 'Czarne'),
+    (2, 'Czerwone'),
+    (3, 'Niebieskie'),
+    (4, 'Zielone'),
+    (5, 'Fioletowe'),
 )
+STAMP_COLORS = sorted(STAMP_COLORS)
 
 STAMP_COLORS_TEXT = (
     (0, 'text-dark'),

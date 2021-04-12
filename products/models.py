@@ -268,7 +268,11 @@ class Products(models.Model):
     name = models.CharField(verbose_name="Nazwa produktu", max_length=128)
     qty = models.IntegerField(default=1,
                               verbose_name="Ilość produktu na stanie")
-    size = models.ManyToManyField('Size', verbose_name="Rozmiar", blank=True)
+    size = models.ForeignKey('Size',
+                             on_delete=models.CASCADE,
+                             verbose_name="Rozmiar",
+                             null=True,
+                             blank=True)
     desc = models.TextField(verbose_name="Produkt info", blank=True, null=True)
     slug = models.SlugField(verbose_name="Slug",
                             blank=True,
@@ -345,7 +349,7 @@ class Products(models.Model):
         verbose_name_plural = "Produkty"
 
     def __str__(self):
-        return "{} ({})".format(self.name, self.size.name)
+        return "{} ({})".format(self.name, self.size)
 
 
 class Images(models.Model):

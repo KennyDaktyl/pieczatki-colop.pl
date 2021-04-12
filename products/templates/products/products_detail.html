@@ -14,7 +14,7 @@
 <meta property="og:image" content="" />
 <meta property="og:description" content="{{page.description}}" />
 <meta name="description" content="{{page.description}}">
-<link rel="canonical" href="https://pieczatki-colop.com/pieczatki/">
+<link rel="canonical" href="{{cannonical}}">
 {% endblock %}
 
 {% block title %}
@@ -82,8 +82,8 @@
                 </div>
                 <div class="col-lg-7 row m-0 p-0">
                     <div class="col-12 m-0 p-0 mx-auto row d-flex align-items-center">
-                        <a href="" class="mx-auto text-left mt-2 p-0" title="Link do produktu {{object.name}}">
-                            <p class="col-12 mx-auto text-center">{{object.name}}</p>
+                        <a href="" class="mx-auto text-left mt-2 m-0 p-0" title="Link do produktu {{object.name}}">
+                            <p class="col-12 mx-auto text-center m-0 p-1 product_title">{{object.name}}</p>
                         </a>
                     </div>
                     {% thumbnail object.brand.logo "50" crop='center' format="WEBP"  as im %}
@@ -98,63 +98,69 @@
                 <div class="col-lg-2 m-0 p-0 row">
                     <small class="col-12 mt-2 p-0 text-right">ID:{{object.id}}</small>
                 </div>
-                <div class="col-12 row m-0 p-0 mt-2">
-                    <div class="col-lg-6 m-0 p-0 mt-2 row d-flex align-items-center">
-                        <strong class="m-0 p-0 text-left">Kolor obudowy: </strong><span
-                            class="ml-2 {{object.color.class_text}}">{{object.color.name}}</span>
-                        <div class="col-12 row m-0 p-0 ">
-                            <strong class="m-0 p-0 text-left">Inne kolory dostępne:</strong>
-                            {% for other in object.other_colors %}
-                            <a
-                                href="{% url 'product_details' category=object.category.slug product=object.slug color=other.color.slug store=object.store.slug pk=other.pk %}">
-                                <small class="{{other.color.class_text}} m-1">{{other.color.name}}</small>
-                            </a>
-                            {% empty %}
-                            <small class="col-12 m-0 p-0 text-left">Brak innych kolorów</small>
-                            {% endfor %}
-                        </div>
+                <form action="{% url 'add_products' %}" method="POST" class="col-12 row m-0 p-0">
+                    {% csrf_token %}
+                    <input type="hidden" name="" id="prod_id" value="{{object.id}}">
+                    <div class="col-12 row m-0 p-0 mt-2">
+                        <div class="col-lg-6 m-0 p-0 mt-2 row d-flex align-items-center">
+                            <strong class="m-0 p-0 text-left">Kolor obudowy: </strong><span
+                                class="ml-2 {{object.color.class_text}}">{{object.color.name}}</span>
+                            <div class="col-12 row m-0 p-0 ">
+                                <strong class="m-0 p-0 text-left">Inne kolory dostępne:</strong>
+                                {% for other in object.other_colors %}
+                                <a
+                                    href="{% url 'product_details' category=object.category.slug product=object.slug color=other.color.slug store=object.store.slug pk=other.pk %}">
+                                    <small class="{{other.color.class_text}} m-1">{{other.color.name}}</small>
+                                </a>
+                                {% empty %}
+                                <small class="col-12 m-0 p-0 text-left">Brak innych kolorów</small>
+                                {% endfor %}
+                            </div>
 
-                    </div>
-                    <div class="col-lg-6 m-0 p-0 row text-right mt-2">
-                        <strong class="m-0 p-0 text-right col-12">Kolory odbicia:</strong>
-                        <form action="" class="text-right m-0 p-0 ml-auto row">
-                            <select name="color_s" class="custom-select" id="inputGroupSelect01">
-                                <option selected class="text-dark">Czarny</option>
-                                <option value="1" class="text-primary">Niebieski</option>
-                                <option value="2" class="text-danger">Czerwony</option>
-                                <option value="3" class="text-warning">Żółty</option>
+                        </div>
+                        <div class="col-lg-6 m-0 p-0 row text-right mt-2">
+                            <strong class="m-0 p-0 text-right col-12">Kolory odbicia:</strong>
+                            <select name="color_s" class="custom-select col-lg-6 ml-auto" id="color_s">
+                                {% for k,v in colors %}
+                                <option value="{{k}}" class="text-dark">{{v}}</option>
+                                {% endfor %}
                             </select>
-                        </form>
+                        </div>
                     </div>
-                </div>
-                <div class="col-12 row m-0 p-0 mt-2 d-flex align-items-center">
-                    <div class="col-6 row m-0 p-0 d-flex align-items-start">
-                        {% if object.price_promo %}
-                        <del class="text-dark m-0 p-0 mr-auto text-left"
-                            data-ng-bind-html="discount | currency_format">{{object.price}} zł</del>
-                        <span class="mr-1">Cena promo:</span>
-                        <p class="font-weight-bold text-danger m-0 p-0 mr-auto text-left">{{object.price_promo}} zł</p>
-                        <small class="m-0 p-0 col-12 text-left">Netto: {{object.price_netto}} + VAT 23%</small>
-                        {% else %}
-                        <span class="mr-1">Cena:</span>
-                        <p class="font-weight-bold text-danger m-0 p-0 mr-auto text-left">{{object.price}} zł</p>
-                        <small class="m-0 p-0 col-12 text-left">Netto: {{object.price_netto}} + VAT 23%</small>
-                        {% endif %}
+                    <div class="col-12 row m-0 p-0 mt-2 d-flex align-items-center">
+                        <div class="col-6 row m-0 p-0 d-flex align-items-start">
+                            {% if object.price_promo %}
+                            <del class="text-dark m-0 p-0 mr-auto text-left"
+                                data-ng-bind-html="discount | currency_format">{{object.price}} zł</del>
+                            <span class="mr-1">Cena promo:</span>
+                            <p class="font-weight-bold text-danger m-0 p-0 mr-auto text-left">{{object.price_promo}} zł
+                            </p>
+                            <small class="m-0 p-0 col-12 text-left">Netto: {{object.price_netto}} + VAT 23%</small>
+                            {% else %}
+                            <span class="mr-1">Cena:</span>
+                            <p class="font-weight-bold text-danger m-0 p-0 mr-auto text-left">{{object.price}} zł</p>
+                            <small class="m-0 p-0 col-12 text-left">Netto: {{object.price_netto}} + VAT 23%</small>
+                            {% endif %}
+                        </div>
+                        {% if object.qty > 0 %}
+                        <div class="col-6 m-0 p-0 text-right row d-flex justify-content-end">
+                            <div class="col-12 text-right m-0 p-0 row d-flex justify-content-end">
+                                <small class="text-success pr-1">Dostępny:</small>
+                                <small id="in_stock_info" class="text-success pr-1">{{object.qty}}szt.</small>
+                            </div>
+                            <input id="qty" type="number" name="qty" value="1" min="1" max="{{object.qty}}">
+                            <span class="input-group-append" data-toggle="modal"
+                                data-target="#exampleModal{{object.id}}">
+                                <button id="add_product" class="btn btn-secondary stash" type="button"
+                                    data-action="add">
+                                    <i class="basket fa fa-cart-plus"></i></button>
+                            </span>
+                        </div>
                     </div>
-                    {% if object.qty > 0 %}
-                    <form class="col-6 m-0 p-0 text-right row d-flex justify-content-end" action="">
-                        <small class="col-12 text-success ml-auto pr-1">Dostępny: {{object.qty}}szt.</small>
-                        {% csrf_token %}
-                        <input id="" type="number" name="qty" value="1" min="1" max="{{object.qty}}">
-                        <span class="input-group-append" data-toggle="modal" data-target="#exampleModal{{object.id}}">
-                            <button class="btn btn-secondary stash" type="button" data-action="add">
-                                <i class="basket fa fa-cart-plus"></i> </button>
-                        </span>
-                    </form>
                     <div class="modal fade" id="exampleModal{{object.id}}" tabindex="-1" role="dialog"
                         aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
-                            <div class="modal-content p-1 col-12 row mx-auto">
+                            <div class="modal-content p-1 col-12">
                                 <div class="modal-header d-flex align-items-center row">
                                     <div class="col-12 row d-flex align-items-center">
                                         <i class="fas fa-clipboard-check"></i>
@@ -166,28 +172,55 @@
                                         <p class="p-0 m-0 ml-1">{{object.name}}</p>
                                     </div>
                                     <div class="col-12 row d-flex align-items-center">
-                                        <span class="">Obudowa:</span>
+                                        <span class="">Kolor obudowy:</span>
                                         <p class="p-0 m-0 ml-1 {{object.color.class_text}}">{{object.color.name}}</p>
+                                    </div>
+                                    <div class="col-12 row d-flex align-items-center">
+                                        <span class="">Ilość:</span>
+                                        <p id="add_qty" class="p-0 m-0 ml-1"></p>
+                                    </div>
+                                    <div class="col-12 mt-2 mx-auto row d-flex align-items-center">
+                                        <span class="basket">KOSZYK</span><br>
+                                        <button type="button" class="btn btn-primary ml-auto col-5 m-1 p-1 row">
+                                            <i class="text-center mx-auto text-white fas fa-shopping-basket"></i>
+                                            Koszyk
+                                        </button>
+                                    </div>
+                                    <div class="col-12 mt-2 row d-flex align-items-center">
+                                        <span class="">Ilość produktów w koszyku:</span>
+                                        <p id="len_modal" class="p-0 m-0 ml-1">{{cart|length}}szt.</p>
+                                    </div>
+                                    <div class="col-12 mt-2 row d-flex align-items-center">
+                                        <span class="">Kwota brutto:</span>
+                                        <p id="total_price_modal" class="p-0 m-0 ml-1">{{cart.get_total_price}}</p>
                                     </div>
                                 </div>
                                 <div class="modal-body">
-                                    <div class="col-12 row d-flex align-items-center">
-                                        <span class="">Ilość:</span>
-                                        <p class="p-0 m-0 ml-1 {{object.color.class_text}}">{{object.color.name}}</p>
-                                    </div>
+
                                 </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                <div class="col-12 row m-0 p-0">
+                                    <button type="button"
+                                        class="btn btn-success mx-auto col-5 m-1 p-1">Kontynuuj</button>
+
+                                    <button type="button" class="btn btn-primary mx-auto col-5 m-1 p-1 row">
+                                        <i class="fas fa-cogs"></i>
+                                        <span class="">Utwórz projekt</span>
+                                    </button>
+                                    <button type="button" class="btn btn-secondary ml-auto mx-auto m-1 p-1 col-5"
+                                        data-dismiss="modal">Zamknij</button>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <button type="button" class="btn btn-outline-secondary mt-1">
+                        <i class="fas fa-cogs"></i>
+                        <span class="">Utwórz projekt</span>
+                    </button>
                     {% else %}
                     <small class="text-danger ml-auto pr-1 col-12 text-right">Brak w magazynie</small>
                     <p class="m-0 p-0 mr-auto text-right col-12">Zadzwoń 506 029 980</p>
                     {% endif %}
-                </div>
+                </form>
                 <div class="col-12 mx-auto row m-0 p-0 mt-2">
 
                 </div>
@@ -196,19 +229,19 @@
                 <h2 class="mt-2">Galeria zdjęć produktu</h2>
                 {% for image in object.images %}
                 {% load thumbnail %}
-                    {% thumbnail image.image "1280" crop='center' format="WEBP"  as im %}
-                    <a href="{{ MEDIA_URL }}{{im}}" data-lightbox="{{image.id}}" data-title="{{image.name}}"
-                        class="mx-auto text-center p-0 m-0 mt-2" title="Galeria zdjęć produktu {{object.name}}">
-                        <source srcset="{{ im }}" type="image/webp">
-                        {% thumbnail  image.image "75x75" crop='center' format="WEBP"  as im %}
-                        <source srcset="{{ im }}" type="image/webp" />
-                        <img class="img-fluid mx-auto m-1 border" src="{{ MEDIA_URL }}{{im}}" alt="{{image.alt}}"
-                            title="{{image.title}}">
-                        {% endthumbnail %}
-                    </a>
+                {% thumbnail image.image "1280" crop='center' format="WEBP"  as im %}
+                <a href="{{ MEDIA_URL }}{{im}}" data-lightbox="{{image.id}}" data-title="{{image.name}}"
+                    class="mx-auto text-center p-0 m-0 mt-2" title="Galeria zdjęć produktu {{object.name}}">
+                    <source srcset="{{ im }}" type="image/webp">
+                    {% thumbnail  image.image "75x75" crop='center' format="WEBP"  as im %}
+                    <source srcset="{{ im }}" type="image/webp" />
+                    <img class="img-fluid mx-auto m-1 border" src="{{ MEDIA_URL }}{{im}}" alt="{{image.alt}}"
+                        title="{{image.title}}">
                     {% endthumbnail %}
+                </a>
+                {% endthumbnail %}
                 {% empty %}
-                 <small class="ml-auto pr-1 col-12 text-right">Brak zdjęć</small>
+                <small class="ml-auto pr-1 col-12 text-right">Brak zdjęć</small>
                 {% endfor %}
             </div>
     </main>
@@ -217,5 +250,44 @@
 {% endblock %}
 
 {% block script %}
-
+{% if object.price_promo %}
+<script type="application/ld+json">
+    {
+        "@context": "https://schema.org/",
+        "@type": "Product",
+        "name": "{{object.name}}",
+        "image": "https://{{site}}{{ MEDIA_URL }}{{object.image}}",
+        "description": "{{object.desc}}",
+        "brand": "{{object.category.name}}",
+        "offers": {
+            "@type": "Offer",
+            "url": "https://{{site}}{{object.get_absolute_url}}",
+            "priceCurrency": "PLN",
+            "price": "{{object.price_promo}}",
+            "availability": "https://schema.org/InStock",
+            "itemCondition": "https://schema.org/NewCondition"
+        }
+    }
+</script>
+{% else %}
+<script type="application/ld+json">
+    {
+        "@context": "https://schema.org/",
+        "@type": "Product",
+        "name": "{{object.name}}",
+        "image": "https://{{site}}{{ MEDIA_URL }}{{object.image}}",
+        "description": "{{object.desc}}",
+        "brand": "{{object.category.name}}",
+        "offers": {
+            "@type": "Offer",
+            "url": "https://{{site}}{{object.get_absolute_url}}",
+            "priceCurrency": "PLN",
+            "price": "{{object.price}}",
+            "availability": "https://schema.org/InStock",
+            "itemCondition": "https://schema.org/NewCondition"
+        }
+    }
+</script>
+{% endif %}
+<script src="{% static "js/product_details.js" %}" type="text/javascript"></script>
 {% endblock %}

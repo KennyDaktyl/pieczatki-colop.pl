@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 from django.core.mail import send_mail, EmailMessage
 from django.contrib import messages
 from django.conf import settings
+from django.http import HttpResponse
 
 from django.contrib.sites.models import Site
 from django.contrib.sites.shortcuts import get_current_site
@@ -15,6 +16,9 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .forms import ContactForm
 from .models import Pages
 from products.models import Category, Brand, Products
+from products.constants import STAMP_COLORS
+from orders.models import ProductCopy
+from cart.cart import Cart
 
 
 class WelcomeView(View):
@@ -58,7 +62,7 @@ class ProductsListView(ListView):
             toppings = paginator.page(paginator.num_pages)
         context['products'] = products
         context['categorys'] = categorys
-        # context['form'] = CategoryForm2
+        context['colors'] = STAMP_COLORS
         return context
 
 
@@ -68,7 +72,43 @@ class ProductDetailsView(DetailView):
     def get_context_data(self, **kwargs):
         ctx = super(ProductDetailsView, self).get_context_data(**kwargs)
         ctx['categorys'] = Category.objects.filter(is_active=True)
+        site = Site.objects.get(pk=get_current_site(self.request).id)
+        a_url = self.object.get_absolute_url()
+        site = str(Site.objects.get(pk=get_current_site(self.request).id))
+        # scheme = request.scheme
+        scheme = 'https'
+        link = scheme + "://" + site + a_url
+        ctx['site'] = site
+        ctx['link'] = link
+        ctx['cannonical'] = scheme + "://" + site + "/produkty/" + self.object.category.slug + "/" + self.object.slug + "/"
+        ctx['colors'] = STAMP_COLORS
         return ctx
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if self.request.is_ajax():
+            color_s = self.request.POST.get("color_s")
+            # prod_id = self.request.POST.get("prod_id")
+            qty = self.request.POST.get("qty")
+            product = ProductCopy()
+            product.product_id = self.object
+            product.color_text = color_s
+            product.qty = int(qty)
+            product.price = self.object.price
+            if self.object.price_promo:
+                product.price = self.object.price_promo
+            product.save()
+            Cart.add(Cart, product, product.price, product.discount,
+                     product.info, product.qty)
+            print(product)
+            return HttpResponse(True)
+        else:
+            return redirect('product_details',
+                            category=self.object.category.slug,
+                            product=self.object.slug,
+                            color=self.object.color.slug,
+                            store=self.object.store.slug,
+                            pk=self.object.id)
 
 
 class ContactView(View):

@@ -155,25 +155,33 @@ class Orders(models.Model):
 
 class ProductCopy(models.Model):
     id = models.AutoField(primary_key=True)
-    order = models.ForeignKey("Orders",
-                              verbose_name="Relacja do produktu",
-                              on_delete=models.CASCADE,
-                              null=True,
-                              blank=True)
-    product = models.ForeignKey("products.Products",
-                                verbose_name="Relacja do produktu",
-                                on_delete=models.CASCADE)
-    color_text = models.IntegerField(verbose_name="Kolor guzików",
+    order_id = models.ForeignKey("Orders",
+                                 verbose_name="Relacja do zamówienia",
+                                 on_delete=models.CASCADE,
+                                 null=True,
+                                 blank=True)
+    product_id = models.ForeignKey("products.Products",
+                                   verbose_name="Relacja do produktu",
+                                   on_delete=models.CASCADE)
+    color_text = models.IntegerField(verbose_name="Kolor odbicia",
                                      choices=STAMP_COLORS)
-    qty = models.IntegerField(default=1, verbose_name="Ilość pozycji")
+    qty = models.IntegerField(verbose_name="Ilość pozycji")
     price = models.DecimalField(verbose_name="Cena podstawowa",
                                 default=0,
                                 decimal_places=2,
                                 max_digits=7)
+    discount = models.IntegerField(verbose_name="Rabat", default=0)
+    info = models.CharField(verbose_name="Informacje",
+                            max_length=256,
+                            null=True,
+                            blank=True)
 
     class Meta:
-        ordering = ("id", )
+        ordering = ("-id", )
         verbose_name_plural = "Pozycje rachunku"
 
     def __str__(self):
-        return "{}, {}".format(str(self.order), self.product.name)
+        if self.order_id:
+            return "{}, {}".format(str(self.order), self.product.name)
+        else:
+            return "{}".format(self.product_id.name)
