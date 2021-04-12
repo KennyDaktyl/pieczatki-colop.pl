@@ -36,10 +36,12 @@ $(document).ready(function () {
                 },
             }).done(function (result) {
                 var result_js = $.parseJSON(result);
-                total_price.text(result_js['total']);
-                $('#total_price_modal' + prod_id).text(result_js['total']);
+                var result_total = result_js['total'];
+                result_total = result_total.toFixed(2);
+                total_price.text(result_total);
+                $('#total_price_modal' + prod_id).text( result_total);
                 len.text(result_js['len'] + 'szt.');
-                $('#len_modal' + prod_id).text(result_js['len']);
+                $('#len_modal' + prod_id).text(result_total);
                 in_stock = result_js['in_stock'];
                 $('#qty' + prod_id).val(0);
                 $('#qty' + prod_id).attr({
