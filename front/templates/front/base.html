@@ -47,7 +47,8 @@
                 <div class="row d-flex align-items-center mr-1">
                     <div class="m-1 row d-flex align-items-center">
                         <i class="text-center mx-auto text-white fas fa-shopping-basket"></i>
-                        <span class="mr-1 text-white">123,00</span>
+                        <span id="len" class="mr-1 ml-1 text-white">{{cart.len}}szt.</span>
+                        <span id="total_price" class="mr-1 ml-1 text-white">{{cart.get_total_price}}</span>
                         <span class="ml-1 text-white">PLN</span>
                     </div>
                     {% if user.is_authenticated %}

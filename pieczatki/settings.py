@@ -54,7 +54,7 @@ INSTALLED_APPS = [
     'front',
     'products',
     'orders',
-    'card',
+    'cart',
 ]
 CART_SESSION_ID = 'cart'
 SITE_ID = 1
@@ -82,6 +82,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.media',
+                "front.my_context_processor.cart",
                 # 'social.apps.django_app.context_processors.backends',
                 # 'social.apps.django_app.context_processors.login_redirect',
                 # 'social_django.context_processors.backends',  # <--

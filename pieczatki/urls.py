@@ -30,6 +30,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # url(r"^accounts/", include("django.contrib.auth.urls")),
     path('account/', include('account.urls')),
+    path('koszyk/', include('cart.urls')),
     path('', include('front.urls')),
     # path('produkty', include('products.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

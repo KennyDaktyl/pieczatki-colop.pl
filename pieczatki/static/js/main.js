@@ -12,7 +12,8 @@ $(document).ready(function () {
     navbarTogglerDemo03.css('margin-top', link_map_height);
     link_map.css('margin-top', top_height + nav_height+ 15);
     page.css('margin-top', top_height + nav_height + link_map_height + 20);
-    console.log(top_height + nav_height);
+    console.log(top_height + nav_height,top_height + nav_height + link_map_height + 20);
+    console.log(page.css('margin-top'));
     $(window).on('wheel', function (event) {
         if (event.originalEvent.deltaY < 0) {
             top.removeClass('scroll_down');
