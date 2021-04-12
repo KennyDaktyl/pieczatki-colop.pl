@@ -4,6 +4,7 @@ from django.conf.urls import include, url
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.sitemaps.views import sitemap
+from django.views.generic import TemplateView
 
 from front.sitemaps import *
 
@@ -13,7 +14,7 @@ sitemaps = {
     # 'blogs_list': BlogDetailsSiteView,
     # 'blog_details': BlogDetailsSiteView,
     # 'workplace_details': WorkplaceSiteView,
-    # 'product_details_front': ProductSiteView,
+    'product_details': ProductSiteView,
     # 'promo_details': PromoSiteView,
     'static': StaticViewSiteMap,
 }
@@ -22,6 +23,10 @@ urlpatterns = [
     path('sitemap.xml',
          sitemap, {'sitemaps': sitemaps},
          name='django.contrib.sitemaps.views.sitemap'),
+    url(
+        r'^robots\.txt$',
+        TemplateView.as_view(template_name="front/robots.txt",
+                             content_type='text/plain')),
     path('admin/', admin.site.urls),
     # url(r"^accounts/", include("django.contrib.auth.urls")),
     path('account/', include('account.urls')),
