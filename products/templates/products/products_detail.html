@@ -98,7 +98,7 @@
                 <div class="col-lg-2 m-0 p-0 row">
                     <small class="col-12 mt-2 p-0 text-right">ID:{{object.id}}</small>
                 </div>
-                <form action="{% url 'add_products' %}" method="POST" class="col-12 row m-0 p-0">
+                <form id="form" action="{% url 'add_products' %}" method="POST" class="col-12 row m-0 p-0">
                     {% csrf_token %}
                     <input type="hidden" name="" id="prod_id" value="{{object.id}}">
                     <div class="col-12 row m-0 p-0 mt-2">
@@ -148,10 +148,10 @@
                                 <small class="text-success pr-1">Dostępny:</small>
                                 <small id="in_stock_info" class="text-success pr-1">{{object.qty}}szt.</small>
                             </div>
-                            <input id="qty" type="number" name="qty" value="1" min="1" max="{{object.qty}}">
-                            <span class="input-group-append" data-toggle="modal"
+                            <input id="qty" type="number" name="qty" value="0" min="0" max="{{object.qty}}">
+                            <span id="add_product" class="input-group-append" data-toggle="modal"
                                 data-target="#exampleModal{{object.id}}">
-                                <button id="add_product" class="btn btn-secondary stash" type="button"
+                                <button  class="btn btn-secondary stash" type="button"
                                     data-action="add">
                                     <i class="basket fa fa-cart-plus"></i></button>
                             </span>

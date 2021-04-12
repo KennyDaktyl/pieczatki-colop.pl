@@ -105,7 +105,7 @@
                         <small class="col-12 m-0 p-0 text-right">Szczegóły</small>
                     </a>
                 </div>
-                <form action="{% url 'add_products' %}" method="POST" class="col-12 row m-0 p-0">
+                <form action="{% url 'add_products' %}" method="POST" class="col-12 row m-0 p-0 form">
                     {% csrf_token %}
                     <input type="hidden" name="prod_id" id="prod_id{{prod.id}}" value="{{prod.id}}">
                     <div class="col-12 row m-0 p-0 mt-2">
