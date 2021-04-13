@@ -3,6 +3,7 @@ from decimal import Decimal
 from datetime import datetime
 from django.conf import settings
 from orders.models import ProductCopy
+from orders.serializers import ProductCopySerializer
 
 # def new_number(store):
 #     year = datetime.now().year
@@ -90,7 +91,8 @@ class Cart(object):
         products = ProductCopy.objects.filter(pk__in=products_ids)
         cart = self.cart.copy()
         for product in products:
-            cart[str(product.id)]['product'] = product
+            product_serial = ProductCopySerializer(product)
+            cart[str(product.id)]['product'] = product_serial.data
 
         for item in cart.values():
             item['price'] = round(float(item['price']), 2)
