@@ -93,8 +93,15 @@ class Cart(object):
         for product in products:
             product_serial = ProductCopySerializer(product)
             cart[str(product.id)]['product'] = product_serial.data
+            # cart[str(product.id)]['product'] = product
 
         for item in cart.values():
+            # item['image'] = str(item['product']['image']).replace(
+            #     '/media', '')
+            image = (item['product']['product_id']['image']).replace(
+                '/media/', '')
+            print(image)
+            item['image'] = image
             item['price'] = round(float(item['price']), 2)
             item['price_netto'] = round(
                 float(item['price'] / float("1." + "23")), 2)
@@ -103,6 +110,7 @@ class Cart(object):
             #     (item['price'] * (100 - item['discount'] / 100)))
             item['total_price'] = round(
                 float(int(item['quantity']) * float((item['price']))), 2)
+            print(item['total_price'])
             yield item
 
     def len(self):
