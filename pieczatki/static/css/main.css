@@ -283,6 +283,11 @@ table {
     color: black;
 }
 
+.table small {
+    font-size: 11px;
+    color: black;
+}
+
 .table p:hover {
     color: #ff8d1e;
 }
