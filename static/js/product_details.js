@@ -33,15 +33,15 @@ $(document).ready(function () {
             var result_js = $.parseJSON(result);
             var result_total = result_js['total'];
             result_total = result_total.toFixed(2);
-            total_price.text(result_total);
-            total_price_modal.text(result_total);
+            total_price.text(result_total+' PLN');
+            total_price_modal.text(result_total+' PLN');
             len.text(result_js['len'] + 'szt.');
             len_modal.text(result_js['len']);
             in_stock = result_js['in_stock'];
-            $('#qty').val(0);
+            $('#qty').val(1);
             $('#qty').attr({
                 "max": in_stock,
-                "min": 0
+                "min": 1
             });
             $('#in_stock_info').text(in_stock + 'szt.');
             $('#add_qty').text(qty + 'szt.');
