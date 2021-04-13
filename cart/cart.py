@@ -93,15 +93,14 @@ class Cart(object):
             cart[str(product.id)]['product'] = product
 
         for item in cart.values():
-            item['price'] = round(Decimal(float(item['price'])), 2)
+            item['price'] = round(float(item['price']), 2)
             item['price_netto'] = round(
-                float(item['price'] / Decimal("1." + "23")), 2)
+                float(item['price'] / float("1." + "23")), 2)
             item['discount'] = int(item['discount'])
             # item['total_price'] = int(item['quantity']) * (
             #     (item['price'] * (100 - item['discount'] / 100)))
             item['total_price'] = round(
-                Decimal(int(item['quantity']) * float((item['price']))), 2)
-            print(item['total_price'])
+                float(int(item['quantity']) * float((item['price']))), 2)
             yield item
 
     def len(self):
