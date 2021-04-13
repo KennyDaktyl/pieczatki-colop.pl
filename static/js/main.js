@@ -2,12 +2,18 @@ $(document).ready(function () {
     var top = $('#top');
     var nav = $('#nav');
     var page = $('#page');
+    var link_map = $('#link_map');
+    var navbarTogglerDemo03 = $('#navbarTogglerDemo03');
 
     top_height = top.height();
     nav_height = nav.height();
+    link_map_height = link_map.height();
     nav.css('margin-top', top_height);
-    page.css('margin-top', top_height + nav_height + 20);
-    console.log(top_height + nav_height);
+    navbarTogglerDemo03.css('margin-top', link_map_height);
+    link_map.css('margin-top', top_height + nav_height+ 15);
+    page.css('margin-top', top_height + nav_height + link_map_height + 20);
+    console.log(top_height + nav_height,top_height + nav_height + link_map_height + 20);
+    console.log(page.css('margin-top'));
     $(window).on('wheel', function (event) {
         if (event.originalEvent.deltaY < 0) {
             top.removeClass('scroll_down');
@@ -48,6 +54,6 @@ $(document).ready(function () {
     var basket_div = $('#basket_div');
     dropdown_basket.click(function () {
         basket_div.toggleClass('show');
-        
+
     });
 })

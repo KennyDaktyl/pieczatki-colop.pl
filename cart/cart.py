@@ -36,26 +36,27 @@ class Cart(object):
         """
         Dodanie produktu do koszyka lub edycja parametrów
         """
-        product_id = str(product.id)
-        if product not in self.cart:
-            self.cart[product_id] = {
-                'quantity': 0,
-                'price': str(product.price),
-                'discount': str(discount),
-                'info': str(product.info),
-            }
-        if price:
-            self.cart[product_id]['price'] = float(price)
-        if discount:
-            self.cart[product_id]['discount'] = float(discount)
-        if update_quantity:
-            self.cart[product_id]['quantity'] = int(quantity)
-        else:
-            self.cart[product_id]['quantity'] += int(quantity)
-        if info:
-            self.cart[product_id]['info'] = info
+        if quantity > 0 and quantity <= product.product_id.qty:
+            product_id = str(product.id)
+            if product not in self.cart:
+                self.cart[product_id] = {
+                    'quantity': 0,
+                    'price': str(product.price),
+                    'discount': str(discount),
+                    'info': str(product.info),
+                }
+            if price:
+                self.cart[product_id]['price'] = float(price)
+            if discount:
+                self.cart[product_id]['discount'] = float(discount)
+            if update_quantity:
+                self.cart[product_id]['quantity'] = int(quantity)
+            else:
+                self.cart[product_id]['quantity'] += int(quantity)
+            if info:
+                self.cart[product_id]['info'] = info
 
-        self.save()
+            self.save()
 
     def save(self):
         self.session.modified = True
@@ -65,7 +66,7 @@ class Cart(object):
         Usuwanie produktu z koszyka
         """
         product_id = str(product.id)
-        if product in self.cart:
+        if product_id in self.cart:
             del self.cart[product_id]
             self.save()
 
@@ -76,13 +77,10 @@ class Cart(object):
 
         # item['price'] = (((100 - item['discount']) / 100) +
         #                  item['extra_price'])
-        _sum = sum(
-            round(
-                Decimal((float(item['price'] * (float(
-                    (100 - float(item['discount'])) / 100)))) *
-                        int(item['quantity'])), 2)
-            for item in self.cart.values())
-        return Decimal(_sum)
+        _sum = sum((float(item['price']) *
+                    (float((100 - float(item['discount'])) / 100)) *
+                    int(item['quantity'])) for item in self.cart.values())
+        return round(float(_sum), 2)
 
     def __iter__(self):
         """
@@ -95,11 +93,15 @@ class Cart(object):
             cart[str(product.id)]['product'] = product
 
         for item in cart.values():
-            item['price'] = Decimal(item['price'])
+            item['price'] = round(Decimal(float(item['price'])), 2)
+            item['price_netto'] = round(
+                float(item['price'] / Decimal("1." + "23")), 2)
             item['discount'] = int(item['discount'])
             # item['total_price'] = int(item['quantity']) * (
             #     (item['price'] * (100 - item['discount'] / 100)))
-            item['total_price'] = (int(item['quantity']) * (item['price']), 2)
+            item['total_price'] = round(
+                Decimal(int(item['quantity']) * float((item['price']))), 2)
+            print(item['total_price'])
             yield item
 
     def len(self):

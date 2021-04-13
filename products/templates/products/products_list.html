@@ -23,7 +23,7 @@
 
 {% block content %}
 <nav id="link_map" aria-label="breadcrumb" class="col-12 bg-white mx-auto d-md-none row fixed-top">
-    <li class="breadcrumb-item text-dark"><a href="{% url 'welcome' %}" class="text-dark">Strona startowa</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'welcome' %}">Strona startowa</a></li>
     <li class="breadcrumb-item text-dark active" aria-current="page">Pieczątki</li>
 </nav>
 
@@ -55,7 +55,7 @@
         <ul class="nav cat_nav">
             {% for cat in categorys %}
             <li class="nav-item dropdown-submenu ">
-                <a class="nav-link text-left" href="">{{cat.name}}</a>
+                <a class="nav-link text-left" href="{% url 'category_details' category=cat.slug pk=cat.id %}">{{cat.name}}</a>
             </li>
             {% endfor %}
         </ul>
@@ -85,7 +85,7 @@
                     <div class="col-12 m-0 p-0 mx-auto row d-flex align-items-center">
                         <a href="{% url 'product_details' category=prod.category.slug product=prod.slug color=prod.color.slug store=prod.store.slug pk=prod.pk %}"
                             class="mx-auto text-left mt-2 p-0" title="Link do produktu {{prod.name}}">
-                            <p class="col-12 mx-auto text-center">{{prod.name}}</p>
+                            <p class="col-12 mx-auto text-center product_title m-0 p-0">{{prod.name}}</p>
                         </a>
                     </div>
                     {% thumbnail prod.brand.logo "50" crop='center' format="WEBP"  as im %}
@@ -154,7 +154,7 @@
                         <div class="col-6 m-0 p-0 text-right row d-flex justify-content-end">
                             <div class="col-12 text-right m-0 p-0 row d-flex justify-content-end">
                                 <small class="text-success pr-1">Dostępny:</small>
-                                <small id="in_stock_info{{prod.id}}" class="text-success pr-1">{{prod.qty}}szt.</small>
+                                <!-- <small id="in_stock_info{{prod.id}}" class="text-success pr-1">{{prod.qty}}szt.</small> -->
                             </div>
                             <input id="qty{{prod.id}}" type="number" name="qty" value="1" min="1" max="{{prod.qty}}">
                             <span class="input-group-append" data-toggle="modal" data-target="#exampleModal{{prod.id}}">

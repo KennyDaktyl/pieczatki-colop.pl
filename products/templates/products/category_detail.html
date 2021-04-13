@@ -1,0 +1,297 @@
+{% extends 'front/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% crispy form.helper %}
+{% load templatetag %}
+{% load thumbnail %}
+
+
+{% block head %}
+<meta property="fb:app_id" content="{{app_id}}" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="{{request.build_absolute_uri}}" />
+<meta property="og:title" content="{{page.title}}" />
+<meta property="og:image" content="" />
+<meta property="og:description" content="{{page.description}}" />
+<meta name="description" content="{{page.description}}">
+<link rel="canonical" href="{{cannonical}}">
+{% endblock %}
+
+{% block title %}
+{{page.title}}
+{% endblock %}
+
+{% block content %}
+<nav id="link_map" aria-label="breadcrumb" class="col-12 bg-white mx-auto d-md-none row fixed-top">
+    <li class="breadcrumb-item"><a href="{% url 'welcome' %}" >Strona startowa</a></li>
+    <li class="breadcrumb-item text-dark active" aria-current="page">Pieczątki</li>
+</nav>
+
+<div class="col-12 mx-auto text-center m-0 p-0 row d-flex align-items-center motto">
+    {% thumbnail "images/bcg-stamp_LrTJcQE_YRKH6ut.webp" "590x300" crop='center' format="WEBP"  as im %}
+    <img src="{{ MEDIA_URL }}{{im}}" class="img-fluid mx-auto text-center d-sm-none"
+        title="Prezentacja graficzna sklepu z pieczątki Colop" alt="Prezentacja graficzna sklepu z pieczątki Colop">
+    {% endthumbnail %}
+    {% thumbnail "images/bcg-stamp_LrTJcQE_YRKH6ut.webp" "720x300" crop='center' format="WEBP"  as im %}
+    <img src="{{ MEDIA_URL }}{{im}}" class="img-fluid mx-auto text-center d-none d-sm-block d-md-none"
+        title="Prezentacja graficzna sklepu z pieczątki Colop" alt="Prezentacja graficzna sklepu z pieczątki Colop">
+    {% endthumbnail %}
+    {% thumbnail "images/bcg-stamp_LrTJcQE_YRKH6ut.webp" "1280x350" crop='center' format="WEBP"  as im %}
+    <img src="{{ MEDIA_URL }}{{im}}" class="img-fluid mx-auto text-center d-none d-md-block d-lg-none"
+        title="Prezentacja graficzna sklepu z pieczątki Colop" alt="Prezentacja graficzna sklepu z pieczątki Colop">
+    {% endthumbnail %}
+    {% thumbnail "images/bcg-stamp_LrTJcQE_YRKH6ut.webp" "1480x250" crop='center' format="WEBP"  as im %}
+    <img src="{{ MEDIA_URL }}{{im}}" class="img-fluid mx-auto text-center d-none d-lg-block col-12 m-0 p-0"
+        title="Prezentacja graficzna sklepu z pieczątki Colop" alt="Prezentacja graficzna sklepu z pieczątki Colop">
+    {% endthumbnail %}
+</div>
+
+<div class="col-lg-8 mx-auto text-center mt-3 pt-0 row d-flex align-items-start">
+    <div class="col-lg-3 row m-0 p-0 border">
+        <div class="col-12 m-0 p-0 bg-dark row d-flex align-items-center cat_nav">
+            <i class="fas fa-list text-white mr-2 ml-1"></i>
+            <a href="{% url 'products_list' %}" class="m-0 p-0">
+                <p class="text-center card-header">KATEGORIE</p>
+            </a>
+        </div>
+        <ul class="nav cat_nav">
+            <form action="" class="m-0 p-0 col-12">
+                {% for cat in categorys %}
+                <li class="nav-item dropdown-submenu ">
+                    {% if object.id == cat.id %}
+                    <a class="nav-link text-left font-weight-bold"
+                        href="{% url 'category_details' category=cat.slug pk=cat.id %}">{{cat.name}}</a>
+                    {% else %}
+                    <a class="nav-link text-left"
+                        href="{% url 'category_details' category=cat.slug pk=cat.id %}">{{cat.name}}</a>
+                    {% endif %}
+                </li>
+                {% endfor %}
+            </form>
+        </ul>
+    </div>
+    <main class="col-lg-8 mx-auto row">
+        <section class="product-container row mx-auto">
+            <div class="text-left headline m-1 mb-2">
+                <h1 class="mt-2">KATEGORIA: {{object.name}}</h1>
+            </div>
+            {% for prod in products %}
+            <article class="product-list-item col-10 col-lg-12 mt-2 pb-2 row mx-auto border d-flex align-items-start">
+                <div class="col-lg-3 m-0 p-0">
+                    {% load thumbnail %}
+                    {% thumbnail prod.image "1280" crop='center' format="WEBP"  as im %}
+                    <a href="{{ MEDIA_URL }}{{im}}" data-lightbox="{{prod.id}}" data-title="{{prod.name}}"
+                        class="mx-auto text-center p-0 m-0 mt-2" title="Link do dużego zdcjęcia {{prod.name}}">
+                        <source srcset="{{ im }}" type="image/webp">
+                        {% thumbnail  prod.image "75x75" crop='center' format="WEBP"  as im %}
+                        <source srcset="{{ im }}" type="image/webp" />
+                        <img class="img-fluid mx-auto m-1" src="{{ MEDIA_URL }}{{im}}" alt="{{prod.alt}}"
+                            title="{{prod.title}}">
+                        {% endthumbnail %}
+                    </a>
+                    {% endthumbnail %}
+                </div>
+                <div class="col-lg-7 row m-0 p-0">
+                    <div class="col-12 m-0 p-0 mx-auto row d-flex align-items-center">
+                        <a href="{% url 'product_details' category=prod.category.slug product=prod.slug color=prod.color.slug store=prod.store.slug pk=prod.pk %}"
+                            class="mx-auto text-left mt-2 p-0" title="Link do produktu {{prod.name}}">
+                            <p class="col-12 mx-auto text-center product_title  m-0 p-0">{{prod.name}}</p>
+                        </a>
+                    </div>
+                    {% thumbnail prod.brand.logo "50" crop='center' format="WEBP"  as im %}
+                    <source srcset="{{ im }}" type="image/webp" />
+                    <a href="https://www.colop.pl/" class="col-12 m-0 p-0"
+                        title="Link do firmy {{prod.brand.title}} producenta pieczątek">
+                        <img class="img-fluid mx-auto" src="{{ MEDIA_URL }}{{im}}" alt="{{prod.brand.alt}}"
+                            title="{{prod.brand.title}}">
+                    </a>
+                    {% endthumbnail %}
+                </div>
+                <div class="col-lg-2 m-0 p-0 row">
+                    <small class="col-12 mt-2 p-0 text-right">ID:{{prod.id}}</small>
+                    <a href="{% url 'product_details' category=prod.category.slug product=prod.slug color=prod.color.slug store=prod.store.slug pk=prod.pk %}"
+                        class="col-12 mt-2 p-0 text-right">
+                        <!-- <i class="text-left fas fa-arrow-left col-3 m-0 p-0"></i> -->
+                        <small class="col-12 m-0 p-0 text-right">Szczegóły</small>
+                    </a>
+                </div>
+                <form action="{% url 'add_products' %}" method="POST" class="col-12 row m-0 p-0 form">
+                    {% csrf_token %}
+                    <input type="hidden" name="prod_id" id="prod_id{{prod.id}}" value="{{prod.id}}">
+                    <div class="col-12 row m-0 p-0 mt-2">
+                        <div class="col-lg-6 m-0 p-0 mt-2 row d-flex align-items-center">
+                            <strong class="m-0 p-0 text-left">Kolor obudowy: </strong><span
+                                class="ml-2 {{prod.color.class_text}}">{{prod.color.name}}</span>
+                            <div class="col-12 row m-0 p-0 ">
+                                <strong class="m-0 p-0 text-left">Inne kolory dostępne:</strong>
+                                {% for other in prod.other_colors %}
+                                <a
+                                    href="{% url 'product_details' category=prod.category.slug product=prod.slug color=other.color.slug store=prod.store.slug pk=other.pk %}">
+                                    <small class="{{other.color.class_text}} m-1">{{other.color.name}}</small>
+                                </a>
+                                {% empty %}
+                                <small class="col-12 m-0 p-0 text-left">Brak innych kolorów</small>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="col-lg-6 m-0 p-0 row  text-right mt-2">
+                            <strong class="m-0 p-0 text-right col-12">Kolory odbicia:</strong>
+                            <div class="col-lg-6 m-0 p-0 ml-auto row text-right mt-2">
+                                <select name="color_s" class="custom-select  ml-auto" id="color_s{{prod.id}}">
+                                    {% for k,v in colors %}
+                                    <option value="{{k}}" class="text-dark">{{v}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 row m-0 p-0 mt-2 d-flex align-items-center">
+                        <div class="col-6 row m-0 p-0 d-flex align-items-start">
+                            {% if prod.price_promo %}
+                            <del class="text-dark m-0 p-0 mr-auto text-left"
+                                data-ng-bind-html="discount | currency_format">{{prod.price}} zł</del>
+                            <span class="mr-1">Cena promo:</span>
+                            <p class="font-weight-bold text-danger m-0 p-0 mr-auto text-left">{{prod.price_promo}} zł
+                            </p>
+                            <small class="m-0 p-0 col-12 text-left">Netto: {{prod.price_netto}} + VAT 23%</small>
+                            {% else %}
+                            <span class="mr-1">Cena:</span>
+                            <p class="font-weight-bold text-danger m-0 p-0 mr-auto text-left">{{prod.price}} zł</p>
+                            <small class="m-0 p-0 col-12 text-left">Netto: {{prod.price_netto}} + VAT 23%</small>
+                            {% endif %}
+                        </div>
+                        {% if prod.qty > 0 %}
+                        <div class="col-6 m-0 p-0 text-right row d-flex justify-content-end">
+                            <div class="col-12 text-right m-0 p-0 row d-flex justify-content-end">
+                                <small class="text-success pr-1">Dostępny:</small>
+                                <!-- <small id="in_stock_info{{prod.id}}" class="text-success pr-1">{{prod.qty}}szt.</small> -->
+                            </div>
+                            <input id="qty{{prod.id}}" type="number" name="qty" value="1" min="1" max="{{prod.qty}}">
+                            <span class="input-group-append" data-toggle="modal" data-target="#exampleModal{{prod.id}}">
+                                <button class="add_product btn btn-secondary stash" value="{{prod.id}}" type="button"
+                                    data-action="add">
+                                    <i class="basket fa fa-cart-plus"></i> </button>
+                            </span>
+                        </div>
+                </form>
+                <div class="modal fade" id="exampleModal{{prod.id}}" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content p-1 col-12">
+                            <div class="modal-header d-flex align-items-center row">
+                                <div class="col-12 row d-flex align-items-center">
+                                    <i class="fas fa-clipboard-check"></i>
+                                    <h5 class="modal-title ml-1" id="exampleModalLabel">Produkt dodano do koszyka
+                                    </h5>
+                                </div>
+                                <div class="col-12 row d-flex align-items-center">
+                                    <span class="">Nazwa:</span>
+                                    <p class="p-0 m-0 ml-1">{{prod.name}}</p>
+                                </div>
+                                <div class="col-12 row d-flex align-items-center">
+                                    <span class="">Kolor obudowy:</span>
+                                    <p class="p-0 m-0 ml-1 {{prod.color.class_text}}">{{prod.color.name}}</p>
+                                </div>
+                                <div class="col-12 row d-flex align-items-center">
+                                    <span class="">Ilość:</span>
+                                    <p id="add_qty{{prod.id}}" class="p-0 m-0 ml-1"></p>
+                                </div>
+                                <div class="col-12 mt-2 mx-auto row d-flex align-items-center">
+                                    <span class="basket">KOSZYK</span><br>
+                                    <button type="button" class="btn btn-primary ml-auto col-5 m-1 p-1 row">
+                                        <i class="text-center mx-auto text-white fas fa-shopping-basket"></i>
+                                        Koszyk
+                                    </button>
+                                </div>
+                                <div class="col-12 mt-2 row d-flex align-items-center">
+                                    <span class="">Ilość produktów w koszyku:</span>
+                                    <p id="len_modal{{prod.id}}" class="p-0 m-0 ml-1">{{cart|length}}szt.</p>
+                                </div>
+                                <div class="col-12 mt-2 row d-flex align-items-center">
+                                    <span class="">Kwota brutto:</span>
+                                    <p id="total_price_modal{{prod.id}}" class="p-0 m-0 ml-1">{{cart.get_total_price}}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="modal-body">
+
+                            </div>
+                            <div class="col-12 row m-0 p-0">
+                                <button type="button" class="btn btn-success mx-auto col-5 m-1 p-1">Kontynuuj</button>
+
+                                <button type="button" class="btn btn-primary mx-auto col-5 m-1 p-1 row">
+                                    <i class="fas fa-cogs"></i>
+                                    <span class="">Utwórz projekt</span>
+                                </button>
+                                <button type="button" class="btn btn-secondary ml-auto mx-auto m-1 p-1 col-5"
+                                    data-dismiss="modal">Zamknij</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-outline-secondary mt-1">
+                    <i class="fas fa-cogs"></i>
+                    <span class="">Utwórz projekt</span>
+                </button>
+                {% else %}
+                <small class="text-danger ml-auto pr-1 col-12 text-right">Brak w magazynie</small>
+                <p class="m-0 p-0 mr-auto text-right col-12">Zadzwoń 506 029 980</p>
+                {% endif %}
+            </article>
+            {% empty %}
+            <p class="m-0 p-0 mr-auto text-right col-12">Brak produktów w tej kategorii.</p>
+            {% endfor %}
+        </section>
+    </main>
+</div>
+<div class="col-12 mx-auto row m-0 p-0 mt-2">
+    <div class="col-12 input-group mb-3 mx-auto text-center text-wrap nav-scroller py-1 mb-2 nav_pagi">
+        <div class=""></div>
+        <nav aria-label="..." class="nav d-flex justify-content-center mx-auto text-center">
+            {% if products.has_other_pages %}
+            <ul class="pagination text-dark pagination pagination-lg flex-wrap text-wrap mx-auto text-center">
+                {% if products.has_previous %}
+                <li class="page-item">
+                    <a class="page-link text-dark"
+                        href="?{% query_transform page=products.previous_page_number %}">Poprzednia</a>
+                </li>
+                <li class="page-item"><a class="page-link text-dark"
+                        href="?{% query_transform page=products.previous_page_number %}">&laquo;</a></li>
+                {% else %}
+                <li class="disabled"><span></span></li>
+                {% endif %}
+                {% for i in products.paginator.page_range %}
+                {% if products.number == i %}
+                <li class="page-item text-light text-dark active">
+                    <span class="page-link text-light text-dark">
+                        {{ i }}
+                        <span class="sr-only text-dark">(current)</span>
+                    </span>
+                </li>
+                {% else %}
+                <li class="page-item text-dark"></li><a class="page-link text-dark"
+                    href="?{% query_transform  page=i  %}">{{ i }}</a>
+                </li>
+                {% endif %}
+                {% endfor %}
+                {% if products.has_next %}
+                <li class="page-item text-dark"><a class="page-link text-dark"
+                        href="?{% query_transform page=products.next_page_number %}">&raquo;</a>
+                </li>
+
+                <li class="page-item text-dark ">
+                    <a class="page-link text-dark"
+                        href="?{% query_transform page=products.next_page_number %}">Następna</a>
+                </li>
+                {% else %}
+                <li class="disabled"><span></span></li>
+                {% endif %}
+            </ul>
+            {% endif %}
+        </nav>
+    </div>
+    {% endblock %}
+
+    {% block script %}
+    <script src="{% static "js/products_list.js" %}" type="text/javascript"></script>
+    {% endblock %}

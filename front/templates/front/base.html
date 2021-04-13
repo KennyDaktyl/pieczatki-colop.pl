@@ -36,7 +36,7 @@
 </head>
 
 <body class="">
-    <div id="top" class="col-12 row mx-auto text-center m-0 p-0 bg-secondary fixed-top">
+    <div id="top" class="col-12 row mx-auto text-center m-0 p-0 bg-secondary fixed-top top">
         <div class="col-12 m-0 p-0 row d-flex align-items-center">
             <div class="col-12 m-0 p-0 row d-flex justify-content-end">
                 {% if user.is_authenticated %}
@@ -46,9 +46,10 @@
                 {% endif %}
                 <div class="row d-flex align-items-center mr-1">
                     <div class="m-1 row d-flex align-items-center">
+                        <a href="{% url 'cart_details' %}">
                         <i class="text-center mx-auto text-white fas fa-shopping-basket"></i>
                         <span id="len" class="mr-1 ml-1 text-white">{{cart.len}}szt.</span>
-                        <span id="total_price" class="mr-1 ml-1 text-white">{{cart.get_total_price}}</span>
+                        <span id="total_price" class="mr-1 ml-1 text-white">{{cart.get_total_price}} PLN</span>
                         <span class="ml-1 text-white">PLN</span>
                     </div>
                     {% if user.is_authenticated %}
@@ -96,7 +97,10 @@
                 </li>
             </ul>
     </nav>
-    {% if messages %}
+   
+    <div id="page" class="mx-auto p-0 col-12" style="min-height: 101vh;">
+        <div class="row col-12 mx-auto m-0 p-0">
+             {% if messages %}
     <ul class="messages col-12 mt-2 bg-warning">
         {% for message in messages %}
         <li class="{{ message.tags }} col-10 mx-auto text-center">
@@ -106,8 +110,6 @@
         {% endfor %}
     </ul>
     {% endif %}
-    <div id="page" class="mx-auto p-0 col-12" style="min-height: 101vh;">
-        <div class="row col-12 mx-auto m-0 p-0">
             {% block content %}
             {% endblock %}
         </div>

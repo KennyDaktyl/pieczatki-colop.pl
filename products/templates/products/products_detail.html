@@ -23,7 +23,7 @@
 
 {% block content %}
 <nav id="link_map" aria-label="breadcrumb" class="col-12 bg-white mx-auto d-md-none row fixed-top">
-    <li class="breadcrumb-item text-dark"><a href="{% url 'welcome' %}" class="text-dark">Strona startowa</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'welcome' %}">Strona startowa</a></li>
     <li class="breadcrumb-item text-dark active" aria-current="page">Pieczątki</li>
 </nav>
 
@@ -55,7 +55,7 @@
         <ul class="nav cat_nav">
             {% for cat in categorys %}
             <li class="nav-item dropdown-submenu ">
-                <a class="nav-link text-left" href="">{{cat.name}}</a>
+                <a class="nav-link text-left" href="{% url 'category_details' category=cat.slug pk=cat.id %}">{{cat.name}}</a>
             </li>
             {% endfor %}
         </ul>
@@ -83,7 +83,7 @@
                 <div class="col-lg-7 row m-0 p-0">
                     <div class="col-12 m-0 p-0 mx-auto row d-flex align-items-center">
                         <a href="" class="mx-auto text-left mt-2 m-0 p-0" title="Link do produktu {{object.name}}">
-                            <p class="col-12 mx-auto text-center m-0 p-1 product_title">{{object.name}}</p>
+                            <p class="col-12 mx-auto text-center m-0 p-1 product_title  m-0 p-0">{{object.name}}</p>
                         </a>
                     </div>
                     {% thumbnail object.brand.logo "50" crop='center' format="WEBP"  as im %}
@@ -146,81 +146,84 @@
                         <div class="col-6 m-0 p-0 text-right row d-flex justify-content-end">
                             <div class="col-12 text-right m-0 p-0 row d-flex justify-content-end">
                                 <small class="text-success pr-1">Dostępny:</small>
-                                <small id="in_stock_info" class="text-success pr-1">{{object.qty}}szt.</small>
+                                <!-- <small id="in_stock_info" class="text-success pr-1">{{object.qty}}szt.</small> -->
                             </div>
                             <input id="qty" type="number" name="qty" value="0" min="0" max="{{object.qty}}">
                             <span id="add_product" class="input-group-append" data-toggle="modal"
                                 data-target="#exampleModal{{object.id}}">
-                                <button  class="btn btn-secondary stash" type="button"
-                                    data-action="add">
+                                <button class="btn btn-secondary stash" type="button" data-action="add">
                                     <i class="basket fa fa-cart-plus"></i></button>
                             </span>
                         </div>
                     </div>
-                    <div class="modal fade" id="exampleModal{{object.id}}" tabindex="-1" role="dialog"
-                        aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content p-1 col-12">
-                                <div class="modal-header d-flex align-items-center row">
-                                    <div class="col-12 row d-flex align-items-center">
-                                        <i class="fas fa-clipboard-check"></i>
-                                        <h5 class="modal-title ml-1" id="exampleModalLabel">Produkt dodano do koszyka
-                                        </h5>
-                                    </div>
-                                    <div class="col-12 row d-flex align-items-center">
-                                        <span class="">Nazwa:</span>
-                                        <p class="p-0 m-0 ml-1">{{object.name}}</p>
-                                    </div>
-                                    <div class="col-12 row d-flex align-items-center">
-                                        <span class="">Kolor obudowy:</span>
-                                        <p class="p-0 m-0 ml-1 {{object.color.class_text}}">{{object.color.name}}</p>
-                                    </div>
-                                    <div class="col-12 row d-flex align-items-center">
-                                        <span class="">Ilość:</span>
-                                        <p id="add_qty" class="p-0 m-0 ml-1"></p>
-                                    </div>
-                                    <div class="col-12 mt-2 mx-auto row d-flex align-items-center">
-                                        <span class="basket">KOSZYK</span><br>
-                                        <button type="button" class="btn btn-primary ml-auto col-5 m-1 p-1 row">
-                                            <i class="text-center mx-auto text-white fas fa-shopping-basket"></i>
+                </form>
+                <div class="modal fade" id="exampleModal{{object.id}}" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content p-1 col-12">
+                            <div class="modal-header d-flex align-items-center row">
+                                <div class="col-12 row d-flex align-items-center">
+                                    <i class="fas fa-clipboard-check"></i>
+                                    <h5 class="modal-title ml-1" id="exampleModalLabel">Produkt dodano do koszyka
+                                    </h5>
+                                </div>
+                                <div class="col-12 row d-flex align-items-center">
+                                    <span class="">Nazwa:</span>
+                                    <p class="p-0 m-0 ml-1">{{object.name}}</p>
+                                </div>
+                                <div class="col-12 row d-flex align-items-center">
+                                    <span class="">Kolor obudowy:</span>
+                                    <p class="p-0 m-0 ml-1 {{object.color.class_text}}">{{object.color.name}}</p>
+                                </div>
+                                <div class="col-12 row d-flex align-items-center">
+                                    <span class="">Ilość:</span>
+                                    <p id="add_qty" class="p-0 m-0 ml-1"></p>
+                                </div>
+                                <div class="col-12 mt-2 mx-auto row d-flex align-items-center">
+                                    <span class="basket">KOSZYK</span>
+                                    <a href="{% url 'cart_details' %}" class="row m-0 p-0 ml-auto">
+                                        <button type="button" class="btn btn-outline-success  m-1 p-1 row">
+                                            <i class="text-center mx-auto text-success fas fa-shopping-basket"></i>
                                             Koszyk
                                         </button>
-                                    </div>
-                                    <div class="col-12 mt-2 row d-flex align-items-center">
-                                        <span class="">Ilość produktów w koszyku:</span>
-                                        <p id="len_modal" class="p-0 m-0 ml-1">{{cart|length}}szt.</p>
-                                    </div>
-                                    <div class="col-12 mt-2 row d-flex align-items-center">
-                                        <span class="">Kwota brutto:</span>
-                                        <p id="total_price_modal" class="p-0 m-0 ml-1">{{cart.get_total_price}}</p>
-                                    </div>
+                                    </a>
                                 </div>
-                                <div class="modal-body">
+                                <div class="col-12 mt-2 row d-flex align-items-center">
+                                    <span class="">Ilość produktów w koszyku:</span>
+                                    <p id="len_modal" class="p-0 m-0 ml-1">{{cart|length}}szt.</p>
+                                </div>
+                                <div class="col-12 mt-2 row d-flex align-items-center">
+                                    <span class="">Kwota brutto:</span>
+                                    <p id="total_price_modal" class="p-0 m-0 ml-1">{{cart.get_total_price}}</p>
+                                </div>
+                            </div>
+                            <div class="modal-body">
 
-                                </div>
-                                <div class="col-12 row m-0 p-0">
+                            </div>
+                            <div class="col-12 row m-0 p-0">
+                                <a href="{% url 'products_list' %}" class="col-5 m-0 p-0">
                                     <button type="button"
-                                        class="btn btn-success mx-auto col-5 m-1 p-1">Kontynuuj</button>
-
-                                    <button type="button" class="btn btn-primary mx-auto col-5 m-1 p-1 row">
-                                        <i class="fas fa-cogs"></i>
-                                        <span class="">Utwórz projekt</span>
-                                    </button>
-                                    <button type="button" class="btn btn-secondary ml-auto mx-auto m-1 p-1 col-5"
-                                        data-dismiss="modal">Zamknij</button>
-                                </div>
+                                        class="btn btn-outline-success mx-auto  m-1 p-1">Kontynuuj zakupy</button>
+                                </a>
+                                <button type="button" class="btn btn-outline-secondary mx-auto col-5 m-1 p-1 row">
+                                    <i class="fas fa-cogs"></i>
+                                    <span class="">Utwórz projekt</span>
+                                </button>
+                                <button type="button" class="btn btn-danger ml-auto mx-auto m-1 p-1 col-5"
+                                    data-dismiss="modal">Zamknij</button>
                             </div>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-outline-secondary mt-1">
-                        <i class="fas fa-cogs"></i>
-                        <span class="">Utwórz projekt</span>
-                    </button>
-                    {% else %}
-                    <small class="text-danger ml-auto pr-1 col-12 text-right">Brak w magazynie</small>
-                    <p class="m-0 p-0 mr-auto text-right col-12">Zadzwoń 506 029 980</p>
-                    {% endif %}
-                </form>
+                </div>
+                <button type="button" class="btn btn-outline-secondary mt-1">
+                    <i class="fas fa-cogs"></i>
+                    <span class="">Utwórz projekt</span>
+                </button>
+                {% else %}
+                <small class="text-danger ml-auto pr-1 col-12 text-right">Brak w magazynie</small>
+                <p class="m-0 p-0 mr-auto text-right col-12">Zadzwoń 506 029 980</p>
+                {% endif %}
+
                 <div class="col-12 mx-auto row m-0 p-0 mt-2">
 
                 </div>

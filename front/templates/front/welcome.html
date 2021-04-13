@@ -95,7 +95,7 @@
             {% endthumbnail %}
         </div>
         <div class="col-lg-6 m-0 p-0 mt-2 mx-auto text-center d-flex align-items-start row">
-            <a href="" class="col-12 mx-auto text-center mt-2" title="Link do produktów z kategorii {{cat.name}}">
+            <a href="{% url 'category_details' category=cat.slug pk=cat.id %}" class="col-12 mx-auto text-center mt-2" title="Link do produktów z kategorii {{cat.name}}">
                 <h3 class="mx-auto text-center title">{{cat.name}}</h3>
             </a>
             <div class="col-12 mt-2 mx-auto text-center">
@@ -126,17 +126,33 @@
                 <h4 class="mx-auto text-center mt-2 title">Przykładowe produkty z kategorii</h4>
             </div>
             {% for prod in cat.products %}
-            <div class="col-6 col-lg-4 m-0 p-1 border d-flex align-items-start row mt-3">
-                <div class="col-12 m-0 p-0">
-                    {% thumbnail prod.image "350x180" crop='center' format="WEBP"  as im %}
-                    <source srcset="{{ im }}" type="image/webp" />
-                    <img class="img-fluid mx-auto" src="{{ MEDIA_URL }}{{im}}" alt="{{prod.alt}}"
-                        title="{{prod.title}}">
-                    {% endthumbnail %}
-                </div>
+            <div class="col-5 col-sm-3 col-md-2 col-lg-3 m-1 p-1 border d-flex align-items-start row mt-3">
+                <a href="{% url 'product_details' category=prod.category.slug product=prod.slug color=prod.color.slug store=prod.store.slug pk=prod.pk %}"
+                    class="col-12 mx-auto text-center m-0 p-0 mt-2" title="Link do produktu {{prod.name}}">
+                    <div class="d-none d-lg-block col-12 m-0 p-0">
+                        {% thumbnail prod.image "350x180" crop='center' format="WEBP"  as im %}
+                        <source srcset="{{ im }}" type="image/webp" />
+                        <img class="img-fluid mx-auto" src="{{ MEDIA_URL }}{{im}}" alt="{{prod.alt}}"
+                            title="{{prod.title}}">
+                        {% endthumbnail %}
+                    </div>
+                </a>
+                <a href="{% url 'product_details' category=prod.category.slug product=prod.slug color=prod.color.slug store=prod.store.slug pk=prod.pk %}"
+                    class="col-12 mx-auto text-center m-0 p-0 mt-2" title="Link do produktu {{prod.name}}">
+                    <div class="d-block d-lg-none col-12 m-0 p-0">
+                        {% thumbnail prod.image "150x75" crop='center' format="WEBP"  as im %}
+                        <source srcset="{{ im }}" type="image/webp" />
+                        <img class="img-fluid mx-auto" src="{{ MEDIA_URL }}{{im}}" alt="{{prod.alt}}"
+                            title="{{prod.title}}">
+                        {% endthumbnail %}
+
+                    </div>
+                </a>
+
                 <div class="col-12 row m-0 p-0 d-flex align-items-start">
-                    <a href="" class="col-12 mx-auto text-center m-0 p-0 mt-2" title="Link do produktu {{prod.name}}">
-                        <p class="col-12 m-0 p-0 mx-auto text-center font-weight-bold">{{prod.name}}</p>
+                    <a href="{% url 'product_details' category=prod.category.slug product=prod.slug color=prod.color.slug store=prod.store.slug pk=prod.pk %}"
+                        class="col-12 mx-auto text-center m-0 p-0 mt-2" title="Link do produktu {{prod.name}}">
+                        <p class="col-12 m-0 p-0 mx-auto text-center font-weight-bold product_title">{{prod.name}}</p>
                     </a>
                 </div>
                 <div class="col-12 row m-0 p-0 text-center d-flex align-items-start d-flex justify-content-center">
@@ -154,36 +170,33 @@
                     {% endthumbnail %}
                 </div>
                 <small class="col-12 text-center">ID:{{prod.id}}</small>
-                <div class="col-12 row m-0 p-0 mt-2 d-flex align-items-center">
-                    <div class="col-lg-6 row m-0 p-0 pl-1 d-flex align-items-center">
+
+                <div class="col-12 row m-0 p-0 mt-2 d-flex align-items-start">
+                    <div class="col-lg-11 row m-0 p-0 pl-1 d-flex align-items-center">
                         <span class="mr-1">Cena:</span>
                         <p class="font-weight-bold text-danger m-0 p-0 mr-auto text-left">{{prod.price}} zł</p>
                         <small class="m-0 p-0 col-12 text-left">Netto: {{prod.price_netto}} + VAT 23%</small>
                     </div>
-                    <div class="col-lg-6 row m-0 p-0 d-flex justify-content-end">
+                    <div class="col-lg-12 row m-0 p-0 d-flex justify-content-end">
                         {% if prod.qty > 0 %}
-                        <small class="text-success ml-auto pr-1">Dostępny: {{prod.qty}}szt.</small>
-                        <form class="col-12 m-0 p-0 text-right row d-flex justify-content-end" action="">
-                            {% csrf_token %}
-                            <input type="number" name="qty" value="1" min="1" max="{{prod.qty}}">
-                            <span class="input-group-append">
-                                <button class="btn btn-secondary stash" type="button" data-action="add">
-                                    <i class="basket fa fa-cart-plus"></i> </button>
-                            </span>
-                        </form>
+                        <small class="text-success ml-auto">Dostępny</small>
                         {% else %}
                         <small class="text-danger ml-auto pr-1 col-12 text-right">Brak w magazynie</small>
                         <p class="m-0 p-0 mr-auto text-right col-12">Zadzwoń 506 029 980</p>
                         {% endif %}
-
                     </div>
+                    <a href="{% url 'product_details' category=prod.category.slug product=prod.slug color=prod.color.slug store=prod.store.slug pk=prod.pk %}"
+                        class="col-12 mt-2 p-0 text-center a_link">
+                        <!-- <i class="text-left fas fa-arrow-left col-3 m-0 p-0"></i> -->
+                        <small class="col-12 m-0 p-0 text-center">Szczegóły</small>
+                    </a>
                 </div>
             </div>
             {% endfor %}
         </div>
 
         <div class="col-12 mx-auto text-center mt-2 mb-2">
-            <a href="" title="Link do produktów z kategorii {{cat.name}}">
+            <a href="{% url 'category_details' category=cat.slug pk=cat.id %}" title="Link do produktów z kategorii {{cat.name}}">
                 <button class="btn btn-outline-info">Produkty z kategorii</button>
             </a>
         </div>

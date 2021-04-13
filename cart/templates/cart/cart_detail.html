@@ -1,0 +1,152 @@
+{% extends 'front/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% crispy form.helper %}
+{% load templatetag %}
+{% load thumbnail %}
+
+
+{% block head %}
+<meta property="fb:app_id" content="{{app_id}}" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="{{request.build_absolute_uri}}" />
+<meta property="og:title" content="{{page.title}}" />
+<meta property="og:image" content="" />
+<meta property="og:description" content="{{page.description}}" />
+<meta name="description" content="{{page.description}}">
+<link rel="canonical" href="{{cannonical}}">
+{% endblock %}
+
+{% block title %}
+{{page.title}}
+{% endblock %}
+
+{% block content %}
+<nav id="link_map" aria-label="breadcrumb" class="col-12 bg-white mx-auto d-md-none row fixed-top">
+    <li class="breadcrumb-item text-dark"><a href="{% url 'welcome' %}" class="text-dark">Strona startowa</a></li>
+    <li class="breadcrumb-item text-dark active" aria-current="page">Koszyk</li>
+</nav>
+<div class="col-12 mx-auto text-center m-0 p-0 row d-flex align-items-center motto">
+    {% thumbnail "images/bcg-stamp_LrTJcQE_YRKH6ut.webp" "590x300" crop='center' format="WEBP"  as im %}
+    <img src="{{ MEDIA_URL }}{{im}}" class="img-fluid mx-auto text-center d-sm-none"
+        title="Prezentacja graficzna sklepu z pieczątki Colop" alt="Prezentacja graficzna sklepu z pieczątki Colop">
+    {% endthumbnail %}
+    {% thumbnail "images/bcg-stamp_LrTJcQE_YRKH6ut.webp" "720x300" crop='center' format="WEBP"  as im %}
+    <img src="{{ MEDIA_URL }}{{im}}" class="img-fluid mx-auto text-center d-none d-sm-block d-md-none"
+        title="Prezentacja graficzna sklepu z pieczątki Colop" alt="Prezentacja graficzna sklepu z pieczątki Colop">
+    {% endthumbnail %}
+    {% thumbnail "images/bcg-stamp_LrTJcQE_YRKH6ut.webp" "1280x350" crop='center' format="WEBP"  as im %}
+    <img src="{{ MEDIA_URL }}{{im}}" class="img-fluid mx-auto text-center d-none d-md-block d-lg-none"
+        title="Prezentacja graficzna sklepu z pieczątki Colop" alt="Prezentacja graficzna sklepu z pieczątki Colop">
+    {% endthumbnail %}
+    {% thumbnail "images/bcg-stamp_LrTJcQE_YRKH6ut.webp" "1480x250" crop='center' format="WEBP"  as im %}
+    <img src="{{ MEDIA_URL }}{{im}}" class="img-fluid mx-auto text-center d-none d-lg-block col-12 m-0 p-0"
+        title="Prezentacja graficzna sklepu z pieczątki Colop" alt="Prezentacja graficzna sklepu z pieczątki Colop">
+    {% endthumbnail %}
+</div>
+<div class="col-lg-8 mx-auto text-center mt-3 pt-0 row d-flex align-items-start">
+    <div class="col-lg-12 mx-auto row m-0 p-0 border">
+        <div class="col-12 m-0 p-0 bg-dark row d-flex align-items-center">
+            <i class="fas fa-list text-white mr-2 ml-1"></i>
+            <p class="text-center text-white card-header">KATEGORIE</p>
+        </div>
+        <ul class="nav cat_nav">
+             {% for cat in categorys %}
+            <li class="nav-item dropdown-submenu ">
+                <a class="nav-link text-left" href="{% url 'category_details' category=cat.slug pk=cat.id %}">{{cat.name}}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <main class="col-lg-12 mx-auto row">
+        <div class="text-left headline m-1 mb-2">
+            <h1 class="mt-2">SZCZEGÓŁY KOSZYKA:</h1>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col" class="text-center">#</th>
+                    <th scope="col" class="text-center">Foto</th>
+                    <th scope="col" class="text-center th_title">Nazwa produktu</th>
+                    <th scope="col" class="text-center th_qty">ilość</th>
+                    <th scope="col" class="text-center th_price">Cena netto</th>
+                    <th scope="col" class="text-center th_price">Cena brutto</th>
+                    <th scope="col" class="text-center th_price">Wartość brutto</th>
+                    <th scope="col" class="text-center">Usuń</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart_ctx %}
+                <tr id="tr{{item.product.id}}">
+                    <th scope="row" class="text-center">{{ forloop.counter }}</th>
+                    <td class="text-center">
+                        {% load thumbnail %}
+                        {% thumbnail item.product.product_id.image "1280" crop='center' format="WEBP"  as im %}
+                        <a href="{{ MEDIA_URL }}{{im}}" data-lightbox="{{item.product.id}}"
+                            data-title="{{item.product.product_id.name}}" class="mx-auto text-center p-0 m-0 mt-2"
+                            title="Link do dużego zdcjęcia {{prod.name}}">
+                            <source srcset="{{ im }}" type="image/webp">
+                            {% thumbnail item.product.product_id.image "75x75" crop='center' format="WEBP"  as im %}
+                            <source srcset="{{ im }}" type="image/webp" />
+                            <img class="img-fluid mx-auto m-1" src="{{ MEDIA_URL }}{{im}}" alt="{{prod.alt}}"
+                                title="{{prod.title}}">
+                            {% endthumbnail %}
+                        </a>
+                        {% endthumbnail %}
+                    </td>
+                    <td class="text-center">
+                        <div class="col-12 m-0 p-0 row">
+                            <a href="{% url 'product_details' category=item.product.product_id.category.slug product=item.product.product_id.slug color=item.product.product_id.color.slug store=item.product.product_id.store.slug pk=item.product.product_id.id %}" class="col-12 text-center m-0 p-0">
+                                <p class="col-12 text-center m-0 ">{{item.product.product_id.name}} </p>
+                            </a>
+                            <small class="col-12 text-center m-0 {{item.product.product_id.color.class_text}}">Obudowa:
+                                {{item.product.product_id.color.name}}</small>
+                            <small class="col-12 m-0 text-center">Kolor odbicia:
+                                {{item.product.get_color_text_display}}</small>
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <form id="form" action="{% url 'add_products' %}" method="POST" class="col-12 row m-0 p-0 form">
+                            {% csrf_token %}
+                            <input type="hidden" name="" id="prod_id{{item.product.id}}">
+                            <input type="number" name="qty" id="qty{{item.product.id}}" value="{{item.quantity}}"
+                                min="1" max="{{item.product.product_id.qty}}">
+                            <button value="{{item.product.id}}" class="btn btn-secondary change_qty mx-auto"
+                                type="button" data-action="add">
+                                <i class="fas fa-exchange-alt"></i></button>
+                        </form>
+                    </td>
+                    <td class="text-center">{{item.price_netto}} PLN</td>
+                    <td class="text-center">{{item.price}} PLN</td>
+                    <td class="text-center">{{item.total_price}} PLN</td>
+                    <td class="text-center">
+                        <form id="form" action="{% url 'add_products' %}" method="POST" class="col-12 row m-0 p-0 form">
+                            {% csrf_token %}
+                            <i type="button" class="del_prod text-danger fas fa-trash-alt mx-auto"
+                                data-product_id="{{item.product.id}}"></i>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+                <tr id="total">
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                    <td  class="text-center">
+                        <strong id="len_table">{{cart.len}}szt.</strong></td>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                    <td class="text-center">
+                        <strong id="total_price_table" class="mx-auto">{{cart.get_total_price}} PLN</strong>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+</div>
+
+{% endblock %}
+
+{% block script %}
+<script src="{% static "js/cart_details.js" %}" type="text/javascript"></script>
+{% endblock %}
