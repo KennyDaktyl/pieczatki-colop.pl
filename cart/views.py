@@ -14,7 +14,6 @@ import json
 
 class AddProduct(View):
     def post(self, request):
-        print(request)
         if request.is_ajax():
             color_s = request.POST.get("color_s")
             prod_id = request.POST.get("prod_id")
