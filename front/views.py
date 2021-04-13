@@ -100,7 +100,6 @@ class ProductDetailsView(DetailView):
             product.save()
             Cart.add(Cart, product, product.price, product.discount,
                      product.info, product.qty)
-            print(product)
             return HttpResponse(True)
         else:
             return redirect('product_details',
@@ -109,6 +108,27 @@ class ProductDetailsView(DetailView):
                             color=self.object.color.slug,
                             store=self.object.store.slug,
                             pk=self.object.id)
+
+
+class CategoryDetailsView(DetailView):
+    model = Category
+
+    def get_context_data(self, **kwargs):
+        ctx = super(CategoryDetailsView, self).get_context_data(**kwargs)
+        ctx['categorys'] = Category.objects.filter(is_active=True)
+        ctx['products'] = Products.objects.filter(is_active=True).filter(
+            category=self.object)
+        site = Site.objects.get(pk=get_current_site(self.request).id)
+        a_url = self.object.get_absolute_url()
+        site = str(Site.objects.get(pk=get_current_site(self.request).id))
+        # scheme = request.scheme
+        scheme = 'https'
+        link = scheme + "://" + site + a_url
+        ctx['site'] = site
+        ctx['link'] = link
+        ctx['cannonical'] = scheme + "://" + site + "/produkty/" + self.object.slug + "/"
+        ctx['colors'] = STAMP_COLORS
+        return ctx
 
 
 class ContactView(View):
@@ -124,12 +144,12 @@ class ContactView(View):
 
     def post(self, request):
         contact_form = ContactForm(request.POST)
+
         if contact_form.is_valid():
             email = request.POST.get("email")
             subject = request.POST.get("subject")
             message = request.POST.get("message")
             captcha = request.POST.get("captcha")
-
             message += "\n" + "Email kontaktowy - " + str(email)
             send_mail(
                 subject,
@@ -140,6 +160,12 @@ class ContactView(View):
                 ],
             )
             messages.success(request, 'Wysyłanie email zakończnono poprawnie.')
+            print(
+                subject,
+                message,
+                settings.EMAIL_HOST_USER,
+                settings.EMAIL_HOST_USER,
+            )
             return redirect('contact_view')
         else:
             messages.error(request, 'Wypełnij wszystkie pola formularza.')

@@ -303,6 +303,7 @@ ul.social-footer2 li a {
     font-weight: 400;
     font-size: 18px;
 }
+
 .cat_nav a {
     color: black;
 }
@@ -311,8 +312,14 @@ ul.social-footer2 li a {
     color: #ff8d1e;
 }
 
+.cat_nav p {
+    color:white;
+}
+.cat_nav p:hover {
+    color: #ff8d1e;
+}
 .violet {
-    color:violet;
+    color: violet;
 }
 
 .product-list-item .product-title {
@@ -322,15 +329,16 @@ ul.social-footer2 li a {
     font-weight: 500;
     line-height: 1.2;
 }
+
 .product-title a {
-        color: #000;
-        text-decoration: none;
-        background-color: transparent;
+    color: #000;
+    text-decoration: none;
+    background-color: transparent;
 }
 
 .product-title a:hover {
     color: #ff8d1e;
-    
+
 }
 
 .nav-link a {
@@ -349,6 +357,12 @@ ul.social-footer2 li a {
     border: 1px solid #dee2e6;
     float: right;
 }
+a:hover {
+    color: #ff8d1e;
+    text-decoration: none;
+}
+
+
 a.login {
     color: white;
 }
@@ -426,16 +440,18 @@ a.logout:hover {
 .custom-select {
     font-size: 12px;
 }
+
 .product-list-item a:hover {
     text-decoration: none;
 }
-.product-list-item p{
+
+.product-list-item p {
     color: black;
     font-weight: 700;
 }
 
 p.product_title {
-font-size: 23px;
+    font-size: 23px;
 }
 
 .product-list-item p:hover {
@@ -444,16 +460,56 @@ font-size: 23px;
 
 div.modal-content {
     background-color: rgb(228, 255, 228);
+    
+      /* background-color:#ff8d1e; */
 }
 
 span.basket {
-        border-bottom: 2px solid #ff8d1e;
-        text-transform: uppercase;
-        font-weight: 400;
-        font-size: 19px;
+    border-bottom: 2px solid #ff8d1e;
+    text-transform: uppercase;
+    font-weight: 400;
+    font-size: 19px;
 }
 
+table {
+    overflow-x: auto;
+    display: block;
+    font-size: 12px;
+}
+
+.table p {
+    font-size: 14px;
+    color: black;
+}
+
+.table p:hover {
+    color: #ff8d1e;
+}
+
+.a_link small {
+     color: blue;
+}
+
+.a_link small:hover {
+      color: #ff8d1e;
+}
+
+
+th.th_title {
+    min-width: 220px;
+}
+th.th_qty {
+    min-width: 150px;
+}
+
+th.th_price {
+    min-width: 100px;
+}
 @media (max-width: 992px) {
+
+    .top {
+        font-size: 11px;
+    }
 
     .motto h1 {
         font-size: 1.5rem;
@@ -509,6 +565,34 @@ span.basket {
         font-size: 58px;
     }
 
+    .cat_nav {
+        font-size: 13px;
+    }
 
+    table {
+        overflow-x: auto;
+        display: block;
+        font-size: 11px;
+    }
+
+    th.th_title {
+        min-width: 250px;
+    }
+
+    th.th_qty {
+        min-width: 125px;
+    }
+
+    th.th_price {
+        min-width: 125px;
+    }
+
+    .table button {
+        font-size: 5px;
+    }
+
+    i.fa-exchange-alt {
+        font-size: 20px;
+    }
 
 }
