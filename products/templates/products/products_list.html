@@ -55,18 +55,19 @@
         <ul class="nav cat_nav">
             {% for cat in categorys %}
             <li class="nav-item dropdown-submenu ">
-                <a class="nav-link text-left" href="{% url 'category_details' category=cat.slug pk=cat.id %}">{{cat.name}}</a>
+                <a class="nav-link text-left"
+                    href="{% url 'category_details' category=cat.slug pk=cat.id %}">{{cat.name}}</a>
             </li>
             {% endfor %}
         </ul>
     </div>
     <main class="col-lg-8 mx-auto row">
         <section class="product-container row mx-auto">
-            <div class="text-left headline m-1 mb-2">
+            <div class="text-left headline m-1 mb-2 col-12">
                 <h1 class="mt-2">PRODUKTY: Pieczątki</h1>
             </div>
             {% for prod in products %}
-            <article class="product-list-item col-10 col-lg-12 mt-2 pb-2 row mx-auto border d-flex align-items-start">
+            <article class="product-list-item col-10 col-sm-5 col-md-3  col-lg-12 mt-2 pb-2 row mx-auto border d-flex align-items-start">
                 <div class="col-lg-3 m-0 p-0">
                     {% load thumbnail %}
                     {% thumbnail prod.image "1280" crop='center' format="WEBP"  as im %}
@@ -129,7 +130,7 @@
                             <div class="col-lg-6 m-0 p-0 ml-auto row text-right mt-2">
                                 <select name="color_s" class="custom-select  ml-auto" id="color_s{{prod.id}}">
                                     {% for k,v in colors %}
-                                     <option value="{{k}}" class="text-dark">{{v}}</option>
+                                    <option value="{{k}}" class="text-dark">{{v}}</option>
                                     {% endfor %}
                                 </select>
                             </div>
@@ -184,18 +185,20 @@
                                 </div>
                                 <div class="col-12 row d-flex align-items-center">
                                     <span class="">Ilość:</span>
-                                    <p id="add_qty{{prod.id}}" class="p-0 m-0 ml-1"></p>
+                                    <p id="add_qty" class="p-0 m-0 ml-1"></p>
                                 </div>
                                 <div class="col-12 mt-2 mx-auto row d-flex align-items-center">
-                                    <span class="basket">KOSZYK</span><br>
-                                    <button type="button" class="btn btn-primary ml-auto col-5 m-1 p-1 row">
-                                        <i class="text-center mx-auto text-white fas fa-shopping-basket"></i>
-                                        Koszyk
-                                    </button>
+                                    <span class="basket">KOSZYK</span>
+                                    <a href="{% url 'cart_details' %}" class="row m-0 p-0 ml-auto">
+                                        <button type="button" class="btn btn-outline-success  m-1 p-1 row">
+                                            <i class="text-center mx-auto text-success fas fa-shopping-basket"></i>
+                                            Koszyk
+                                        </button>
+                                    </a>
                                 </div>
                                 <div class="col-12 mt-2 row d-flex align-items-center">
                                     <span class="">Ilość produktów w koszyku:</span>
-                                    <p id="len_modal{{prod.id}}" class="p-0 m-0 ml-1">{{cart|length}}szt.</p>
+                                    <p id="len_modal{{prod.id}}" class="p-0 m-0 ml-1">{{cart.len}}szt.</p>
                                 </div>
                                 <div class="col-12 mt-2 row d-flex align-items-center">
                                     <span class="">Kwota brutto:</span>
@@ -206,13 +209,15 @@
 
                             </div>
                             <div class="col-12 row m-0 p-0">
-                                <button type="button" class="btn btn-success mx-auto col-5 m-1 p-1">Kontynuuj</button>
-
-                                <button type="button" class="btn btn-primary mx-auto col-5 m-1 p-1 row">
+                                <a href="{% url 'products_list' %}" class="col-5 m-0 p-0">
+                                    <button type="button" class="btn btn-outline-success mx-auto  m-1 p-1">Kontynuuj
+                                        zakupy</button>
+                                </a>
+                                <button type="button" class="btn btn-outline-secondary mx-auto col-5 m-1 p-1 row">
                                     <i class="fas fa-cogs"></i>
                                     <span class="">Utwórz projekt</span>
                                 </button>
-                                <button type="button" class="btn btn-secondary ml-auto mx-auto m-1 p-1 col-5"
+                                <button type="button" class="btn btn-danger ml-auto mx-auto m-1 p-1 col-5"
                                     data-dismiss="modal">Zamknij</button>
                             </div>
                         </div>

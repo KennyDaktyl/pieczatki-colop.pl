@@ -38,10 +38,10 @@ $(document).ready(function () {
             len.text(result_js['len'] + 'szt.');
             len_modal.text(result_js['len']);
             in_stock = result_js['in_stock'];
-            $('#qty').val(0);
+            $('#qty').val(1);
             $('#qty').attr({
                 "max": in_stock,
-                "min": 0
+                "min": 1
             });
             $('#in_stock_info').text(in_stock + 'szt.');
             $('#add_qty').text(qty + 'szt.');

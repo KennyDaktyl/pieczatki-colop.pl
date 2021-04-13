@@ -2,6 +2,26 @@
     z-index: 10;
 }
 
+#top {
+    height: 35px;
+    
+}
+
+#nav {
+    margin-top: 35px;
+    height: 55px;
+     z-index: 20;
+}
+
+#link_map {
+    margin-top: 90px;
+    height: 25px;
+}
+
+#page {
+    margin-top: 100px;
+}
+
 a.dropdown-item:hover {
     background-color: transparent;
 }
@@ -506,6 +526,24 @@ th.th_price {
     min-width: 100px;
 }
 @media (max-width: 992px) {
+
+    #navbarToggler {
+        background-color: hsl(0, 0%, 81%);
+        /* position: fixed;
+        top: 100px;
+        bottom: 100px;
+        left: 20px;
+        right: 20px; */
+    }
+
+    .navbar li {
+        line-height: 60px;
+    }
+
+     .navbar strong {
+         font-size: 25px;
+         color: white;
+     }
 
     .top {
         font-size: 11px;

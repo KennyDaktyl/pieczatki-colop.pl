@@ -8,21 +8,19 @@ $(document).ready(function () {
     top_height = top.height();
     nav_height = nav.height();
     link_map_height = link_map.height();
-    nav.css('margin-top', top_height);
-    navbarTogglerDemo03.css('margin-top', link_map_height);
-    link_map.css('margin-top', top_height + nav_height+ 15);
-    page.css('margin-top', top_height + nav_height + link_map_height + 20);
-    console.log(top_height + nav_height,top_height + nav_height + link_map_height + 20);
-    console.log(page.css('margin-top'));
-    $(window).on('wheel', function (event) {
-        if (event.originalEvent.deltaY < 0) {
-            top.removeClass('scroll_down');
-            nav.removeClass('active');
-        } else {
-            top.addClass('scroll_down');
-            nav.addClass('active');
-        }
-    });
+    // nav.css('margin-top', top_height);
+    // navbarTogglerDemo03.css('margin-top', link_map_height);
+    // link_map.css('margin-top', top_height + nav_height+ 15);
+    // page.css('margin-top', top_height + nav_height + link_map_height + 20);
+    // $(window).on('wheel', function (event) {
+    //     if (event.originalEvent.deltaY < 0) {
+    //         top.removeClass('scroll_down');
+    //         nav.removeClass('active');
+    //     } else {
+    //         top.addClass('scroll_down');
+    //         nav.addClass('active');
+    //     }
+    // });
 
     var lastY;
     $(window).bind('touchmove', function (e) {
@@ -50,10 +48,10 @@ $(document).ready(function () {
         localStorage.setItem('scrollpos', window.scrollY);
     };
 
-    var dropdown_basket = $('#dropdown_basket');
-    var basket_div = $('#basket_div');
-    dropdown_basket.click(function () {
-        basket_div.toggleClass('show');
+    // var dropdown_basket = $('#dropdown_basket');
+    // var basket_div = $('#basket_div');
+    // dropdown_basket.click(function () {
+    //     basket_div.toggleClass('show');
 
-    });
+    // });
 })
