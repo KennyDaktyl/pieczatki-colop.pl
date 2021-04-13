@@ -62,11 +62,11 @@
         <div class="text-left headline m-1 mb-2">
             <h1 class="mt-2">SZCZEGÓŁY KOSZYKA:</h1>
         </div>
-        <table class="table">
+        <table class="table table_basket">
             <thead>
                 <tr>
                     <th scope="col" class="text-center">#</th>
-                    <th scope="col" class="text-center">Foto</th>
+                    <th scope="col" class="text-center th_price">Foto</th>
                     <th scope="col" class="text-center th_title">Nazwa produktu</th>
                     <th scope="col" class="text-center th_qty">ilość</th>
                     <th scope="col" class="text-center th_price">Cena netto</th>
@@ -79,17 +79,17 @@
                 {% for item in cart_ctx %}
                 <tr id="tr{{item.product.id}}">
                     <th scope="row" class="text-center">{{ forloop.counter }}</th>
-                    <td class="text-center">
+                    <td class="text-center m-0 p-0">
                         {% load thumbnail %}
-                        {% thumbnail item.product.product_id.image "1280" crop='center' format="WEBP"  as im %}
+                        {% thumbnail item.image "1280" crop='center' format="WEBP"  as im %}
                         <a href="{{ MEDIA_URL }}{{im}}" data-lightbox="{{item.product.id}}"
-                            data-title="{{item.product.product_id.name}}" class="mx-auto text-center p-0 m-0 mt-2"
-                            title="Link do dużego zdcjęcia {{prod.name}}">
-                            <source srcset="{{ im }}" type="image/webp">
-                            {% thumbnail item.product.product_id.image "75x75" crop='center' format="WEBP"  as im %}
+                            data-title="{{item.product.product_id.name}}" class="mx-auto text-center p-0 m-0"
+                            title="Link do dużego zdcjęcia {{item.product.product_id.name}}">
+                            <source srcset="{{ MEDIA_URL }}{{ im }}" type="image/webp">
+                            {% thumbnail item.image "75" crop='center' format="WEBP"  as im %}
                             <source srcset="{{ im }}" type="image/webp" />
-                            <img class="img-fluid mx-auto m-1" src="{{ MEDIA_URL }}{{im}}" alt="{{prod.alt}}"
-                                title="{{prod.title}}">
+                            <img class="img-fluid mx-auto m-0 p-0" src="{{ MEDIA_URL }}{{ im }}" alt="{{item.product.product_id.alt}}"
+                                title="{{item.product.product_id.title}}">
                             {% endthumbnail %}
                         </a>
                         {% endthumbnail %}
