@@ -1,7 +1,7 @@
 from django.contrib.auth import logout
 from django.urls import path
 from django.contrib.auth import views as auth_views
-from .views import LoginView, Logout
+from .views import LoginView, Logout, AddClientFromBasketView
 # from django.conf import settings
 # from django.conf.urls.static import static
 # from django.conf.urls import url
@@ -10,6 +10,9 @@ urlpatterns = [
     #     path('login/', auth_views.LoginView.as_view(), name='login'),
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', Logout.as_view(), name='logout'),
+    path('rejestracja_klienta_koszyk/',
+         AddClientFromBasketView.as_view(),
+         name='register_user_basket'),
     path('password_change/',
          auth_views.PasswordChangeView.as_view(),
          name='password_change'),

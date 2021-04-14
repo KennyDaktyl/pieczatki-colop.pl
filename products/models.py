@@ -217,9 +217,9 @@ class Size(models.Model):
 
 class Colors(models.Model):
     id = models.AutoField(primary_key=True)
-    name = models.CharField(verbose_name="Nazwa coloru", max_length=32)
+    name = models.CharField(verbose_name="Nazwa koloru", max_length=32)
     class_text = models.CharField(
-        verbose_name="Text dla koloru klasay",
+        verbose_name="Text dla koloru klasy",
         max_length=32,
     )
     slug = models.SlugField(verbose_name="Slug",

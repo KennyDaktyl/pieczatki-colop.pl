@@ -29,8 +29,9 @@ urlpatterns = [
                              content_type='text/plain')),
     path('admin/', admin.site.urls),
     # url(r"^accounts/", include("django.contrib.auth.urls")),
-    path('account/', include('account.urls')),
+    path('konto/', include('account.urls')),
     path('koszyk/', include('cart.urls')),
+    path('zamowienia/', include('orders.urls')),
     path('', include('front.urls')),
     # path('produkty', include('products.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

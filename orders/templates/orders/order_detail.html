@@ -1,0 +1,327 @@
+{% extends 'front/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% crispy form.helper %}
+{% load templatetag %}
+{% load thumbnail %}
+
+
+{% block head %}
+<meta property="fb:app_id" content="{{app_id}}" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="{{request.build_absolute_uri}}" />
+<meta property="og:title" content="{{page.title}}" />
+<meta property="og:image" content="" />
+<meta property="og:description" content="{{page.description}}" />
+<meta name="description" content="{{page.description}}">
+<link rel="canonical" href="{{cannonical}}">
+
+
+{% endblock %}
+
+{% block title %}
+{{page.title}}
+{% endblock %}
+
+{% block content %}
+<nav id="link_map" aria-label="breadcrumb" class="col-12 bg-white mx-auto d-md-none row fixed-top">
+    <li class="breadcrumb-item text-dark"><a href="{% url 'welcome' %}" class="text-dark">Strona startowa</a></li>
+    <li class="breadcrumb-item text-dark"><a href="{% url 'cart_details' %}" class="text-dark">Koszyk</a></li>
+    <li class="breadcrumb-item text-dark active" aria-current="page">Zamówienie</li>
+</nav>
+<div class="col-12 mx-auto text-center m-0 p-0 row d-flex align-items-center motto">
+    {% thumbnail "images/bcg-stamp_LrTJcQE_YRKH6ut.webp" "590x300" crop='center' format="WEBP"  as im %}
+    <img src="{{ MEDIA_URL }}{{im}}" class="img-fluid mx-auto text-center d-sm-none"
+        title="Prezentacja graficzna sklepu z pieczątki Colop" alt="Prezentacja graficzna sklepu z pieczątki Colop">
+    {% endthumbnail %}
+    {% thumbnail "images/bcg-stamp_LrTJcQE_YRKH6ut.webp" "720x300" crop='center' format="WEBP"  as im %}
+    <img src="{{ MEDIA_URL }}{{im}}" class="img-fluid mx-auto text-center d-none d-sm-block d-md-none"
+        title="Prezentacja graficzna sklepu z pieczątki Colop" alt="Prezentacja graficzna sklepu z pieczątki Colop">
+    {% endthumbnail %}
+    {% thumbnail "images/bcg-stamp_LrTJcQE_YRKH6ut.webp" "1280x350" crop='center' format="WEBP"  as im %}
+    <img src="{{ MEDIA_URL }}{{im}}" class="img-fluid mx-auto text-center d-none d-md-block d-lg-none"
+        title="Prezentacja graficzna sklepu z pieczątki Colop" alt="Prezentacja graficzna sklepu z pieczątki Colop">
+    {% endthumbnail %}
+    {% thumbnail "images/bcg-stamp_LrTJcQE_YRKH6ut.webp" "1480x250" crop='center' format="WEBP"  as im %}
+    <img src="{{ MEDIA_URL }}{{im}}" class="img-fluid mx-auto text-center d-none d-lg-block col-12 m-0 p-0"
+        title="Prezentacja graficzna sklepu z pieczątki Colop" alt="Prezentacja graficzna sklepu z pieczątki Colop">
+    {% endthumbnail %}
+</div>
+<div class="col-lg-8 mx-auto text-center mt-3 pt-0 row d-flex align-items-start">
+
+    <main class="col-lg-12 mx-auto row">
+        <div class="text-left headline m-1 mb-2">
+            <h1 class="mt-2">NOWE ZAMÓWIENIE:</h1>
+        </div>
+        <table class="table table_basket">
+            <thead>
+                <tr>
+                    <th scope="col" class="text-center">#</th>
+                    <th scope="col" class="text-center th_price">Foto</th>
+                    <th scope="col" class="text-center th_title">Nazwa produktu</th>
+                    <th scope="col" class="text-center th_qty">ilość</th>
+                    <th scope="col" class="text-center th_price">Cena netto</th>
+                    <th scope="col" class="text-center th_price">Cena brutto</th>
+                    <th scope="col" class="text-center th_price">Wartość netto</th>
+                    <th scope="col" class="text-center th_price">Wartość brutto</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart_ctx %}
+                <tr id="tr{{item.product.id}}">
+                    <th scope="row" class="text-center">{{ forloop.counter }}</th>
+                    <td class="text-center m-0 p-0">
+                        {% load thumbnail %}
+                        {% thumbnail item.image "1280" crop='center' format="WEBP"  as im %}
+                        <a href="{{ MEDIA_URL }}{{im}}" data-lightbox="{{item.product.id}}"
+                            data-title="{{item.product.product_id.name}}" class="mx-auto text-center p-0 m-0"
+                            title="Link do dużego zdcjęcia {{item.product.product_id.name}}">
+                            <source srcset="{{ MEDIA_URL }}{{ im }}" type="image/webp">
+                            {% thumbnail item.image "75" crop='center' format="WEBP"  as im %}
+                            <source srcset="{{ im }}" type="image/webp" />
+                            <img class="img-fluid mx-auto m-0 p-0" src="{{ MEDIA_URL }}{{ im }}"
+                                alt="{{item.product.product_id.alt}}" title="{{item.product.product_id.title}}">
+                            {% endthumbnail %}
+                        </a>
+                        {% endthumbnail %}
+                    </td>
+                    <td class="text-center">
+                        <div class="col-12 m-0 p-0 row">
+                            <a href="{% url 'product_details' category=item.product.product_id.category.slug product=item.product.product_id.slug color=item.product.product_id.color.slug store=item.product.product_id.store.slug pk=item.product.product_id.id %}"
+                                class="col-12 text-center m-0 p-0">
+                                <p class="col-12 text-center m-0 ">{{item.product.product_id.name}} </p>
+                            </a>
+                            <small class="col-12 text-center m-0 {{item.product.product_id.color.class_text}}">Obudowa:
+                                {{item.product.product_id.color.name}}</small>
+                            <small class="col-12 m-0 text-center">Kolor odbicia:
+                                {{item.product.get_color_text_display}}</small>
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <strong id="t_netto{{item.product.id}}">{{item.quantity}}
+                            szt.</strong>
+                    </td>
+                    <td class="text-center">{{item.price_netto}} PLN</td>
+                    <td class="text-center">{{item.price}} PLN</td>
+                    <td class="text-center mx-auto"><strong id="t_netto{{item.product.id}}">{{item.t_netto}}
+                            PLN</strong></td>
+                    <td class="text-center mx-auto"><strong id="t_brutto{{item.product.id}}">{{item.t_brutto}}
+                            PLN</strong></td>
+                </tr>
+                {% endfor %}
+                <tr id="total">
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                    <td class="text-center">
+                        <strong id="len_table">{{cart.len}}szt.</strong></td>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+                    <td class="text-center">
+                        <strong id="total_price_netto_table" class="mx-auto">{{cart.get_total_price_netto}} PLN</strong>
+                    </td>
+                    <td class="text-center">
+                        <strong id="total_price_table" class="mx-auto">{{cart.get_total_price}} PLN</strong>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+
+    <div class="col-lg-12 mx-auto row">
+        <div class="text-left headline m-1 mb-2">
+            <h1 class="mt-2">TWOJE DANE OSOBOWE:</h1>
+        </div>
+        <div class="col-12 text-center mx-auto row">
+            <button class="btn btn-outline-success mx-auto row text-center col-lg-6">
+                <div class="row col-12 mx-auto">
+                    <div class="row mx-auto">
+                        <label for="" class="m-0 p-0">Imię i Nazwisko</label>
+                        <input class="col-12" placeholder="{{client.first_name}} {{client.last_name}}" disabled></input>
+                    </div>
+                    <div class="row mx-auto">
+                        <label for="" class="m-0 p-0">email</label>
+                        <input class="col-12" placeholder="{{client.email}}" disabled></input>
+                    </div>
+                    <div class="row col-12 mx-auto text-right">
+                        <a href="" class="text-right col-12">edytuj</a>
+                    </div>
+            </button>
+        </div>
+        <div class="text-left headline m-1 mb-2">
+            <h1 class="mt-2">DANE ADRESOWE:</h1>
+            <a href="" class="text-right ml-auto">
+                <button class="btn btn-outline-success"><i class="fas fa-map-marker-alt m-1"></i>Dodaj adres</button>
+            </a>
+        </div>
+        <div class="col-12 text-left mx-auto row">
+            {% for address in addresses %}
+            <button class="btn btn-outline-success mx-auto row text-center col-lg-6">
+                <div class="row col-12 mx-auto">
+                    <label for="" class="m-0 p-0">Ulica</label>
+                    <input class="col-12" placeholder="{{address.street}}" disabled></input>
+                </div>
+                <div class="row mx-auto col-12">
+                    <div class="row col-6 mx-auto">
+                        <label for="" class="m-0 p-0">Nr domu</label>
+                        <input class="mx-auto col-12" placeholder="{{address.house}}" disabled></input>
+                    </div>
+                    <div class="row col-6 mx-auto">
+                        <label for="" class="m-0 p-0">Nr lokalu</label>
+                        {% if address.door %}
+                        <input class="mx-auto col-12" placeholder="{{address.door}}" disabled></input>
+                        {% else %}
+                        <input class="mx-auto col-12" placeholder="" disabled></input>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="row mx-auto col-12 m-0 p-0">
+                    <div class="row col-6 mx-auto">
+                        <label for="" class="m-0 p-0">Miasto</label>
+                        <input class="mx-auto col-12" placeholder="{{address.city}}" disabled></input>
+                    </div>
+                    <div class="row col-6 mx-auto">
+                        <label for="" class="m-0 p-0">Kod pocztowy</label>
+                        <input class="mx-auto col-12" placeholder="{{address.post_code}}" disabled></input>
+                    </div>
+                </div>
+                <div class="row col-12 mx-auto text-right">
+                    <a href="" class="text-right col-12">edytuj</a>
+                </div>
+            </button>
+
+            {% empty %}
+            <p class="col-12">Brak adresu</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="col-lg-12 mx-auto row">
+        <div class="text-left headline m-1 mb-2">
+            <h1 class="mt-2">DOKUMENT HANDLOWY:</h1>
+        </div>
+        <div class="col-12 text-center mx-auto row">
+            <button class="btn btn-outline-secondary mx-auto text-center col-5">PARAGON
+            </button>
+            <button class="btn btn-success mx-auto  text-center col-5">FAKTURA
+            </button>
+        </div>
+    </div>
+
+    <div class="col-lg-12 mx-auto row">
+        <div class="text-left headline m-1 mb-2">
+            <h1 class="mt-2">DANE DO FAKTURY</h1>
+        </div>
+        <div class="col-12 text-left mx-auto row">
+            <button class="btn btn-outline-success mx-auto row text-center col-lg-6">
+                <div class="row col-12 mx-auto">
+                    <div class="row mx-auto">
+                        <label for="" class="m-0 p-0">Nazwa firmy</label>
+                        <input class="col-12" placeholder="Miktel Michał Pielak" disabled></input>
+                    </div>
+                    <div class="row mx-auto">
+                        <label for="" class="m-0 p-0">Nip</label>
+                        <input class="col-12" placeholder="6782805234" disabled></input>
+                    </div>
+                </div>
+                <div class="row mx-auto col-12">
+                    <div class="row mx-auto">
+                        <label for="" class="m-0 p-0">Ulica</label>
+                        <input class="col-12" placeholder="ul.Wspólna" disabled></input>
+                    </div>
+                    <div class="row col-6 mx-auto">
+                        <label for="" class="m-0 p-0">Nr domu</label>
+                        <input class="mx-auto col-12" placeholder="2" disabled></input>
+                    </div>
+                    <div class="row col-6 mx-auto">
+                        <label for="" class="m-0 p-0">Nr lokalu</label>
+                        <input class="mx-auto col-12" placeholder="2" disabled></input>
+                    </div>
+                </div>
+                <div class="row mx-auto col-12 m-0 p-0">
+                    <div class="row col-6 mx-auto">
+                        <label for="" class="m-0 p-0">Miasto</label>
+                        <input class="mx-auto col-12" placeholder="Kraków" disabled></input>
+                    </div>
+                    <div class="row col-6 mx-auto">
+                        <label for="" class="m-0 p-0">Kod pocztowy</label>
+                        <input class="mx-auto col-12" placeholder="31-926" disabled></input>
+                    </div>
+                </div>
+                <div class="row col-12 mx-auto text-right">
+                    <a href="" class="text-right col-12">edytuj</a>
+                </div>
+            </button>
+        </div>
+    </div>
+
+    <div class="col-lg-12 mx-auto row">
+        <div class="text-left headline m-1 mb-2">
+            <h1 class="mt-2">SPOSÓB DOSTAWY:</h1>
+        </div>
+        <div class="col-12 text-left mx-auto row">
+            {% for el in delivery_type %}
+            {% if el.default %}
+            <div class="border table-success mx-auto row text-center m-1 col-12 d-flex align-items-center">
+                <div class="row col-6 mx-auto">
+                    <p class="col-12 text-left m-0 p-2">{{el.name}}</p>
+                </div>
+                <div class="row col-6 mx-auto ">
+                    {% if cart.get_total_price > 50.00 %}
+                    <p class="col-12 text-right m-0 p-2">{{el.price_promo}} PLN</p>
+                    {% else %}
+                    <p class="col-12 text-right m-0 p-2">{{el.price}} PLN</p>
+                    {% endif %}
+                </div>
+            </div>
+            {% else %}
+            <div class="border mx-auto row text-center m-1 col-12 d-flex align-items-center">
+                <div class="row col-6 mx-auto">
+                    <p class="col-12 text-left m-0 p-2">{{el.name}}</p>
+                </div>
+                <div class="row col-6 mx-auto ">
+                    {% if cart.get_total_price > 50.00 %}
+                    <p class="col-12 text-right m-0 p-2">{{el.price_promo}} PLN</p>
+                    {% else %}
+                    <p class="col-12 text-right m-0 p-2">{{el.price}} PLN</p>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="col-lg-12 mx-auto row">
+        <div class="text-left headline m-1 mb-2">
+            <h1 class="mt-2">SPOSÓB PŁATNOŚCI:</h1>
+        </div>
+        <div class="col-12 text-left mx-auto row">
+            {% for el in pay_methods %}
+            {% if el.default %}
+            <div class="border table-success mx-auto row text-center m-1 col-12 d-flex align-items-center">
+                <div class="row col-6 mx-auto">
+                    <p class="col-12 text-left m-0 p-2">{{el.name}}</p>
+                </div>
+                <div class="row col-6 mx-auto ">
+                    <p class="col-12 text-right m-0 p-2">{{el.price}} PLN</p>
+                </div>
+            </div>
+            {% else %}
+            <div class="border mx-auto row text-center m-1 col-12 d-flex align-items-center">
+                <div class="row col-6 mx-auto">
+                    <p class="col-12 text-left m-0 p-2">{{el.name}}</p>
+                </div>
+                <div class="row col-6 mx-auto ">
+                    <p class="col-12 text-right m-0 p-2">{{el.price}} PLN</p>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+{% endblock %}

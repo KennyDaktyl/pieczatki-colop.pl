@@ -1,10 +1,15 @@
 from django.contrib import admin
-from .models import PayMethod, Orders, ProductCopy
+from .models import PayMethod, DeliveryMethod, Orders, ProductCopy
 
 
 @admin.register(PayMethod)
 class PayMethonAdmin(admin.ModelAdmin):
     list_display = [f.name for f in PayMethod._meta.fields]
+
+
+@admin.register(DeliveryMethod)
+class DeliveryMethodAdmin(admin.ModelAdmin):
+    list_display = [f.name for f in DeliveryMethod._meta.fields]
 
 
 @admin.register(Orders)
