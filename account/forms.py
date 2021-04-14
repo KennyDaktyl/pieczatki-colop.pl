@@ -45,10 +45,6 @@ class UserForm(forms.ModelForm):
                              validators=[validate_email],
                              required=True)
 
-    group = forms.ModelChoiceField(label="Wybierz grupę praw dostępu",
-                                   queryset=Group.objects.all(),
-                                   required=True)
-
     # is_active = forms.BooleanField(
     #     help_text="Czy użytkownik jest aktywny? (Odznacz zamiast kasować)")
 
@@ -60,7 +56,6 @@ class UserForm(forms.ModelForm):
             'last_name',
             'email',
             'password',
-            'group',
         )
 
     def clean_password2(self):
@@ -96,8 +91,7 @@ class PasswordChangeForm(forms.Form):
         return cd['password2']
 
 
-class UserProfileForm(forms.ModelForm):
-    class Meta:
-        model = User
-        fields = ('username', 'first_name', 'last_name', 'email', 'groups',
-                  'is_active')
+# class UserProfileForm(forms.ModelForm):
+#     class Meta:
+#         model = User
+#         fields = ('username', 'first_name', 'last_name', 'email')

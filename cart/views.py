@@ -44,6 +44,9 @@ class AddProduct(View):
             return HttpResponse(serialized)
 
 
+from django.conf import settings
+
+
 class EditQtyProduct(View):
     def post(self, request):
         if request.is_ajax():
@@ -57,7 +60,11 @@ class EditQtyProduct(View):
                      discount=product.discount,
                      info=product.info,
                      quantity=qty)
+            cart_dict = request.session.get(settings.CART_SESSION_ID)
             dict_obj = {
+                't_netto': cart_dict[str(product.id)]['t_netto'],
+                't_brutto': cart_dict[str(product.id)]['t_brutto'],
+                'total_netto': float(cart.get_total_price_netto()),
                 'total': float(cart.get_total_price()),
                 'len': cart.len(),
                 'in_stock': product.product_id.qty - int(qty)
@@ -75,6 +82,7 @@ class RemoveProduct(View):
             cart.remove(product)
 
             dict_obj = {
+                'total_netto': float(cart.get_total_price_netto()),
                 'total': float(cart.get_total_price()),
                 'len': cart.len(),
                 'in_stock': product.product_id.qty + product.qty

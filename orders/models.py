@@ -16,6 +16,11 @@ class PayMethod(models.Model):
                             max_length=64)
     pay_method = models.IntegerField(verbose_name="Rodzaj płatności",
                                      choices=PAY_METHOD)
+    price = models.DecimalField(verbose_name="Cena zamówienia",
+                                default=0.00,
+                                decimal_places=2,
+                                max_digits=7)
+    default = models.BooleanField(verbose_name="Czy domyślny?", default=False)
     is_active = models.BooleanField(verbose_name="Czy aktualna", default=True)
 
     def total_income(self, orders):
@@ -34,6 +39,30 @@ class PayMethod(models.Model):
     class Meta:
         ordering = ("number", )
         verbose_name_plural = "Rodzaje płatności"
+
+    def __str__(self):
+        return self.name
+
+
+class DeliveryMethod(models.Model):
+    id = models.AutoField(primary_key=True)
+    number = models.IntegerField(verbose_name="Numer wyświetlania")
+    name = models.CharField(verbose_name="Nazwa metody płatności",
+                            max_length=64)
+    price = models.DecimalField(verbose_name="Cena za dostawę",
+                                default=0.00,
+                                decimal_places=2,
+                                max_digits=7)
+    price_promo = models.DecimalField(verbose_name="Cena promocyjna",
+                                      default=0.00,
+                                      decimal_places=2,
+                                      max_digits=7)
+    default = models.BooleanField(verbose_name="Czy domyślny?", default=False)
+    is_active = models.BooleanField(verbose_name="Czy aktualna?", default=True)
+
+    class Meta:
+        ordering = ("number", )
+        verbose_name_plural = "Rodzaje dostawy"
 
     def __str__(self):
         return self.name

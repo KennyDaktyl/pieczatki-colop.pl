@@ -5,7 +5,8 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.shortcuts import render, redirect
 
-from .forms import LoginForm
+from .forms import LoginForm, UserForm
+from products.models import Category
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -99,43 +100,30 @@ User = get_user_model()
 #         context['form_pswd'] = PasswordChangeForm()
 #         return context
 
+
 # @method_decorator(login_required, name='dispatch')
-# class AddProfileView(PermissionRequiredMixin, View):
-#     permission_required = 'account.add_profile'
+class AddClientFromBasketView(View):
+    def get(self, request):
+        form_u = UserForm()
+        categorys = Category.objects.filter(is_active=True)
+        ctx = {'form_u': form_u, 'categorys': categorys}
+        return render(request, "account/register_user.html", ctx)
 
-#     def get(self, request, pk):
-#         position = EMPLOYEE_POSITION[pk]
-#         form_u = UserForm()
-#         form_p = ProfileForm(initial={'worker_position': position})
-#         ctx = {'form_u': form_u, 'form_p': form_p}
-#         return render(request, "account/profile_form.html", ctx)
+    def post(self, request):
+        form = UserForm(request.POST)
+        if form.is_valid():
+            new_user = form.save(commit=False)
+            new_user.set_password(form.cleaned_data['password'])
+            new_user.save()
+            login(request, new_user)
+            messages.error(request, 'Utworzono konto')
+            return redirect('cart_details')
+        else:
+            messages.error(request, 'Wystąpił błąd')
+            categorys = Category.objects.filter(is_active=True)
+            ctx = {'form_u': form, 'categorys': categorys}
+            return render(request, "account/register_user.html", ctx)
 
-#     def post(self, request, pk):
-#         position = EMPLOYEE_POSITION[pk]
-#         form_u = UserForm(request.POST)
-#         form_p = ProfileForm(request.POST)
-#         form_pswd = PasswordChangeForm(request.POST)
-#         if form_u.is_valid() and form_p.is_valid():
-#             user = form_u.save(commit=False)
-#             user.set_password(form_u.cleaned_data['password'])
-#             user.is_active = True
-#             user.save()
-#             user.groups.add(form_u.cleaned_data['group'])
-#             user.save()
-#             profile = form_p.save(commit=False)
-#             profile.user = user
-#             profile.worker_position = position[0]
-#             profile.save()
-#             profile.worker_position = pk
-#             profile.workplace.set(form_p.cleaned_data['workplace'])
-#             profile.save()
-
-#             messages.error(request, 'Utworzono konto użytkownika')
-#             return redirect('profile_list')
-#         else:
-#             messages.error(request, 'Wystąpił błąd')
-#             ctx = {'form_u': form_u, 'form_p': form_p, 'form_pswd': form_pswd}
-#             return render(request, "account/profile_form.html", ctx)
 
 # @method_decorator(login_required, name='dispatch')
 # class ChangeOnlyPasswordView(View):

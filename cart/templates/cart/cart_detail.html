@@ -51,9 +51,10 @@
             <p class="text-center text-white card-header">KATEGORIE</p>
         </div>
         <ul class="nav cat_nav">
-             {% for cat in categorys %}
+            {% for cat in categorys %}
             <li class="nav-item dropdown-submenu ">
-                <a class="nav-link text-left" href="{% url 'category_details' category=cat.slug pk=cat.id %}">{{cat.name}}</a>
+                <a class="nav-link text-left"
+                    href="{% url 'category_details' category=cat.slug pk=cat.id %}">{{cat.name}}</a>
             </li>
             {% endfor %}
         </ul>
@@ -71,6 +72,7 @@
                     <th scope="col" class="text-center th_qty">ilość</th>
                     <th scope="col" class="text-center th_price">Cena netto</th>
                     <th scope="col" class="text-center th_price">Cena brutto</th>
+                    <th scope="col" class="text-center th_price">Wartość netto</th>
                     <th scope="col" class="text-center th_price">Wartość brutto</th>
                     <th scope="col" class="text-center">Usuń</th>
                 </tr>
@@ -88,15 +90,16 @@
                             <source srcset="{{ MEDIA_URL }}{{ im }}" type="image/webp">
                             {% thumbnail item.image "75" crop='center' format="WEBP"  as im %}
                             <source srcset="{{ im }}" type="image/webp" />
-                            <img class="img-fluid mx-auto m-0 p-0" src="{{ MEDIA_URL }}{{ im }}" alt="{{item.product.product_id.alt}}"
-                                title="{{item.product.product_id.title}}">
+                            <img class="img-fluid mx-auto m-0 p-0" src="{{ MEDIA_URL }}{{ im }}"
+                                alt="{{item.product.product_id.alt}}" title="{{item.product.product_id.title}}">
                             {% endthumbnail %}
                         </a>
                         {% endthumbnail %}
                     </td>
                     <td class="text-center">
                         <div class="col-12 m-0 p-0 row">
-                            <a href="{% url 'product_details' category=item.product.product_id.category.slug product=item.product.product_id.slug color=item.product.product_id.color.slug store=item.product.product_id.store.slug pk=item.product.product_id.id %}" class="col-12 text-center m-0 p-0">
+                            <a href="{% url 'product_details' category=item.product.product_id.category.slug product=item.product.product_id.slug color=item.product.product_id.color.slug store=item.product.product_id.store.slug pk=item.product.product_id.id %}"
+                                class="col-12 text-center m-0 p-0">
                                 <p class="col-12 text-center m-0 ">{{item.product.product_id.name}} </p>
                             </a>
                             <small class="col-12 text-center m-0 {{item.product.product_id.color.class_text}}">Obudowa:
@@ -118,7 +121,8 @@
                     </td>
                     <td class="text-center">{{item.price_netto}} PLN</td>
                     <td class="text-center">{{item.price}} PLN</td>
-                    <td class="text-center">{{item.total_price}} PLN</td>
+                    <td class="text-center mx-auto"><strong id="t_netto{{item.product.id}}">{{item.t_netto}} PLN</strong></td>
+                    <td class="text-center mx-auto"><strong id="t_brutto{{item.product.id}}">{{item.t_brutto}} PLN</strong></td>  
                     <td class="text-center">
                         <form id="form" action="{% url 'add_products' %}" method="POST" class="col-12 row m-0 p-0 form">
                             {% csrf_token %}
@@ -132,10 +136,13 @@
                     <td class="text-center"></td>
                     <td class="text-center"></td>
                     <td class="text-center"></td>
-                    <td  class="text-center">
+                    <td class="text-center">
                         <strong id="len_table">{{cart.len}}szt.</strong></td>
                     <td class="text-center"></td>
                     <td class="text-center"></td>
+                    <td class="text-center">
+                        <strong id="total_price_netto_table" class="mx-auto">{{cart.get_total_price_netto}} PLN</strong>
+                    </td>
                     <td class="text-center">
                         <strong id="total_price_table" class="mx-auto">{{cart.get_total_price}} PLN</strong>
                     </td>
@@ -144,7 +151,30 @@
         </table>
     </main>
 </div>
-
+<div class="col-lg-8 mx-auto text-center mt-3 pt-0 row d-flex align-items-start">
+    {% if cart.len > 0 %}
+    {% if user.is_authenticated %}
+    <a id="normal_basket" href="{% url 'order_details' %}" class="col-12 text-right">
+        <button class="btn btn-outline-success"><i class="fas fa-cash-register m-1"></i>Przejdź do kasy</button>
+    </a>
+    <div id="empty_basket" class="col-12 text-right">
+        <button class="btn btn-outline-danger">Twój koszyk jest pusty.</button>
+    </div>
+    {% else %}
+    <a id="normal_basket" href="{% url 'register_user_basket' %}" class="col-12 text-right">
+        <button class="btn btn-outline-success"><i class="fas fa-user-alt m-1"></i><i
+                class="fas fa-cash-register m-1"></i>Rejestracja i do kasy</button>
+    </a>
+    <div id="empty_basket" class="col-12 text-right">
+        <button class="btn btn-outline-danger">Twój koszyk jest pusty.</button>
+    </div>
+    {% endif %}
+    {% else %}
+    <div class="col-12 text-right">
+        <button class="btn btn-outline-danger">Twój koszyk jest pusty.</button>
+    </div>
+    {% endif %}
+</div>
 {% endblock %}
 
 {% block script %}

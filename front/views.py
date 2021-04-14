@@ -160,12 +160,7 @@ class ContactView(View):
                 ],
             )
             messages.success(request, 'Wysyłanie email zakończnono poprawnie.')
-            print(
-                subject,
-                message,
-                settings.EMAIL_HOST_USER,
-                settings.EMAIL_HOST_USER,
-            )
+
             return redirect('contact_view')
         else:
             messages.error(request, 'Wypełnij wszystkie pola formularza.')
