@@ -42,11 +42,15 @@ class Cart(object):
             if product not in self.cart:
                 self.cart[product_id] = {
                     'quantity': 0,
+                    # 'color_text': str(get_color_text_display()),
                     'price': str(product.price),
                     'discount': str(discount),
                     'info': str(product.info),
                 }
             if price:
+                # self.cart[product_id][
+                #     'color_text'] = product.product_id.get_color_text_display(
+                #     ),
                 self.cart[product_id]['price'] = float(price)
                 self.cart[product_id]['price_netto'] = round(
                     float(price) / float("1." + "23"), 2)
