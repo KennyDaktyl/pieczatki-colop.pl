@@ -10,16 +10,27 @@ class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL,
                                 on_delete=models.CASCADE)
 
-    phone_number = models.CharField(
-        verbose_name="Numer telefonu",
-        max_length=9,
-    )
+    phone_number = models.CharField(verbose_name="Numer telefonu",
+                                    max_length=18)
 
     nip_number = models.CharField(
         verbose_name="Numer nip",
         max_length=13,
+        null=True,
+        blank=True,
     )
-
+    business_name = models.CharField(
+        verbose_name="Nazwa firmy",
+        max_length=128,
+        null=True,
+        blank=True,
+    )
+    business_name_l = models.CharField(
+        verbose_name="Nazwa firmy c.d.",
+        max_length=128,
+        null=True,
+        blank=True,
+    )
     company = models.BooleanField(verbose_name="Profil firmowy?",
                                   default=False)
 
