@@ -23,7 +23,12 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="{% static "css/main.css" %}" />
+
     <link href="{% static "lightbox/dist/css/lightbox.css" %}" rel="stylesheet" />
     <link rel="shortcut icon" type="image/jpg" href="{{ MEDIA_URL }}images/postage_stamp.png" />
     <link rel="apple-touch-icon" href="{{ MEDIA_URL }}images/postage_stamp.png" />
@@ -47,10 +52,10 @@
                 <div class="row d-flex align-items-center mr-1">
                     <div class="m-1 row d-flex align-items-center">
                         <a href="{% url 'cart_details' %}">
-                        <i class="text-center mx-auto text-white fas fa-shopping-basket"></i>
-                        <span id="len" class="mr-1 ml-1 text-white">{{cart.len}}szt.</span>
-                        <span id="total_price" class="mr-1 ml-1 text-white">{{cart.get_total_price}} PLN</span>
-                        <span class="ml-1 text-white">PLN</span>
+                            <i class="text-center mx-auto text-white fas fa-shopping-basket"></i>
+                            <span id="len" class="mr-1 ml-1 text-white">{{cart.len}}szt.</span>
+                            <span id="total_price" class="mr-1 ml-1 text-white">{{cart.get_total_price}} PLN</span>
+                            <span class="ml-1 text-white">PLN</span>
                     </div>
                     {% if user.is_authenticated %}
                     <a class="text-center m-1 logout row d-flex align-items-center" href="{% url "logout" %}">
@@ -97,19 +102,19 @@
                 </li>
             </ul>
     </nav>
-   
+
     <div id="page" class="mx-auto p-0 col-12" style="min-height: 101vh;">
         <div class="row col-12 mx-auto m-0 p-0">
-             {% if messages %}
-    <ul class="messages col-12 mt-2 bg-warning">
-        {% for message in messages %}
-        <li class="{{ message.tags }} col-10 mx-auto text-center">
-            {{ message|safe }}
-            <a href="#" class="close text-danger display-4">x</a>
-        </li>
-        {% endfor %}
-    </ul>
-    {% endif %}
+            {% if messages %}
+            <ul class="messages col-12 mt-2 bg-warning">
+                {% for message in messages %}
+                <li class="{{ message.tags }} col-10 mx-auto text-center">
+                    {{ message|safe }}
+                    <a href="#" class="close text-danger display-4">x</a>
+                </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
             {% block content %}
             {% endblock %}
         </div>

@@ -5,108 +5,27 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.shortcuts import render, redirect
 
-from .forms import LoginForm, UserForm
+from .forms import LoginForm, UserForm, BusinessForm
 from products.models import Category
 from django.contrib.auth import get_user_model
+from .models import Profile
 
 User = get_user_model()
 
-# @method_decorator(login_required, name='dispatch')
-# class ProfileListView(PermissionRequiredMixin, View):
-#     permission_required = 'account.view_profile'
 
-#     def get(self, request):
-#         user = request.user
-#         workplaces = user.profile.workplaces_tab
-#         users = User.objects.filter(is_active=True)
-#         workplace_active = user.profile.workplace_active
-#         profiles = Profile.objects.filter(user__in=users).filter(
-#             workplace=workplace_active)
-#         emp_position = EMPLOYEE_POSITION
-#         form_pswd = PasswordChangeForm()
-#         ctx = {
-#             'q': -1,
-#             'user': user,
-#             'profiles': profiles,
-#             'emp_position': emp_position,
-#             'workplaces': workplaces,
-#             'workplace_active': workplace_active,
-#             'form_pswd': form_pswd
-#         }
-#         return render(request, "account/profile_list.html", ctx)
-
-#     def post(self, request):
-#         emp_position = EMPLOYEE_POSITION
-#         user = request.user
-#         users = User.objects.filter(is_active=True)
-#         q = request.POST.get('q')
-#         drivers = False
-#         if 'driver_permission' in request.POST:
-#             drivers = True
-#             q = 4
-#             driver_permission = request.POST.get('driver_permission')
-#             driver = Profile.objects.get(pk=request.POST.get('driver_id'))
-#             if str(driver_permission) == "True":
-#                 driver.day_permission = datetime.now().date()
-#             else:
-#                 driver.day_permission = None
-#             driver.save()
-#             profiles = Profile.objects.filter(user__in=users).filter(
-#                 worker_position=q).order_by('user')
-
-#         if 'workers' in request.POST:
-#             q = int(request.POST.get('q'))
-
-#         if q == -1:
-#             profiles = Profile.objects.filter(user__in=users).order_by('user')
-#         else:
-#             profiles = Profile.objects.filter(user__in=users).filter(
-#                 worker_position=q).order_by('user')
-#         if int(q) == 4:
-#             drivers = True
-#         form_pswd = PasswordChangeForm(request.POST)
-#         ctx = {
-#             'q': int(q),
-#             'drivers': drivers,
-#             'user': user,
-#             'profiles': profiles,
-#             'form_pswd': form_pswd,
-#             'emp_position': emp_position,
-#         }
-#         return render(request, "account/profile_list.html", ctx)
-
-# @method_decorator(login_required, name='dispatch')
-# class ProfileListView(PermissionRequiredMixin, ListView):
-#     permission_required = 'account.view_profile'
-#     model = Profile
-#     paginate_by = 1
-
-#     def get_context_data(self, **kwargs):
-#         context = super(ProfileListView, self).get_context_data(**kwargs)
-#         workplaces = self.user.profile.workplaces_tab
-#         users = User.objects.filter(is_active=True)
-#         workplace_active = self.user.profile.workplace_active
-#         profiles = Profile.objects.filter(user__in=users).filter(
-#             workplace=workplace_active)
-#         paginator = Paginator(profiles, self.paginate_by)
-#         page = self.request.GET.get('page')
-#         try:
-#             profiles = paginator.page(page)
-#         except PageNotAnInteger:
-#             profiles = paginator.page(1)
-#         except EmptyPage:
-#             profiles = paginator.page(paginator.num_pages)
-#         context['profiles'] = profiles
-#         context['form_pswd'] = PasswordChangeForm()
-#         return context
+class ChoiceAccountReqisterView(View):
+    def get(self, request):
+        categorys = Category.objects.filter(is_active=True)
+        ctx = {'categorys': categorys}
+        return render(request, "account/choice_account_register.html", ctx)
 
 
 # @method_decorator(login_required, name='dispatch')
 class AddClientFromBasketView(View):
     def get(self, request):
-        form_u = UserForm()
+        form = UserForm()
         categorys = Category.objects.filter(is_active=True)
-        ctx = {'form_u': form_u, 'categorys': categorys}
+        ctx = {'form': form, 'categorys': categorys}
         return render(request, "account/register_user.html", ctx)
 
     def post(self, request):
@@ -115,14 +34,49 @@ class AddClientFromBasketView(View):
             new_user = form.save(commit=False)
             new_user.set_password(form.cleaned_data['password'])
             new_user.save()
+            profile = Profile()
+            profile.user_id = new_user.id
+            profile.phone_number = form.cleaned_data['phone_number']
+            profile.save()
             login(request, new_user)
             messages.error(request, 'Utworzono konto')
             return redirect('cart_details')
         else:
             messages.error(request, 'Wystąpił błąd')
             categorys = Category.objects.filter(is_active=True)
-            ctx = {'form_u': form, 'categorys': categorys}
+            ctx = {'form': form, 'categorys': categorys}
             return render(request, "account/register_user.html", ctx)
+
+
+class AddBusinessClientFromBasketView(View):
+    def get(self, request):
+        form = BusinessForm()
+        categorys = Category.objects.filter(is_active=True)
+        ctx = {'form': form, 'categorys': categorys}
+        return render(request, "account/register_business.html", ctx)
+
+    def post(self, request):
+        form = BusinessForm(request.POST)
+        if form.is_valid():
+            new_user = form.save(commit=False)
+            new_user.set_password(form.cleaned_data['password'])
+            new_user.save()
+            profile = Profile()
+            profile.user_id = new_user.id
+            profile.business_name = form.cleaned_data['business_name']
+            profile.business_name_l = form.cleaned_data['business_name_l']
+            profile.phone_number = form.cleaned_data['phone_number']
+            profile.nip_number = form.cleaned_data['nip_number']
+            profile.company = True
+            profile.save()
+            login(request, new_user)
+            messages.error(request, 'Utworzono konto')
+            return redirect('cart_details')
+        else:
+            messages.error(request, 'Wystąpił błąd')
+            categorys = Category.objects.filter(is_active=True)
+            ctx = {'form': form, 'categorys': categorys}
+            return render(request, "account/register_business.html", ctx)
 
 
 # @method_decorator(login_required, name='dispatch')

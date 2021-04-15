@@ -1,16 +1,21 @@
+body {
+    font-family: "Roboto Condensed",
+    sans-serif;
+}
+
 .fixed-top {
     z-index: 10;
 }
 
 #top {
     height: 35px;
-    
+
 }
 
 #nav {
     margin-top: 35px;
     height: 55px;
-     z-index: 20;
+    z-index: 20;
 }
 
 #link_map {
@@ -31,6 +36,58 @@ a.dropdown-item:hover {
     min-width: 210px;
     height: 40px;
 }
+
+.input-group {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    width: 100%;
+}
+
+
+
+
+
+span.asteriskField {
+    color: red;
+}
+
+.input-group-text {
+    display: flex;
+    align-items: center;
+    padding: .375rem .75rem;
+    margin-bottom: 0;
+    font-size: .9375rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: white;
+    text-align: center;
+    white-space: nowrap;
+    background-color: #ff9b00;
+    border: 1px solid #ced4da;
+}
+
+input {
+    border: 5px solid #ced4da;
+    border-left: 5px solid #ff9b00;
+   
+}
+
+input:focus {
+    background-color: #ced4da;
+    border: 5px solid #ff9b00;
+}
+
+.choice_reg i {
+   font-size: 35px;
+   color: #ff9b00;
+}
+
+div.choice_reg {
+     border: 5px solid #ff9b00;
+}
+
 
 #basket_div {
     display: none;
@@ -114,11 +171,13 @@ label {
 }
 
 .cat_nav p {
-    color:white;
+    color: white;
 }
+
 .cat_nav p:hover {
     color: #ff8d1e;
 }
+
 .violet {
     color: violet;
 }
@@ -158,6 +217,7 @@ label {
     border: 1px solid #dee2e6;
     float: right;
 }
+
 a:hover {
     color: #ff8d1e;
     text-decoration: none;
@@ -261,8 +321,8 @@ p.product_title {
 
 div.modal-content {
     background-color: rgb(228, 255, 228);
-    
-      /* background-color:#ff8d1e; */
+
+    /* background-color:#ff8d1e; */
 }
 
 span.basket {
@@ -293,17 +353,18 @@ table {
 }
 
 .a_link small {
-     color: blue;
+    color: blue;
 }
 
 .a_link small:hover {
-      color: #ff8d1e;
+    color: #ff8d1e;
 }
 
 
 th.th_title {
     min-width: 220px;
 }
+
 th.th_qty {
     min-width: 150px;
 }
@@ -550,10 +611,10 @@ ul.social-footer2 li a {
         color: black;
     }
 
-     .navbar strong {
-         font-size: 20px;
-         color: black;
-     }
+    .navbar strong {
+        font-size: 20px;
+        color: black;
+    }
 
     .top {
         font-size: 11px;

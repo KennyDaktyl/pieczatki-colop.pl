@@ -7,12 +7,13 @@ from account.models import Profile, Address
 class ProfileAdmin(admin.ModelAdmin):
     list_display = [f.name for f in Profile._meta.fields]
     list_filter = (
-        # 'workplace',
+        'company',
         # 'worker_position',
     )
     search_fields = (
         'last_name',
         'username',
+        'nip_number',
     )
 
 
