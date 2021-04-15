@@ -1,6 +1,7 @@
 ﻿{% extends "front/base.html" %}
 {% load static %}
 {% load crispy_forms_tags %}
+{% load thumbnail %}
 
 {% block head %}
 {% endblock %}
@@ -9,33 +10,81 @@
 
 {% block content %}
 <nav id="link_map" aria-label="breadcrumb" class="col-12 bg-white mx-auto d-md-none row fixed-top">
-     <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'welcome' %}">Strona startowa</a></li>
-    <li class="breadcrumb-item text-dark active" aria-current="page">Logowanie</li>
+  <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'welcome' %}">Strona startowa</a></li>
+  <li class="breadcrumb-item text-dark active" aria-current="page">Logowanie</li>
 </nav>
-<div class="form col-lg-10 text-center mt-3 mx-auto border">
-  <h1>Logowanie</h1>
-  {% if form.errors %}
-  <p>
-    Nazwa użytkownika lub hasło są nieprawidłowe.
-    Spróbuj ponownie.
-  </p>
-  {% else %}
-  <p>Wypełnij poniższy formularz, aby się zalogować:</p>
-  {% endif %}
-  <form class="col-12 mx-auto" action="{% url 'login' %}" method="post">
-    <div class="row mx-auto col-lg-10 mt-3 mb-3">
-      <div class="col-lg-8 mx-auto text-center">
-        {{ form.username|as_crispy_field}}
-      </div>
-      <div class="col-lg-8 mx-auto text-center">
-        {{ form.password|as_crispy_field}}
-      </div>
-      {% csrf_token %}
-      <input type="hidden" name="next" value="{{ next }}" />
+
+<div class="col-12 mx-auto text-center m-0 p-0  row d-flex align-items-center motto">
+    {% thumbnail "images/bcg-stamp_LrTJcQE_YRKH6ut.webp" "590x300" crop='center' format="WEBP"  as im %}
+    <img src="{{ MEDIA_URL }}{{im}}" class="img-fluid mx-auto text-center d-sm-none"
+        title="Prezentacja graficzna sklepu z pieczątki Colop" alt="Prezentacja graficzna sklepu z pieczątki Colop">
+    {% endthumbnail %}
+    {% thumbnail "images/bcg-stamp_LrTJcQE_YRKH6ut.webp" "720x300" crop='center' format="WEBP"  as im %}
+    <img src="{{ MEDIA_URL }}{{im}}" class="img-fluid mx-auto text-center d-none d-sm-block d-md-none"
+        title="Prezentacja graficzna sklepu z pieczątki Colop" alt="Prezentacja graficzna sklepu z pieczątki Colop">
+    {% endthumbnail %}
+    {% thumbnail "images/bcg-stamp_LrTJcQE_YRKH6ut.webp" "1280x350" crop='center' format="WEBP"  as im %}
+    <img src="{{ MEDIA_URL }}{{im}}" class="img-fluid mx-auto text-center d-none d-md-block d-lg-none"
+        title="Prezentacja graficzna sklepu z pieczątki Colop" alt="Prezentacja graficzna sklepu z pieczątki Colop">
+    {% endthumbnail %}
+    {% thumbnail "images/bcg-stamp_LrTJcQE_YRKH6ut.webp" "1480x250" crop='center' format="WEBP"  as im %}
+    <img src="{{ MEDIA_URL }}{{im}}" class="img-fluid mx-auto text-center d-none d-lg-block col-12 m-0 p-0"
+        title="Prezentacja graficzna sklepu z pieczątki Colop" alt="Prezentacja graficzna sklepu z pieczątki Colop">
+    {% endthumbnail %}
+</div>
+<div class="col-lg-8 mx-auto text-center row d-flex align-items-center justify-content-center border mt-3">
+  <div class="form col-lg-6 text-center mt-3 mx-auto">
+    <div class="m-0 p-2 col-9 headline">
+      <h2 class="mx-auto text-center m-0 p-0">LOGOWANIE</h2>
     </div>
-    <button class="btn btn-success" type="submit" value="Zaloguj">Zaloguj</button>
-  </form>
-  <p><a href="{% url "password_reset" %}">Zapomniałeś hasła?</a></p>
+  </div>
+
+<form class="col-lg-10 mx-auto row" action="{% url 'login' %}" method="post">
+  <div class="row mx-auto col-lg-10 mt-3 mb-3">
+    <div class="col-lg-8 mx-auto text-center">
+      {{ form.username|as_crispy_field}}
+    </div>
+    <div class="col-lg-8 mx-auto text-center">
+      {{ form.password|as_crispy_field}}
+    </div>
+    {% csrf_token %}
+    <input type="hidden" name="next" value="{{ next }}" />
+  </div>
+  <div class="col-12 mx-auto text-center">
+    <button class="btn btn-success mx-auto" type="submit" value="Zaloguj">Zaloguj</button>
+  </div>
+</form>
+<div class="row mx-auto text-center col-lg-10 mt-3 mb-3">
+  <p class="mx-auto text-center"><a href="{% url "password_reset" %}">Zapomniałeś hasła?</a></p>
+</div>
+  <div class="form col-lg-6 text-center mt-3 mx-auto">
+    <div class="m-0 p-2 col-9 headline">
+      <h2 class="mx-auto text-center m-0 p-0">WYBÓR KONTA DO REJESTRACJI:</h2>
+    </div>
+  </div>
+  <div class="col-12 mx-auto row m-0 p-0 mt-2 mb-2">
+    <div class="col-lg-6 mx-auto text-center row d-flex align-items-center justify-content-center">
+      <a href="{% url 'register_user_basket' %}"
+        class="border col-lg-10 m-2 row choice_reg d-flex align-items-center d-flex justify-content-center p-0">
+        <div class="m-0 p-2 col-3">
+          <i class="fas fa-user-alt"></i>
+        </div>
+        <div class="m-0 p-2 col-9 headline">
+          <h2 class="mx-auto text-center m-0 p-0">KONTO INDYWIDUALNE</h2>
+        </div>
+      </a>
+      <a href="{% url 'register_bisness_user_basket' %}"
+        class="border col-lg-10 m-2 row choice_reg d-flex align-items-center d-flex justify-content-center p-0">
+        <div class="m-0 p-2 col-3">
+          <i class="far fa-building"></i>
+        </div>
+        <div class="m-0 p-2 col-9 headline">
+          <h2 class="mx-auto text-center m-0 p-0">KONTO FIRMOWE</h2>
+        </div>
+      </a>
+    </div>
+  </div>
+</main>
 </div>
 {% endblock %}
 
