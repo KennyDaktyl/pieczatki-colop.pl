@@ -13,9 +13,6 @@ $(document).ready(function () {
         }
     });
 
-    menu_burger.on("click", function () {
-        stamp_logo.toggleClass('show');
-    });
 
     i_close.on("click", function () {
         order_details.toggleClass('slider');
