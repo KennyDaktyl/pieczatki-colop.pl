@@ -319,6 +319,48 @@ p.product_title {
     color: #ff8d1e;
 }
 
+#order_details {
+    position: fixed;
+    display: flex;
+    right: 0;
+    bottom: 0;
+    z-index: 99;
+    background-color: white;
+    transition: 0.3s;
+    box-shadow: 5px 10px #888888;
+   
+}
+/* #navbarTogglerDemo03 {
+    position: fixed;
+    z-index: 999;
+}
+div.show {
+    position: fixed;
+    z-index: 999;
+} */
+
+#order_details.slider {
+    bottom: -30%;
+    transition: 0.3s;
+}
+
+#close {
+    color: red;
+    font-size: large;
+    cursor: pointer;
+}
+#open {
+    color: green;
+    display: none;
+    font-size: large;
+    cursor: pointer;
+    z-index: 199;
+}
+
+div.order_details {
+    border: 5px solid #ced4da;
+}
+
 div.modal-content {
     background-color: rgb(228, 255, 228);
 
@@ -595,6 +637,7 @@ ul.social-footer2 li a {
 
     #navbarToggler {
         background-color: hsl(0, 0%, 81%);
+        margin-top: 30px;
         /* position: fixed;
         top: 100px;
         bottom: 100px;
@@ -602,13 +645,46 @@ ul.social-footer2 li a {
         right: 20px; */
     }
 
+    .collapse {
+        margin-top: 0px;
+        transition: 0.3s;
+    }
+
+    .collapse.show {
+        display: block;
+        margin-top: 26px;
+    }
+
+    /* #navbarTogglerDemo03 {
+        background:red;
+        position: fixed;
+        left: 10px;
+        right: 10px;
+        bottom: 20px;
+        z-index: 999;
+    } */
+
     .navbar-collapse {
         background-color: white;
     }
 
+    #stamp_logo {
+        width: 50px;
+        height: 50px;
+        transition: .3s;
+    }
+
+    #stamp_logo.show {
+        width: 80px;
+        height: 80px;
+        transition: .3s;
+    }
+
+
     .navbar li {
         line-height: 60px;
         color: black;
+        border-bottom: 2px solid #ff8d1e;
     }
 
     .navbar strong {

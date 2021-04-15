@@ -59,7 +59,7 @@
       {% endfor %}
     </ul>
   </div>
-  <main class="col-lg-12 mx-auto row">
+  <main class="col-lg-12 mx-auto row m-0 p-0">
     <div class="text-left headline m-1 mb-2">
       <h1 class="mt-2">REJESTRACJA KLIENTA:</h1>
     </div>
@@ -79,73 +79,73 @@
       {% endfor %}
       {% endif %}
     </div>
-    <form method="post" class="uniForm col-lg-12 m-0 p-0 mt-2 mb-2 mx-auto text-center blueForms border">
+    <form method="post" class="uniForm col-lg-8 m-0 p-0 mt-2 mb-2 mx-auto text-center blueForms border">
       {% csrf_token %}
       <div class="col-12 mx-auto row m-0 p-0 mt-2 mb-2">
-        <div class="col-lg-11 mx-auto text-center row">
+        <div class="col-lg-11 mx-auto text-center row m-0 p-0">
           <div class="col-lg-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
-            <label for="id_username" class="requiredField col-2 m-0 p-0 align-self-center">
+            <label for="id_username" class="requiredField col-3 col-lg-2 m-0 p-0 align-self-center">
               Login<span class="asteriskField">*</span>
             </label>
-            <input type="text" name="username" class="textinput textInput col-8" required="" id="id_username">
+            <input type="text" name="username" class="textinput textInput col-7 col-lg-8" required="" id="id_username">
             <span class="input-group-text col-2 text-center">
               <i class="fas fa-user col-12 text-center mx-auto m-0 p-0"></i>
             </span>
           </div>
           <div class="col-lg-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
-            <label for="id_password" class="requiredField col-2 m-0 p-0 align-self-center">
+            <label for="id_password" class="requiredField col-3 col-lg-2 m-0 p-0 align-self-center">
               Hasło<span class="asteriskField">*</span>
             </label>
-            <input type="password" name="password" class="textinput textInput col-8" required="" id="id_password">
+            <input type="password" name="password" class="textinput textInput col-7 col-lg-8 required="" id="id_password">
             <span class="input-group-text col-2 text-center">
               <i class="fas fa-unlock-alt col-12 text-center mx-auto m-0 p-0"></i>
             </span>
           </div>
 
           <div class="col-lg-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
-            <label for="id_password2" class="requiredField col-2 m-0 p-0 align-self-center">
+            <label for="id_password2" class="requiredField col-3 col-lg-2 m-0 p-0 align-self-center">
               Powtórz hasło<span class="asteriskField">*</span>
             </label>
-            <input type="password" name="password2" class="textinput textInput col-8" required="" id="id_password2">
-            <span class="input-group-text col-2 text-center">
-              <i class="fas fa-unlock-alt col-12 text-center mx-auto m-0 p-0"></i>
+            <input type="password" name="password2" class="textinput textInput col-7 col-lg-8 align-self-start" required="" id="id_password2">
+            <span class="input-group-text col-2 text-center align-self-stretch">
+              <i class="fas fa-unlock-alt col-12 text-center mx-auto m-0 p-0 align-self-start"></i>
             </span>
           </div>
 
           <div class="col-lg-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
-            <label for="id_first_name" class="requiredField col-2 m-0 p-0 align-self-center">
+            <label for="id_first_name" class="requiredField col-3 col-lg-2 m-0 p-0 align-self-center">
               Imię<span class="asteriskField">*</span>
             </label>
-            <input type="text" name="first_name" class="textinput textInput col-8" maxlength="32" required=""
+            <input type="text" name="first_name" class="textinput textInput col-7 col-lg-8" maxlength="32" required=""
               id="id_first_name">
             <span class="input-group-text col-2 text-center">
               <i class="fas fa-user col-12 text-center mx-auto m-0 p-0"></i>
             </span>
           </div>
           <div class="col-lg-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
-            <label for="id_last_name" class="requiredField col-2 m-0 p-0 align-self-center">
+            <label for="id_last_name" class="requiredField col-3 col-lg-2 m-0 p-0 align-self-center">
               Nazwisko<span class="asteriskField">*</span>
             </label>
-            <input type="text" name="last_name" class="textinput textInput col-8" maxlength="64" required=""
+            <input type="text" name="last_name" class="textinput textInput col-7 col-lg-8" maxlength="64" required=""
               id="id_last_name">
             <span class="input-group-text col-2 text-center">
               <i class="fas fa-user col-12 text-center mx-auto m-0 p-0"></i>
             </span>
           </div>
           <div class="col-lg-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
-            <label for="id_phone_number" class="requiredField col-2 m-0 p-0 align-self-center">
+            <label for="id_phone_number" class="requiredField col-3 col-lg-2 m-0 p-0 align-self-center">
               Telefon<span class="asteriskField ">*</span>
             </label>
-            <input type="text" name="phone_number" class="col-8" maxlength="18" required="" id="id_phone_number">
+            <input type="text" name="phone_number" class="col-7 col-lg-8" maxlength="18" required="" id="id_phone_number">
             <span class="input-group-text col-2 text-center">
               <i class="fas fa-phone col-12 text-center mx-auto m-0 p-0"></i>
             </span>
           </div>
           <div class="col-lg-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
-            <label for="id_email" class="requiredField col-2 m-0 p-0 align-self-center">
+            <label for="id_email" class="requiredField col-3 col-lg-2 m-0 p-0 align-self-center">
               Email<span class="asteriskField ">*</span>
             </label>
-            <input type="email" name="email" class="emailinput col-8" maxlength="64" required="" id="id_email">
+            <input type="email" name="email" class="emailinput col-7 col-lg-8" maxlength="64" required="" id="id_email">
             <span class="input-group-text col-2 text-center">
               <i class="fas fa-at col-12 text-center mx-auto m-0 p-0"></i>
             </span>

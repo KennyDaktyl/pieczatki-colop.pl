@@ -22,6 +22,13 @@ $(document).ready(function () {
     //     }
     // });
 
+    var menu_burger = $('#menu_burger');
+    var stamp_logo = $('#stamp_logo');
+    menu_burger.on("click", function () {
+        stamp_logo.toggleClass('show');
+    });
+
+
     var lastY;
     $(window).bind('touchmove', function (e) {
         var currentY = e.originalEvent.touches[0].clientY;
