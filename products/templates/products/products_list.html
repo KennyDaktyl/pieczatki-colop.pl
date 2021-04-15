@@ -52,9 +52,9 @@
             <i class="fas fa-list text-white mr-2 ml-1"></i>
             <p class="text-center text-white card-header">KATEGORIE</p>
         </div>
-        <ul class="nav cat_nav">
+        <ul class="nav cat_nav row col-12 m-0 p-0">
             {% for cat in categorys %}
-            <li class="nav-item dropdown-submenu ">
+            <li class="nav-item dropdown-submenu col-12 m-0 p-0">
                 <a class="nav-link text-left"
                     href="{% url 'category_details' category=cat.slug pk=cat.id %}">{{cat.name}}</a>
             </li>
