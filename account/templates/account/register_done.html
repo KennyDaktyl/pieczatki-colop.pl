@@ -1,4 +1,11 @@
-﻿{% extends "page_ap/base.html" %}
+﻿{% extends 'front/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% crispy form.helper %}
+{% load templatetag %}
+{% load thumbnail %}
+{% load crispy_forms_tags %}
+{% crispy form.helper %}
 
 {% block title %}Witaj{% endblock %}
 

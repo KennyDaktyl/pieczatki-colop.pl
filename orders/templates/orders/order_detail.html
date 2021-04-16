@@ -132,25 +132,44 @@
     </main>
 </div>
 <div class="col-lg-8 mx-auto row d-flex justify-content-start">
-    <div class="col-lg-8 m-0 p-0 row  text-center d-flex justify-content-start">
+    <div class="col-lg-11 m-0 p-0 row  text-center d-flex justify-content-start">
         <div class="text-left headline m-1 mb-2">
             <h1 class="mt-2">TWOJE DANE OSOBOWE:</h1>
         </div>
         <div class="col-12 text-center row m-0 p-0">
-            <div class="border row text-center col-lg-6 m-0 p-0">
+            <div class="border row text-center col-lg-12 m-0 p-0">
                 <div class="row col-12 mx-auto">
-                    <div class="col-10 row mx-auto m-0 p-0">
+                    {% if user.profile.company  %}
+                    <div class="col-10 row mx-auto m-0 p-0 mt-1">
+                        <label for="" class="m-0 p-0 mt-2">Nazwa firmy</label>
+                        <input class="col-12" placeholder="{{client.business_name}}" disabled></input>
+                    </div>
+                    {% if user.profile.business_name_l  %}
+                    <div class="col-10 row mx-auto m-0 p-0 mt-1">
+                        <label for="" class="m-0 p-0 mt-2">Nazwa firmy</label>
+                        <input class="col-12" placeholder="{{client.business_name_l}}" disabled></input>
+                    </div>
+                    {% endif %}
+                    <div class="col-lg-5 row mx-auto m-0 p-0 mt-1">
+                        <label for="" class="m-0 p-0">Nip</label>
+                        <input class="col-12" placeholder="{{client.nip_number}}" disabled></input>
+                    </div>
+                    {% else %}
+                    <div class="col-10 row mx-auto m-0 p-0 mt-1">
                         <label for="" class="m-0 p-0 mt-2">Imię i Nazwisko</label>
                         <input class="col-12" placeholder="{{client.user.first_name}} {{client.user.last_name}}"
                             disabled></input>
                     </div>
+                    {% endif %}
                     <div class="col-10 row mx-auto m-0 p-0">
-                        <label for="" class="m-0 p-0">email</label>
-                        <input class="col-12" placeholder="{{client.user.email}}" disabled></input>
-                    </div>
-                    <div class="col-10 row mx-auto m-0 p-0">
-                        <label for="" class="m-0 p-0">telefon</label>
-                        <input class="col-12" placeholder="{{client.phone_number}}" disabled></input>
+                        <div class="col-lg-5 row mx-auto m-0 p-0 mt-1">
+                            <label for="" class="m-0 p-0">email</label>
+                            <input class="col-12" placeholder="{{client.user.email}}" disabled></input>
+                        </div>
+                        <div class="col-lg-5 row mx-auto m-0 p-0 mt-1">
+                            <label for="" class="m-0 p-0">telefon</label>
+                            <input class="col-12" placeholder="{{client.phone_number}}" disabled></input>
+                        </div>
                     </div>
                     <div class="row col-12 mx-auto text-right">
                         <a href="" class="text-right col-12">edytuj</a>
@@ -160,13 +179,13 @@
         </div>
         <div class="text-left headline m-1 mb-2 mt-2">
             <h1 class="mt-2">DANE ADRESOWE:</h1>
-            <a href="" class="text-right ml-auto">
+            <a href="{% url 'add_address_basket' %}" class="text-right ml-auto">
                 <button class="btn btn-outline-success"><i class="fas fa-map-marker-alt m-1"></i>Dodaj adres</button>
             </a>
         </div>
         <div class="col-12 text-center row m-0 p-0">
             {% for address in addresses %}
-            <div class="border row text-center col-lg-6 m-0 p-0">
+            <div class="border row text-center col-lg-5 m-1 p-0">
                 <div class="col-10 row mx-auto m-0 p-0">
                     <label for="" class="m-0 p-0 mt-2">Ulica</label>
                     <input class="col-12" placeholder="{{address.street}}" disabled></input>
@@ -196,12 +215,12 @@
                     </div>
                 </div>
                 <div class="row col-12 mx-auto text-right">
-                    <a href="" class="text-right col-12">edytuj</a>
+                    <a href="{% url 'edit_address_basket' pk=address.pk %}" class="text-right col-12">edytuj</a>
                 </div>
             </div>
 
             {% empty %}
-            <p class="col-12">Brak adresu</p>
+            <p class="col-12 text-danger">Brak adresu</p>
             {% endfor %}
         </div>
         <div class="text-left headline m-1 mb-2 mt-2">
@@ -215,7 +234,7 @@
             <button class="btn btn-success mx-auto  text-center col-5">FAKTURA
             </button>
         </div>
-        <div class="text-left headline m-1 mb-2 mt-2">
+        <!-- <div class="text-left headline m-1 mb-2 mt-2">
             <h1 class="mt-2">DANE ADRESOWE:</h1>
 
         </div>
@@ -259,7 +278,7 @@
                     <a href="" class="text-right col-12">edytuj</a>
                 </div>
             </div>
-        </div>
+        </div> -->
         <div class="text-left headline m-1 mb-2 mt-2">
             <h1 class="mt-2">SPOSÓB DOSTAWY:</h1>
         </div>
@@ -352,6 +371,49 @@
                 <p class="m-0 p-0 ml-auto mr-1">{{payment_default.name}}</p>
             </div>
         </div>
+        <div class="col-12 m-0 p-0 row order_details">
+            <div class="col-12 row m-0 p-0 d-flex align-items-center">
+                {% if user.profile.company  %}
+                <small class="m-0 p-0 ml-1">Odbiorca: </small>
+                <p class="m-0 p-0 ml-auto mr-1">{{user.profile.business_name}}</p>
+            </div>
+            {% if user.profile.business_name_l  %}
+            <div class="col-12 row m-0 p-0 d-flex align-items-center">
+                <small class="m-0 p-0 ml-1">Odbiorca c.d.: </small>
+                <p class="m-0 p-0 ml-auto mr-1">{{user.profile.business_name_l}}</p>
+            </div>
+            {% endif %}
+            <div class="col-12 row m-0 p-0 d-flex align-items-center">
+                <small class="m-0 p-0 ml-1">NIP </small>
+                <p class="m-0 p-0 ml-auto mr-1">{{user.profile.nip_number}}</p>
+            </div>
+            <div class="col-12 row m-0 p-0 d-flex align-items-center">
+                <small class="m-0 p-0 ml-1">Telefon</small>
+                <p class="m-0 p-0 ml-auto mr-1">{{user.profile.phone_number}}</p>
+                {% else %}
+                <small class="m-0 p-0 ml-1">Imię, nazwisko</small>
+                <p class="m-0 p-0 ml-auto mr-1">{{user.first_name}} {{user.last_name}}</p>
+            </div>
+            <div class="col-12 row m-0 p-0 d-flex align-items-center">
+                <small class="m-0 p-0 ml-1">Telefon</small>
+                <p class="m-0 p-0 ml-auto mr-1">{{user.profile.phone_number}}</p>
+                {% endif %}
+            </div>
+
+            <div class="col-12 row m-0 p-0 d-flex align-items-center">
+                <small class="m-0 p-0 ml-1">Adres: </small>
+                {% if address_default.door %}
+                <p class="m-0 p-0 ml-auto mr-1">{{address_default.street}}, {{address_default.house}}
+                    {{address_default.door}}</p>
+                {% else %}
+                <p class="m-0 p-0 ml-auto mr-1">{{address_default.street}}, {{address_default.house}}</p>
+                {% endif %}
+            </div>
+            <div class="col-12 row m-0 p-0 d-flex align-items-center">
+                <small class="m-0 p-0 ml-1">Adres c.d.: </small>
+                <p class="m-0 p-0 ml-auto mr-1">{{address_default.city}}, {{address_default.post_code}}</p>
+            </div>
+        </div>
         <div class="col-12 m-0 p-0 order_details row ">
             <div class="col-12 row m-0 p-0 d-flex align-items-center">
                 <small class="m-0 p-0 ml-1">Produkty suma: </small><strong
@@ -380,5 +442,5 @@
 {% endblock %}
 
 {% block script %}
- <script src="{% static "js/order_details.js" %}" type="text/javascript"></script>
+<script src="{% static "js/order_details.js" %}" type="text/javascript"></script>
 {% endblock %}

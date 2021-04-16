@@ -2,7 +2,8 @@ from django.contrib.auth import logout
 from django.urls import path
 from django.contrib.auth import views as auth_views
 from .views import LoginView, Logout, AddClientFromBasketView, \
-     AddBusinessClientFromBasketView, ChoiceAccountReqisterView
+     AddBusinessClientFromBasketView, ChoiceAccountReqisterView, \
+          AddAddressBasketView, UpdateAddressBasketView
 # from django.conf import settings
 # from django.conf.urls.static import static
 # from django.conf.urls import url
@@ -20,6 +21,12 @@ urlpatterns = [
     path('rejestracja_klienta_biznesowego_koszyk/',
          AddBusinessClientFromBasketView.as_view(),
          name='register_bisness_user_basket'),
+    path('dodaj_adres_koszyk/',
+         AddAddressBasketView.as_view(),
+         name='add_address_basket'),
+    path('edytuj_adres_koszyk/<int:pk>/',
+         UpdateAddressBasketView.as_view(),
+         name='edit_address_basket'),
     path('password_change/',
          auth_views.PasswordChangeView.as_view(),
          name='password_change'),

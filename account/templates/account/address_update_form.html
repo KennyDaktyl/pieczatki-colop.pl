@@ -1,0 +1,119 @@
+{% extends "front/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load thumbnail %}
+
+{% block head %}
+{% endblock %}
+
+{% block title %}Dodawanie adresu{% endblock %}
+
+{% block content %}
+<nav id="link_map" aria-label="breadcrumb" class="col-12 bg-white mx-auto d-md-none row fixed-top">
+    <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'welcome' %}">Strona startowa</a></li>
+    <li class="breadcrumb-item text-dark active" aria-current="page">Logowanie</li>
+</nav>
+
+<div class="col-12 mx-auto text-center m-0 p-0  row d-flex align-items-center motto">
+    {% thumbnail "images/bcg-stamp_LrTJcQE_YRKH6ut.webp" "590x300" crop='center' format="WEBP"  as im %}
+    <img src="{{ MEDIA_URL }}{{im}}" class="img-fluid mx-auto text-center d-sm-none"
+        title="Prezentacja graficzna sklepu z pieczątki Colop" alt="Prezentacja graficzna sklepu z pieczątki Colop">
+    {% endthumbnail %}
+    {% thumbnail "images/bcg-stamp_LrTJcQE_YRKH6ut.webp" "720x300" crop='center' format="WEBP"  as im %}
+    <img src="{{ MEDIA_URL }}{{im}}" class="img-fluid mx-auto text-center d-none d-sm-block d-md-none"
+        title="Prezentacja graficzna sklepu z pieczątki Colop" alt="Prezentacja graficzna sklepu z pieczątki Colop">
+    {% endthumbnail %}
+    {% thumbnail "images/bcg-stamp_LrTJcQE_YRKH6ut.webp" "1280x350" crop='center' format="WEBP"  as im %}
+    <img src="{{ MEDIA_URL }}{{im}}" class="img-fluid mx-auto text-center d-none d-md-block d-lg-none"
+        title="Prezentacja graficzna sklepu z pieczątki Colop" alt="Prezentacja graficzna sklepu z pieczątki Colop">
+    {% endthumbnail %}
+    {% thumbnail "images/bcg-stamp_LrTJcQE_YRKH6ut.webp" "1480x250" crop='center' format="WEBP"  as im %}
+    <img src="{{ MEDIA_URL }}{{im}}" class="img-fluid mx-auto text-center d-none d-lg-block col-12 m-0 p-0"
+        title="Prezentacja graficzna sklepu z pieczątki Colop" alt="Prezentacja graficzna sklepu z pieczątki Colop">
+    {% endthumbnail %}
+</div>
+<div class="col-lg-8 mx-auto text-center row d-flex align-items-center justify-content-center border mt-3">
+    <div class="form col-lg-6 text-center mt-3 mx-auto">
+        <div class="m-0 p-2 col-9 headline">
+            <h2 class="mx-auto text-center m-0 p-0">DODAJ ADRES</h2>
+        </div>
+    </div>
+    <div class="col-12 mx-auto row m-0 p-0 mt-2 mb-2">
+        {% if form.errors %}
+        {% for field in form %}
+        {% for error in field.errors %}
+        <div class="alert alert-danger">
+            <strong>{{ error|escape }}</strong>
+        </div>
+        {% endfor %}
+        {% endfor %}
+        {% for error in form.non_field_errors %}
+        <div class="alert alert-danger">
+            <strong>{{ error|escape }}</strong>
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
+    <form class="col-lg-10 mx-auto row" method="post">
+        {% csrf_token %}
+        <div class="row mx-auto col-lg-10 mt-3 mb-3">
+            <div class="col-lg-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
+                <label for="id_street" class="requiredField col-12 align-self-center">
+                    Ulica<span class="asteriskField ">*</span>
+                </label>
+                <input type="text" name="street" placeholder="{{object.street}}" value="{{object.street}}" class="textinput col-10" maxlength="128" required="" id="id_street">
+                <span class="input-group-text col-2 text-center">
+                    <i class="fas fa-road col-12 text-center mx-auto m-0 p-0"></i>
+                </span>
+            </div>
+            <div class="col-lg-12 p-1 mx-auto text-center input-group row d-flex align-items-start">
+                <div class="col-lg-5 mx-auto m-0 p-0 text-center input-group row d-flex align-items-stretch">
+                    <label for="id_house" class="requiredField col-12 m-0 p-0 align-self-center">
+                        Nr domu<span class="asteriskField ">*</span>
+                    </label>
+                    <input type="text" name="house" placeholder="{{object.house}}" value="{{object.house}}" class="textinput col-10" required="" maxlength="8" id="id_house">
+                    <span class="input-group-text col-2 text-center m-0 p-0">
+                        <i class="fas fa-home col-12 text-center text-white mx-auto m-0 p-0"></i>
+                    </span>
+                </div>
+                <div class="col-lg-5 mx-auto m-0 p-0 text-center input-group row d-flex align-items-stretch">
+                    <label for="id_door" class="requiredField col-12 m-0 p-0 align-self-center">
+                        Nr lokalu<span class="asteriskField ">*</span>
+                    </label>
+                    <input type="text" name="door" placeholder="{{object.door}}" value="{{object.door}}" class="textinput col-10 " maxlength="8" id="id_door">
+                    <span class="input-group-text col-2 text-center m-0 p-0">
+                        <i class="fas fa-home col-12 text-center text-white mx-auto m-0 p-0"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="col-lg-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
+                <label for="id_street" class="requiredField col-12 align-self-center">
+                    Miasto<span class="asteriskField ">*</span>
+                </label>
+                <input type="text" name="city" placeholder="{{object.city}}" value="{{object.city}}" class="textinput col-10" maxlength="128" required="" id="id_city">
+                <span class="input-group-text col-2 text-center">
+                    <i class="fas fa-city col-12 text-center mx-auto m-0 p-0"></i>
+                </span>
+            </div>
+            <div class="col-lg-6 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
+                <label for="id_street" class="requiredField col-12 align-self-center">
+                    Kod pocztowy<span class="asteriskField ">*</span>
+                </label>
+                <input type="text" name="post_code" placeholder="{{object.post_code}}" value="{{object.post_code}}" class="textinput col-10" maxlength="128" required=""
+                    id="id_post_code">
+                <span class="input-group-text col-2 text-center">
+                    <i class="fas fa-barcode col-12 text-center mx-auto m-0 p-0"></i>
+                </span>
+            </div>
+        </div>
+        <div class="col-12 mx-auto text-center">
+            <button class="btn btn-success mx-auto" type="submit" value="edycja">Edytuj</button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}
+
+
+{% block script %}
+{% endblock %}
