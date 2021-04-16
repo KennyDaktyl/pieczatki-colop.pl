@@ -5,6 +5,11 @@ $(document).ready(function () {
     
     var order_details = $('#order_details');
 
+    var menu_burger = $('#menu_burger');
+    menu_burger.on("click", function () {
+        order_details.css('z-index', '1');
+    });
+
     $('#form').on('keyup keypress', function (e) {
         var keyCode = e.keyCode || e.which;
         if (keyCode === 13) {
