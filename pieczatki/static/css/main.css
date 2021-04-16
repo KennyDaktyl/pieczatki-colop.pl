@@ -635,6 +635,11 @@ ul.social-footer2 li a {
 
 @media (max-width: 992px) {
 
+    #page.froozen {
+        display:none;
+        overflow: hidden;
+    }
+
     #navbarToggler {
         background-color: hsl(0, 0%, 81%);
         margin-top: 30px;
