@@ -2,6 +2,7 @@ $(document).ready(function () {
     var top = $('#top');
     var nav = $('#nav');
     var page = $('#page');
+    var footer = $('#footer');
     var link_map = $('#link_map');
     var navbarTogglerDemo03 = $('#navbarTogglerDemo03');
 
@@ -27,6 +28,7 @@ $(document).ready(function () {
     menu_burger.on("click", function () {
         stamp_logo.toggleClass('show');
         page.toggleClass('froozen');
+         footer.toggleClass('froozen');
     });
 
 
