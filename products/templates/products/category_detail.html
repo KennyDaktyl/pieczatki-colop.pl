@@ -18,13 +18,14 @@
 {% endblock %}
 
 {% block title %}
-{{page.title}}
+Kategoria produktów | {{object.name}}
 {% endblock %}
 
 {% block content %}
 <nav id="link_map" aria-label="breadcrumb" class="col-12 bg-white mx-auto d-md-none row fixed-top">
     <li class="breadcrumb-item"><a href="{% url 'welcome' %}" >Strona startowa</a></li>
-    <li class="breadcrumb-item text-dark active" aria-current="page">Pieczątki</li>
+    <li class="breadcrumb-item"><a href="{% url 'products_list' %}">Produkty</a></li>
+    <li class="breadcrumb-item text-dark active" aria-current="page">{{object.name}}</li>
 </nav>
 
 <div class="col-12 mx-auto text-center m-0 p-0 row d-flex align-items-center motto">
