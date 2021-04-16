@@ -653,7 +653,12 @@ ul.social-footer2 li a {
 
     #page.froozen {
         display: none;
-        /* overflow: hidden; */
+        overflow: hidden;
+    }
+
+    #footer.froozen {
+        display: none;
+        overflow: hidden;
     }
 
     #navbarTogglerDemo03.show {
