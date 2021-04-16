@@ -75,7 +75,7 @@
         </div>
     </div>
 
-    <nav id="nav" class="col-12 navbar navbar-expand-lg navbar-light bg-light fixed-top">
+    <nav id="nav" class="col-12 navbar navbar-expand-lg navbar-light bg-light fixed-top d-flex align-items-start">
         {% thumbnail "images/postage_stamp.png" "50x50" crop='center' format="WEBP"  as im %}
         <a href="{% url 'welcome' %}" class="m-0 p-0 d-lg-none mr-auto">
             <img id="stamp_logo" src="{{ MEDIA_URL }}{{im}}" class="img-fluid d-lg-none m-0 p-0"
