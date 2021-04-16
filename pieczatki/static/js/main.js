@@ -26,6 +26,7 @@ $(document).ready(function () {
     var stamp_logo = $('#stamp_logo');
     menu_burger.on("click", function () {
         stamp_logo.toggleClass('show');
+        page.toggleClass('froozen');
     });
 
 
