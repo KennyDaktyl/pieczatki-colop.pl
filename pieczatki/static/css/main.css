@@ -144,6 +144,12 @@ label {
     margin-bottom: 15%;
 }
 
+
+.g-recaptcha {
+    transform: scale(0.77);
+    transform-origin: 0 0;
+}
+
 .card-header {
     padding: .5rem 1rem;
 }
