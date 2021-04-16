@@ -2,4 +2,5 @@ Sitemap: https://pieczatki-colop.pl/sitemap.xml
 User-agent: *
 Disallow: /admin/
 Disallow: /konto/
+Disallow: /koszyk/
 Disallow: /polityka-prywatnosci/

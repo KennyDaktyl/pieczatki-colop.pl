@@ -1,6 +1,6 @@
 from django.contrib.sitemaps import Sitemap
 from django.urls import reverse
-from products.models import Products
+from products.models import Products, Category
 
 # class WorkplaceSiteView(Sitemap):
 #     priority = 0.9
@@ -26,6 +26,22 @@ class ProductSiteView(Sitemap):
                            "product": items.slug,
                            "color": items.color.slug,
                            "store": items.store.slug,
+                           "pk": items.id,
+                       })
+
+
+class CategorySiteView(Sitemap):
+    priority = 0.5
+    changefreq = 'weekly'
+    protocol = 'https'
+
+    def items(self):
+        return Category.objects.filter(is_active=True)
+
+    def location(self, items):
+        return reverse("category_details",
+                       kwargs={
+                           "category": items.slug,
                            "pk": items.id,
                        })
 

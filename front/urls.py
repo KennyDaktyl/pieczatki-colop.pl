@@ -11,8 +11,8 @@ sitemaps = {
     # 'post_details': PostDetailsSiteView,
     # 'blogs_list': BlogDetailsSiteView,
     # 'blog_details': BlogDetailsSiteView,
-    # 'workplace_details': WorkplaceSiteView,
-    # 'product_details_front': ProductSiteView,
+    'category_details': CategorySiteView,
+    'product_details_front': ProductSiteView,
     # 'promo_details': PromoSiteView,
     'static': StaticViewSiteMap,
 }
