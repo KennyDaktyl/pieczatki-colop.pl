@@ -45,9 +45,6 @@ a.dropdown-item:hover {
 }
 
 
-
-
-
 span.asteriskField {
     color: red;
 }
@@ -336,17 +333,8 @@ p.product_title {
 
 }
 
-/* #navbarTogglerDemo03 {
-    position: fixed;
-    z-index: 999;
-}
-div.show {
-    position: fixed;
-    z-index: 999;
-} */
-
 #order_details.slider {
-    bottom: -30%;
+    bottom: -70%;
     transition: 0.3s;
 }
 
