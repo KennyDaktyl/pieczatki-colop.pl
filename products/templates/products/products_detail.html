@@ -22,7 +22,7 @@
 {% endblock %}
 
 {% block content %}
-<nav id="link_map" aria-label="breadcrumb" class="col-12 bg-white mx-auto d-md-none row fixed-top" style="min-height: 75px;">
+<nav id="link_map" aria-label="breadcrumb" class="col-12 bg-white mx-auto d-md-none row fixed-top" style="min-height: 55px;">
     <li class="breadcrumb-item m-0 p-0"><a href="{% url 'welcome' %}" class=" m-0 p-0">Strona startowa</a></li>
     <li class="breadcrumb-item m-0 p-0"><a href="{% url 'products_list' %}" class=" m-0 p-0">Produkty</a></li>
     <li class="breadcrumb-item m-0 p-0"><a href="{% url 'category_details' category=object.category.slug pk=object.category.id  %}" class=" m-0 p-0">{{object.category.name}}</a></li>
