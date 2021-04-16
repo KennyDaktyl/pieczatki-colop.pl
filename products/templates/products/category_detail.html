@@ -12,7 +12,8 @@
 <meta property="og:url" content="{{request.build_absolute_uri}}" />
 <meta property="og:title" content="{{page.title}}" />
 <meta property="og:image" content="https://pieczatki-colop.com{{ MEDIA_URL }}images/bcg-stamp_LrTJcQE_YRKH6ut.webp" />
-<meta property="og:description" content="Lista produktów z kategorii {{object.name}} | Przeglądaj produkty i zamów On-Line" />
+<meta property="og:description"
+    content="Lista produktów z kategorii {{object.name}} | Przeglądaj produkty i zamów On-Line" />
 <meta name="description" content="Lista produktów z kategorii {{object.name}} | Przeglądaj produkty i zamów On-Line">
 <link rel="canonical" href="{{cannonical}}">
 {% endblock %}
@@ -22,10 +23,11 @@ Kategoria produktów | {{object.name}}
 {% endblock %}
 
 {% block content %}
-<nav id="link_map" aria-label="breadcrumb" class="col-12 bg-white mx-auto d-md-none row fixed-top">
-    <li class="breadcrumb-item"><a href="{% url 'welcome' %}" >Strona startowa</a></li>
-    <li class="breadcrumb-item"><a href="{% url 'products_list' %}">Produkty</a></li>
-    <li class="breadcrumb-item text-dark active" aria-current="page">{{object.name}}</li>
+<nav id="link_map" aria-label="breadcrumb" class="col-12 bg-white mx-auto d-md-none row fixed-top"
+    style="min-height: 55px;">
+    <li class="breadcrumb-item m-0 p-0"><a href="{% url 'welcome' %}" class=" m-0 p-0">Strona startowa</a></li>
+    <li class="breadcrumb-item m-0 p-0"><a href="{% url 'products_list' %}" class=" m-0 p-0">Produkty</a></li>
+    <li class="breadcrumb-item text-dark m-0 p-0 active" aria-current="page">{{object.name}}</li>
 </nav>
 
 <div class="col-12 mx-auto text-center m-0 p-0 row d-flex align-items-center motto">
@@ -49,12 +51,13 @@ Kategoria produktów | {{object.name}}
 
 <div class="col-lg-8 mx-auto text-center mt-3 pt-0 row d-flex align-items-start">
     <div class="col-lg-3 row m-0 p-0 border">
-        <div class="col-12 m-0 p-0 bg-dark row d-flex align-items-center cat_nav">
+        <div class="col-12 m-0 p-0 bg-dark row d-flex align-items-center">
             <i class="fas fa-list text-white mr-2 ml-1"></i>
             <a href="{% url 'products_list' %}" class="m-0 p-0">
-                <p class="text-center card-header">KATEGORIE</p>
+                <p class="text-center text-white card-header">KATEGORIE</p>
             </a>
         </div>
+        
         <ul class="nav cat_nav">
             <form action="" class="m-0 p-0 col-12">
                 {% for cat in categorys %}
@@ -63,9 +66,11 @@ Kategoria produktów | {{object.name}}
                     <a class="nav-link text-left font-weight-bold"
                         href="{% url 'category_details' category=cat.slug pk=cat.id %}">{{cat.name}}</a>
                     {% else %}
+                <li class="nav-item dropdown-submenu ">
                     <a class="nav-link text-left"
                         href="{% url 'category_details' category=cat.slug pk=cat.id %}">{{cat.name}}</a>
-                    {% endif %}
+                </li>
+                {% endif %}
                 </li>
                 {% endfor %}
             </form>
@@ -77,7 +82,8 @@ Kategoria produktów | {{object.name}}
                 <h1 class="mt-2">KATEGORIA: {{object.name}}</h1>
             </div>
             {% for prod in products %}
-            <article class="product-list-item col-10 col-sm-5 col-md-3  col-lg-12 mt-2 pb-2 row mx-auto border d-flex align-items-start">
+            <article
+                class="product-list-item col-10 col-sm-5 col-md-3  col-lg-12 mt-2 pb-2 row mx-auto border d-flex align-items-start">
                 <div class="col-lg-3 m-0 p-0">
                     {% load thumbnail %}
                     {% thumbnail prod.image "1280" crop='center' format="WEBP"  as im %}
@@ -175,7 +181,7 @@ Kategoria produktów | {{object.name}}
                             </span>
                         </div>
                 </form>
-               <div class="modal fade" id="exampleModal{{prod.id}}" tabindex="-1" role="dialog"
+                <div class="modal fade" id="exampleModal{{prod.id}}" tabindex="-1" role="dialog"
                     aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content p-1 col-12">
@@ -212,7 +218,8 @@ Kategoria produktów | {{object.name}}
                                 </div>
                                 <div class="col-12 mt-2 row d-flex align-items-center">
                                     <span class="">Kwota brutto:</span>
-                                    <p id="total_price_modal{{prod.id}}" class="p-0 m-0 ml-1">{{cart.get_total_price}}</p>
+                                    <p id="total_price_modal{{prod.id}}" class="p-0 m-0 ml-1">{{cart.get_total_price}}
+                                    </p>
                                 </div>
                             </div>
                             <div class="modal-body">
