@@ -22,11 +22,11 @@
 {% endblock %}
 
 {% block content %}
-<nav id="link_map" aria-label="breadcrumb" class="col-12 bg-white mx-auto d-md-none row fixed-top" style="min-height: 60px;">
-    <li class="breadcrumb-item"><a href="{% url 'welcome' %}">Strona startowa</a></li>
-    <li class="breadcrumb-item"><a href="{% url 'products_list' %}">Produkty</a></li>
-    <li class="breadcrumb-item"><a href="{% url 'category_details' category=object.category.slug pk=object.category.id  %}">{{object.category.name}}</a></li>
-    <li class="breadcrumb-item text-dark active" aria-current="page">{{object.name}}</li>
+<nav id="link_map" aria-label="breadcrumb" class="col-12 bg-white mx-auto d-md-none row fixed-top" style="min-height: 75px;">
+    <li class="breadcrumb-item m-0 p-0"><a href="{% url 'welcome' %}" class=" m-0 p-0">Strona startowa</a></li>
+    <li class="breadcrumb-item m-0 p-0"><a href="{% url 'products_list' %}" class=" m-0 p-0">Produkty</a></li>
+    <li class="breadcrumb-item m-0 p-0"><a href="{% url 'category_details' category=object.category.slug pk=object.category.id  %}" class=" m-0 p-0">{{object.category.name}}</a></li>
+    <li class="breadcrumb-item text-dark m-0 p-0 active" aria-current="page">{{object.name}}</li>
 </nav>
 
 <div class="col-12 mx-auto text-center m-0 p-0 row d-flex align-items-center motto">
