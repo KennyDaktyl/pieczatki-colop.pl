@@ -6,7 +6,7 @@ from crispy_forms.helper import FormHelper
 from captcha.fields import ReCaptchaField
 from django.core.validators import validate_email
 
-from .models import Profile
+from .models import Profile, Address
 from django.contrib.auth.models import Group
 from django.contrib.auth import get_user_model
 
@@ -16,18 +16,26 @@ EMAIL_REGEX = r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)"
 
 
 class LoginForm(forms.Form):
-    username = forms.CharField(label="Login", required=True)
+    # username = forms.CharField(label="Login", required=True)
 
+    email = forms.EmailField(label="email",
+                             widget=forms.EmailInput,
+                             validators=[validate_email],
+                             required=True)
     password = forms.CharField(label="Hasło",
                                widget=forms.PasswordInput,
                                required=True)
 
 
 class UserForm(forms.ModelForm):
-    username = forms.CharField(label="Login",
-                               min_length=6,
-                               help_text="Minimum 6 znaków",
-                               required=True)
+    # username = forms.CharField(label="Login",
+    #                            min_length=6,
+    #                            help_text="Minimum 6 znaków",
+    #                            required=True)
+    email = forms.EmailField(label="email",
+                             widget=forms.EmailInput,
+                             validators=[validate_email],
+                             required=True)
     first_name = forms.CharField(label="Imię", required=True)
     last_name = forms.CharField(label="Nazwisko", required=True)
 
@@ -55,10 +63,10 @@ class UserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = (
-            'username',
+            # 'username',
+            'email',
             'first_name',
             'last_name',
-            'email',
             'password',
         )
 
@@ -78,10 +86,14 @@ class UserForm(forms.ModelForm):
 
 
 class BusinessForm(forms.ModelForm):
-    username = forms.CharField(label="Login",
-                               min_length=6,
-                               help_text="Minimum 6 znaków",
-                               required=True)
+    # username = forms.CharField(label="Login",
+    #                            min_length=6,
+    #                            help_text="Minimum 6 znaków",
+    #                            required=True)
+    email = forms.EmailField(label="email",
+                             widget=forms.EmailInput,
+                             validators=[validate_email],
+                             required=True)
     business_name = forms.CharField(label="Nazwa firmy", required=True)
     business_name_l = forms.CharField(label="nazwa c.d.", required=False)
     nip_number = forms.CharField(
@@ -106,10 +118,6 @@ class BusinessForm(forms.ModelForm):
                                 min_length=6,
                                 required=True)
 
-    email = forms.EmailField(label="email",
-                             widget=forms.EmailInput,
-                             validators=[validate_email],
-                             required=True)
     captcha = ReCaptchaField(required=True)
 
     # is_active = forms.BooleanField(
@@ -118,10 +126,9 @@ class BusinessForm(forms.ModelForm):
     class Meta:
         model = User
         fields = (
-            'username',
+            'email',
             'first_name',
             'last_name',
-            'email',
             'password',
         )
 
@@ -162,3 +169,9 @@ class PasswordChangeForm(forms.Form):
 #     class Meta:
 #         model = User
 #         fields = ('username', 'first_name', 'last_name', 'email')
+
+
+class AddressBasketForm(forms.ModelForm):
+    class Meta:
+        model = Address
+        exclude = ('user_id', )

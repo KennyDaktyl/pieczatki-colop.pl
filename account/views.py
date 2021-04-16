@@ -1,14 +1,20 @@
 from django.contrib.auth import authenticate, login, logout
 from django.views import View
+from django.views.generic.edit \
+    import CreateView, UpdateView, DeleteView
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy, reverse
+from django.http import HttpResponseRedirect
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 
-from .forms import LoginForm, UserForm, BusinessForm
+from .forms import LoginForm, UserForm, BusinessForm, AddressBasketForm
 from products.models import Category
 from django.contrib.auth import get_user_model
-from .models import Profile
+from .models import Profile, Address
 
 User = get_user_model()
 
@@ -16,8 +22,29 @@ User = get_user_model()
 class ChoiceAccountReqisterView(View):
     def get(self, request):
         categorys = Category.objects.filter(is_active=True)
-        ctx = {'categorys': categorys}
+        form = LoginForm()
+        ctx = {'form': form, 'categorys': categorys}
         return render(request, "account/choice_account_register.html", ctx)
+
+    def post(self, request):
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+            user = authenticate(request, username=email, password=password)
+            if user is not None:
+                # token = Token.objects.get_or_create(user=user)
+                login(request, user)
+                return redirect('order_details')
+            else:
+                messages.error(request, 'Błędne hasło lub login')
+                ctx = {'form': form}
+                return render(request, "account/choice_account_register.html",
+                              ctx)
+        else:
+            messages.error(request, 'Błędne hasło lub login')
+            ctx = {'form': form}
+            return render(request, "account/choice_account_register.html", ctx)
 
 
 # @method_decorator(login_required, name='dispatch')
@@ -32,6 +59,9 @@ class AddClientFromBasketView(View):
         form = UserForm(request.POST)
         if form.is_valid():
             new_user = form.save(commit=False)
+            new_user = form.save(commit=False)
+            new_user.username = form.cleaned_data['email']
+            new_user.email = form.cleaned_data['email']
             new_user.set_password(form.cleaned_data['password'])
             new_user.save()
             profile = Profile()
@@ -59,6 +89,8 @@ class AddBusinessClientFromBasketView(View):
         form = BusinessForm(request.POST)
         if form.is_valid():
             new_user = form.save(commit=False)
+            new_user.username = form.cleaned_data['email']
+            new_user.email = form.cleaned_data['email']
             new_user.set_password(form.cleaned_data['password'])
             new_user.save()
             profile = Profile()
@@ -153,7 +185,7 @@ class LoginView(View):
     def post(self, request):
         form = LoginForm(request.POST)
         if form.is_valid():
-            username = form.cleaned_data['username']
+            username = form.cleaned_data['email']
             password = form.cleaned_data['password']
             user = authenticate(request, username=username, password=password)
             if user is not None:
@@ -174,3 +206,53 @@ class Logout(View):
     def get(self, request):
         logout(request)
         return redirect('welcome')
+
+
+@method_decorator(login_required, name='dispatch')
+class AddAddressBasketView(SuccessMessageMixin, CreateView):
+
+    model = Address
+    form_class = AddressBasketForm
+
+    success_message = 'Dodano adres klienta'
+    success_url = ("")
+
+    def get_initial(self, *args, **kwargs):
+        initial = super(AddAddressBasketView, self).get_initial(**kwargs)
+        initial['user'] = self.request.user
+        return initial
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.user_id = self.request.user
+        self.object.save()
+        print(form.instance.user_id, )
+        return HttpResponseRedirect(self.get_success_url())
+
+    def get_success_url(self, *args, **kwargs):
+        return reverse('order_details')
+
+
+@method_decorator(login_required, name='dispatch')
+class UpdateAddressBasketView(SuccessMessageMixin, UpdateView):
+
+    model = Address
+    form_class = AddressBasketForm
+    template_name_suffix = "_update_form"
+    success_message = 'Dodano adres klienta'
+    success_url = ("")
+
+    def get_initial(self, *args, **kwargs):
+        initial = super(UpdateAddressBasketView, self).get_initial(**kwargs)
+        initial['user'] = self.request.user
+        return initial
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.user_id = self.request.user
+        self.object.save()
+        print(form.instance.user_id, )
+        return HttpResponseRedirect(self.get_success_url())
+
+    def get_success_url(self, *args, **kwargs):
+        return reverse('order_details')

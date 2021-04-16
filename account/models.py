@@ -45,7 +45,7 @@ class Profile(models.Model):
 
 class Address(models.Model):
     id = models.AutoField(primary_key=True)
-    user_id = models.OneToOneField(
+    user_id = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         null=True,
         blank=True,
