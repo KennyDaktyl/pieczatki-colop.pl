@@ -250,6 +250,7 @@ class UpdateAddressBasketView(SuccessMessageMixin, UpdateView):
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.user_id = self.request.user
+        self.object.main = True
         self.object.save()
         print(form.instance.user_id, )
         return HttpResponseRedirect(self.get_success_url())
