@@ -1,6 +1,6 @@
 body {
     font-family: "Roboto Condensed",
-    sans-serif;
+        sans-serif;
 }
 
 .fixed-top {
@@ -71,7 +71,7 @@ span.asteriskField {
 input {
     border: 5px solid #ced4da;
     border-left: 5px solid #ff9b00;
-   
+
 }
 
 input:focus {
@@ -80,12 +80,12 @@ input:focus {
 }
 
 .choice_reg i {
-   font-size: 35px;
-   color: #ff9b00;
+    font-size: 35px;
+    color: #ff9b00;
 }
 
 div.choice_reg {
-     border: 5px solid #ff9b00;
+    border: 5px solid #ff9b00;
 }
 
 
@@ -328,8 +328,9 @@ p.product_title {
     background-color: white;
     transition: 0.3s;
     box-shadow: 5px 10px #888888;
-   
+
 }
+
 /* #navbarTogglerDemo03 {
     position: fixed;
     z-index: 999;
@@ -349,6 +350,7 @@ div.show {
     font-size: large;
     cursor: pointer;
 }
+
 #open {
     color: green;
     display: none;
@@ -633,31 +635,44 @@ ul.social-footer2 li a {
 
 }
 
+@media (max-width: 992px) and (orientation: landscape) {
+    #nav_ul {
+        overflow-y: scroll;
+        min-height: 200vh;
+        max-height: 250vh;
+    }
+}
+
 @media (max-width: 992px) {
 
     #page.froozen {
-        display:none;
-        overflow: hidden;
+        display: none;
+        /* overflow: hidden; */
     }
 
-    #navbarToggler {
-        background-color: hsl(0, 0%, 81%);
+    #navbarTogglerDemo03.show {
+        /* background-color: hsl(0, 0%, 81%); */
         margin-top: 30px;
-        /* position: fixed;
-        top: 100px;
-        bottom: 100px;
-        left: 20px;
-        right: 20px; */
+        overflow-y: auto;
+        min-height: 150vh;
+        display: block;
+        margin-top: 26px;
+        overflow-y: scroll;
+        max-height: 100%;
     }
+
+    
 
     .collapse {
         margin-top: 0px;
         transition: 0.3s;
+
     }
 
     .collapse.show {
         display: block;
         margin-top: 26px;
+        overflow-y: auto;
     }
 
     /* #navbarTogglerDemo03 {
