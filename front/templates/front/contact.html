@@ -26,13 +26,13 @@ Kontak z nami | pieczatki-colop.com
     <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'welcome' %}">Strona startowa</a></li>
     <li class="breadcrumb-item text-dark active" aria-current="page">Kontak z nami</li>
 </nav>
-<div class="col-10 col-lg-10 row mx-auto mt-2 border d-flex align-items-center" style="margin-bottom: 100px;">
+<div class="col-10 col-lg-10 row mx-auto mt-2 border d-flex align-items-center headline" >
     <h1 class="mx-auto text-center col-12 mt-2">Kontakt z nami</h1>
     <div class="col-md-3 email_box">
-        <div class="contact-info">
+        <div class="contact-info headline">
             <img src="https://image.ibb.co/kUASdV/contact-image.png" alt="image" />
-            <h2>Wyślij do nas email</h2>
-            <h4>Podziel się z nami swoją opinią !</h4>
+            <h1>Wyślij do nas email</h1>
+            <h2>Podziel się z nami swoją opinią !</h1>
         </div>
     </div>
     <div class="col-md-9 contact-form">
@@ -47,14 +47,17 @@ Kontak z nami | pieczatki-colop.com
                     {{ contact_form.subject|as_crispy_field}}
                 </div>
             </div>
-            <div class="col-lg-6 mx-auto">
+            <div class="col-lg-6 mx-auto m-0 p-0">
                 <div class="m-2 p-1 mx-auto text-center col-10" style="max-width: 100%;">
-                    {{ contact_form.message|as_crispy_field}}
+                    <label for="id_message" class="requiredField">
+                        Treść wiadomości<span class="asteriskField">*</span>
+                    </label>
+                    <textarea name="message" cols="30" rows="10" size="80" class="textarea col-12" required="" id="id_message"></textarea>
                 </div>
 
             </div>
-            <div class="g-recaptcha-outer mx-auto text-center m-2">
-                <div class="g-recaptcha-inner">
+            <div class="col-12 m-0 p-0 g-recaptcha-outer mx-auto text-center m-2">
+                <div class="g-recaptcha-inner col-12 m-0 p-0 ">
                     {{ contact_form.captcha|as_crispy_field}}
                 </div>
             </div>
@@ -63,26 +66,6 @@ Kontak z nami | pieczatki-colop.com
             </div>
         </form>
     </div>
-</div>
-{% for el in workplaces %}
-<div class="col-lg-5 mx-auto text-center border-bottom mt-2">
-    <h2 class="mx-auto text-center col-12">{{el.name}}</h2>
-    <h3 class="mx-auto text-center col-12 ">{{el.street}}, {{el.city}}</h2>
-        <div class="col-12 row mx-auto text-center d-flex justify-content-center align-items-center">
-            <a href="tel:{{el.phone_number}}" class="card-text text-center m-1 row mx-auto d-flex align-items-center">
-                <h4 class="fas fa-phone text-dark m-0 p-0"></h4>
-                <h3 class="card-text ml-2 text-dark">{{el.phone_number}}</h3>
-            </a>
-        </div>
-        <div class="col-12 mx-auto text-center">
-            {{el.google_maps_link|safe}}
-        </div>
-        <span class="mx-auto text-center col-12">
-            {{el.info}}
-        </span>
-</div>
-{% endfor %}
-</div>
 {% endblock %}
 
 {% block script %}
