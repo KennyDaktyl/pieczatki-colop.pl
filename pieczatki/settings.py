@@ -24,7 +24,7 @@ if socket.gethostname() == "Asus":
 else:
     DOMAIN = "pieczatki-colop.com"
     DatabaseName = "colop_v1"
-    DEBUG = True
+    DEBUG = False
     SECURE_SSL_REDIRECT = False
     SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
     SESSION_COOKIE_DOMAIN = f".{DOMAIN}"
