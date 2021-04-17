@@ -29,19 +29,6 @@
 </nav>
 
 <div class="col-lg-8 mx-auto text-center mt-3 pt-0 row d-flex align-items-start">
-  <div class="col-lg-12 mx-auto row m-0 p-0 border">
-    <div class="col-12 m-0 p-0 bg-dark row d-flex align-items-center">
-      <i class="fas fa-list text-white mr-2 ml-1"></i>
-      <p class="text-center text-white card-header">KATEGORIE</p>
-    </div>
-    <ul class="nav cat_nav">
-      {% for cat in categorys %}
-      <li class="nav-item dropdown-submenu ">
-        <a class="nav-link text-left" href="{% url 'category_details' category=cat.slug pk=cat.id %}">{{cat.name}}</a>
-      </li>
-      {% endfor %}
-    </ul>
-  </div>
   <main class="col-lg-12 mx-auto row m-0 p-0">
     <div class="text-left headline m-1 mb-2">
       <h1 class="mt-2">REJESTRACJA KLIENTA:</h1>
