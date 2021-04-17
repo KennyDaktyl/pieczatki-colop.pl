@@ -45,10 +45,6 @@ a.dropdown-item:hover {
     width: 100%;
 }
 
-
-
-
-
 span.asteriskField {
     color: red;
 }
@@ -246,11 +242,9 @@ a.logout:hover {
     color: red;
 }
 
-
 .motto a {
     color: black;
 }
-
 
 .motto small {
     font-size: 0.9rem;
@@ -337,17 +331,8 @@ p.product_title {
 
 }
 
-/* #navbarTogglerDemo03 {
-    position: fixed;
-    z-index: 999;
-}
-div.show {
-    position: fixed;
-    z-index: 999;
-} */
-
 #order_details.slider {
-    bottom: -30%;
+    bottom: -400px;
     transition: 0.3s;
 }
 

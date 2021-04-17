@@ -29,24 +29,6 @@
     <li class="breadcrumb-item text-dark"><a href="{% url 'cart_details' %}" class="text-dark">Koszyk</a></li>
     <li class="breadcrumb-item text-dark active" aria-current="page">Zamówienie</li>
 </nav>
-<div class="col-12 mx-auto text-center m-0 p-0 row d-flex align-items-center motto">
-    {% thumbnail "images/bcg-stamp_LrTJcQE_YRKH6ut.webp" "590x300" crop='center' format="WEBP"  as im %}
-    <img src="{{ MEDIA_URL }}{{im}}" class="img-fluid mx-auto text-center d-sm-none"
-        title="Prezentacja graficzna sklepu z pieczątki Colop" alt="Prezentacja graficzna sklepu z pieczątki Colop">
-    {% endthumbnail %}
-    {% thumbnail "images/bcg-stamp_LrTJcQE_YRKH6ut.webp" "720x300" crop='center' format="WEBP"  as im %}
-    <img src="{{ MEDIA_URL }}{{im}}" class="img-fluid mx-auto text-center d-none d-sm-block d-md-none"
-        title="Prezentacja graficzna sklepu z pieczątki Colop" alt="Prezentacja graficzna sklepu z pieczątki Colop">
-    {% endthumbnail %}
-    {% thumbnail "images/bcg-stamp_LrTJcQE_YRKH6ut.webp" "1280x350" crop='center' format="WEBP"  as im %}
-    <img src="{{ MEDIA_URL }}{{im}}" class="img-fluid mx-auto text-center d-none d-md-block d-lg-none"
-        title="Prezentacja graficzna sklepu z pieczątki Colop" alt="Prezentacja graficzna sklepu z pieczątki Colop">
-    {% endthumbnail %}
-    {% thumbnail "images/bcg-stamp_LrTJcQE_YRKH6ut.webp" "1480x250" crop='center' format="WEBP"  as im %}
-    <img src="{{ MEDIA_URL }}{{im}}" class="img-fluid mx-auto text-center d-none d-lg-block col-12 m-0 p-0"
-        title="Prezentacja graficzna sklepu z pieczątki Colop" alt="Prezentacja graficzna sklepu z pieczątki Colop">
-    {% endthumbnail %}
-</div>
 <div class="col-lg-8 mx-auto text-center mt-3 pt-0 row d-flex align-items-start">
     <main class="col-lg-12 mx-auto row">
         <div class="text-left headline m-1 mb-2">
@@ -67,9 +49,9 @@
             </thead>
             <tbody>
                 {% for item in cart_ctx %}
-                <tr id="tr{{item.product.id}}">
+                <tr id="tr{{item.product.id}}" class="">
                     <th scope="row" class="text-center">{{ forloop.counter }}</th>
-                    <td class="text-center m-0 p-0">
+                    <td class="text-center">
                         {% load thumbnail %}
                         {% thumbnail item.image "1280" crop='center' format="WEBP"  as im %}
                         <a href="{{ MEDIA_URL }}{{im}}" data-lightbox="{{item.product.id}}"
@@ -140,28 +122,28 @@
             <div class="border row text-center col-lg-12 m-0 p-0">
                 <div class="row col-12 mx-auto">
                     {% if user.profile.company  %}
-                    <div class="col-10 row mx-auto m-0 p-0 mt-1">
+                    <div class="col-lg-10 row mx-auto m-0 p-0 mt-1">
                         <label for="" class="m-0 p-0 mt-2">Nazwa firmy</label>
                         <input class="col-12" placeholder="{{client.business_name}}" disabled></input>
                     </div>
                     {% if user.profile.business_name_l  %}
-                    <div class="col-10 row mx-auto m-0 p-0 mt-1">
+                    <div class="col-lg-10 row mx-auto m-0 p-0 mt-1">
                         <label for="" class="m-0 p-0 mt-2">Nazwa firmy</label>
                         <input class="col-12" placeholder="{{client.business_name_l}}" disabled></input>
                     </div>
                     {% endif %}
-                    <div class="col-lg-5 row mx-auto m-0 p-0 mt-1">
+                    <div class="col-lg-10 row mx-auto m-0 p-0 mt-1">
                         <label for="" class="m-0 p-0">Nip</label>
                         <input class="col-12" placeholder="{{client.nip_number}}" disabled></input>
                     </div>
                     {% else %}
-                    <div class="col-10 row mx-auto m-0 p-0 mt-1">
+                    <div class="col-lg-10 row mx-auto m-0 p-0 mt-1">
                         <label for="" class="m-0 p-0 mt-2">Imię i Nazwisko</label>
                         <input class="col-12" placeholder="{{client.user.first_name}} {{client.user.last_name}}"
                             disabled></input>
                     </div>
                     {% endif %}
-                    <div class="col-10 row mx-auto m-0 p-0">
+                    <div class="col-lg-10 row mx-auto m-0 p-0">
                         <div class="col-lg-5 row mx-auto m-0 p-0 mt-1">
                             <label for="" class="m-0 p-0">email</label>
                             <input class="col-12" placeholder="{{client.user.email}}" disabled></input>
@@ -190,12 +172,12 @@
                     <label for="" class="m-0 p-0 mt-2">Ulica</label>
                     <input class="col-12" placeholder="{{address.street}}" disabled></input>
                 </div>
-                <div class="col-10 row mx-auto m-0 p-0">
-                    <div class="row col-6 col-lg-5 mx-auto">
+                <div class="col-10 row mx-auto m-0 p-0 d-flex justify-content-between">
+                    <div class="row col-5 col-lg-5 m-0 p-0">
                         <label for="" class="m-0 p-0">Nr domu</label>
                         <input class="mx-auto col-12 m-0 p-0" placeholder="{{address.house}}" disabled></input>
                     </div>
-                    <div class="row col-6 col-lg-5 mx-auto">
+                    <div class="row col-5 col-lg-5 m-0 p-0">
                          {% if address.door or address.door == "" %}
                         <label for="" class="m-0 p-0">Nr lokalu</label>
                         <input class="mx-auto col-12 m-0 p-0" placeholder="{{address.door}}" disabled></input>

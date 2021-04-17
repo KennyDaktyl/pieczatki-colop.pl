@@ -11,9 +11,7 @@ from pathlib import Path
 # BASE_DIR = Path(__file__).resolve().parent.parent
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = os.environ.get('SECRET_KEY')
-ALLOWED_HOSTS = [
-    'pieczatki-colop.com',
-]
+ALLOWED_HOSTS = ['pieczatki-colop.com', '127.0.0.1']
 
 if socket.gethostname() == "Asus":
     SECURE_SSL_REDIRECT = False

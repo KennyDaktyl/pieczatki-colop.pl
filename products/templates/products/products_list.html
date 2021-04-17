@@ -26,26 +26,6 @@ Lista produktów w sklepie | pieczatki-colop.com
     <li class="breadcrumb-item"><a href="{% url 'welcome' %}">Strona startowa</a></li>
     <li class="breadcrumb-item text-dark active" aria-current="page">Produkty</li>
 </nav>
-
-<div class="col-12 mx-auto text-center m-0 p-0 row d-flex align-items-center motto">
-    {% thumbnail "images/bcg-stamp_LrTJcQE_YRKH6ut.webp" "590x300" crop='center' format="WEBP"  as im %}
-    <img src="{{ MEDIA_URL }}{{im}}" class="img-fluid mx-auto text-center d-sm-none"
-        title="Prezentacja graficzna sklepu z pieczątki Colop" alt="Prezentacja graficzna sklepu z pieczątki Colop">
-    {% endthumbnail %}
-    {% thumbnail "images/bcg-stamp_LrTJcQE_YRKH6ut.webp" "720x300" crop='center' format="WEBP"  as im %}
-    <img src="{{ MEDIA_URL }}{{im}}" class="img-fluid mx-auto text-center d-none d-sm-block d-md-none"
-        title="Prezentacja graficzna sklepu z pieczątki Colop" alt="Prezentacja graficzna sklepu z pieczątki Colop">
-    {% endthumbnail %}
-    {% thumbnail "images/bcg-stamp_LrTJcQE_YRKH6ut.webp" "1280x350" crop='center' format="WEBP"  as im %}
-    <img src="{{ MEDIA_URL }}{{im}}" class="img-fluid mx-auto text-center d-none d-md-block d-lg-none"
-        title="Prezentacja graficzna sklepu z pieczątki Colop" alt="Prezentacja graficzna sklepu z pieczątki Colop">
-    {% endthumbnail %}
-    {% thumbnail "images/bcg-stamp_LrTJcQE_YRKH6ut.webp" "1480x250" crop='center' format="WEBP"  as im %}
-    <img src="{{ MEDIA_URL }}{{im}}" class="img-fluid mx-auto text-center d-none d-lg-block col-12 m-0 p-0"
-        title="Prezentacja graficzna sklepu z pieczątki Colop" alt="Prezentacja graficzna sklepu z pieczątki Colop">
-    {% endthumbnail %}
-</div>
-
 <div class="col-lg-8 mx-auto text-center mt-3 pt-0 row d-flex align-items-start">
     <div class="col-lg-3 row m-0 p-0 border">
         <div class="col-12 m-0 p-0 bg-dark row d-flex align-items-center">
@@ -67,14 +47,13 @@ Lista produktów w sklepie | pieczatki-colop.com
                 <h1 class="mt-2">PRODUKTY: Pieczątki</h1>
             </div>
             {% for prod in products %}
-            <article class="product-list-item col-10 col-sm-5 col-md-3  col-lg-12 mt-2 pb-2 row mx-auto border d-flex align-items-start">
+            <article class="product-list-item col-sm-5 col-md-3  col-lg-12 mt-2 pb-2 row mx-auto border d-flex align-items-start">
                 <div class="col-lg-3 m-0 p-0">
                     {% load thumbnail %}
                     {% thumbnail prod.image "1280" crop='center' format="WEBP"  as im %}
-                    <a href="{{ MEDIA_URL }}{{im}}" data-lightbox="{{prod.id}}" data-title="{{prod.name}}"
-                        class="mx-auto text-center p-0 m-0 mt-2" title="Link do dużego zdcjęcia {{prod.name}}">
+                    <a href="{% url 'product_details' category=prod.category.slug product=prod.slug color=prod.color.slug store=prod.store.slug pk=prod.pk %}" class="mx-auto text-center p-0 m-0 mt-2" title="Link do dużego zdcjęcia {{prod.name}}">
                         <source srcset="{{ im }}" type="image/webp">
-                        {% thumbnail  prod.image "75x75" crop='center' format="WEBP"  as im %}
+                        {% thumbnail  prod.image "x75" crop='center' format="WEBP"  as im %}
                         <source srcset="{{ im }}" type="image/webp" />
                         <img class="img-fluid mx-auto m-1" src="{{ MEDIA_URL }}{{im}}" alt="{{prod.alt}}"
                             title="{{prod.title}}">

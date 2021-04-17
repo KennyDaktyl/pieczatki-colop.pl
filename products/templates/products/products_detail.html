@@ -28,26 +28,6 @@
     <li class="breadcrumb-item m-0 p-0"><a href="{% url 'category_details' category=object.category.slug pk=object.category.id  %}" class=" m-0 p-0">{{object.category.name}}</a></li>
     <li class="breadcrumb-item text-dark m-0 p-0 active" aria-current="page">{{object.name}}</li>
 </nav>
-
-<div class="col-12 mx-auto text-center m-0 p-0 row d-flex align-items-center motto">
-    {% thumbnail "images/bcg-stamp_LrTJcQE_YRKH6ut.webp" "590x300" crop='center' format="WEBP"  as im %}
-    <img src="{{ MEDIA_URL }}{{im}}" class="img-fluid mx-auto text-center d-sm-none"
-        title="Prezentacja graficzna sklepu z pieczątki Colop" alt="Prezentacja graficzna sklepu z pieczątki Colop">
-    {% endthumbnail %}
-    {% thumbnail "images/bcg-stamp_LrTJcQE_YRKH6ut.webp" "720x300" crop='center' format="WEBP"  as im %}
-    <img src="{{ MEDIA_URL }}{{im}}" class="img-fluid mx-auto text-center d-none d-sm-block d-md-none"
-        title="Prezentacja graficzna sklepu z pieczątki Colop" alt="Prezentacja graficzna sklepu z pieczątki Colop">
-    {% endthumbnail %}
-    {% thumbnail "images/bcg-stamp_LrTJcQE_YRKH6ut.webp" "1280x350" crop='center' format="WEBP"  as im %}
-    <img src="{{ MEDIA_URL }}{{im}}" class="img-fluid mx-auto text-center d-none d-md-block d-lg-none"
-        title="Prezentacja graficzna sklepu z pieczątki Colop" alt="Prezentacja graficzna sklepu z pieczątki Colop">
-    {% endthumbnail %}
-    {% thumbnail "images/bcg-stamp_LrTJcQE_YRKH6ut.webp" "1480x250" crop='center' format="WEBP"  as im %}
-    <img src="{{ MEDIA_URL }}{{im}}" class="img-fluid mx-auto text-center d-none d-lg-block col-12 m-0 p-0"
-        title="Prezentacja graficzna sklepu z pieczątki Colop" alt="Prezentacja graficzna sklepu z pieczątki Colop">
-    {% endthumbnail %}
-</div>
-
 <div class="col-lg-8 mx-auto text-center mt-3 pt-0 row d-flex align-items-start">
     <div class="col-lg-3 row m-0 p-0 border">
         <div class="col-12 m-0 p-0 bg-dark row d-flex align-items-center">
@@ -67,14 +47,14 @@
             <div class="text-left headline m-1 mb-2">
                 <h1 class="mt-2">SZCZEGÓŁY PRODUKTU:</h1>
             </div>
-            <article class="product-list-item col-10 col-lg-12 mt-2 pb-2 row mx-auto border d-flex align-items-start">
+            <article class="product-list-item col-lg-12 mt-2 pb-2 row mx-auto border d-flex align-items-start">
                 <div class="col-lg-3 m-0 p-0">
                     {% load thumbnail %}
                     {% thumbnail object.image "1280" crop='center' format="WEBP"  as im %}
                     <a href="{{ MEDIA_URL }}{{im}}" data-lightbox="{{object.id}}" data-title="{{object.name}}"
                         class="mx-auto text-center p-0 m-0 mt-2" title="Link do dużego zdcjęcia {{object.name}}">
                         <source srcset="{{ im }}" type="image/webp">
-                        {% thumbnail  object.image "75x75" crop='center' format="WEBP"  as im %}
+                        {% thumbnail  object.image "x115" crop='center' format="WEBP"  as im %}
                         <source srcset="{{ im }}" type="image/webp" />
                         <img class="img-fluid mx-auto m-1" src="{{ MEDIA_URL }}{{im}}" alt="{{object.alt}}"
                             title="{{object.title}}">
@@ -84,9 +64,7 @@
                 </div>
                 <div class="col-lg-7 row m-0 p-0">
                     <div class="col-12 m-0 p-0 mx-auto row d-flex align-items-center">
-                        <a href="" class="mx-auto text-left mt-2 m-0 p-0" title="Link do produktu {{object.name}}">
                             <p class="col-12 mx-auto text-center m-0 p-1 product_title  m-0 p-0">{{object.name}}</p>
-                        </a>
                     </div>
                     {% thumbnail object.brand.logo "50" crop='center' format="WEBP"  as im %}
                     <source srcset="{{ im }}" type="image/webp" />
@@ -235,8 +213,8 @@
                 {% for image in object.images %}
                 {% load thumbnail %}
                 {% thumbnail image.image "1280" crop='center' format="WEBP"  as im %}
-                <a href="{{ MEDIA_URL }}{{im}}" data-lightbox="{{image.id}}" data-title="{{image.name}}"
-                    class="mx-auto text-center p-0 m-0 mt-2" title="Galeria zdjęć produktu {{object.name}}">
+                <a href="{{ MEDIA_URL }}{{im}}" data-lightbox="{{image.product.id}}" data-title="{{image.product.name}}"
+                    class="mx-auto text-center p-0 m-0 mt-2" title="Galeria zdjęć produktu {{image.product.name}}">
                     <source srcset="{{ im }}" type="image/webp">
                     {% thumbnail  image.image "75x75" crop='center' format="WEBP"  as im %}
                     <source srcset="{{ im }}" type="image/webp" />
