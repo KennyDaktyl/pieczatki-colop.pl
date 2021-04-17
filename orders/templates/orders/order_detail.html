@@ -16,7 +16,8 @@
 <meta name="description" content="{{page.description}}">
 <link rel="canonical" href="{{cannonical}}">
 
-
+<script async src="https://geowidget.easypack24.net/js/sdk-for-javascript.js"></script>
+<link rel="stylesheet" href="https://geowidget.easypack24.net/css/easypack.css"/>
 {% endblock %}
 
 {% block title %}
@@ -292,6 +293,21 @@
             </div>
             {% endif %}
             {% endfor %}
+            <div class="border table-success row text-center m-0 p-0 mt-1  col-12 d-flex align-items-center">
+                <div class="row col-6 mx-auto">
+                    <p class="col-lg-8 text-left m-0 p-2">Inpost Paczkomaty</p>
+                    <p id="open_geo" class="col-lg-4 text-left m-0 p-2">Wybierz paczkomat</p>
+                </div>
+                <div class="row col-6 mx-auto ">
+                    {% if cart.get_total_price > 50.00 %}
+                    <p class="col-12 text-right m-0 p-2">0.00 PLN</p>
+                    {% else %}
+                    <p class="col-12 text-right m-0 p-2">14.99 PLN</p>
+                    {% endif %}
+                </div>
+                
+                <div id="easypack-map"></div>
+            </div>
         </div>
 
         <div class="text-left headline m-1 mb-2">

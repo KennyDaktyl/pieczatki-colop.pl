@@ -2,7 +2,21 @@ $(document).ready(function () {
     var url_address = window.location.href;
     var i_close = $('#close');
     var i_open = $('#open');
-    
+
+    var easypack_map = $('#easypack-map');
+
+    window.easyPackAsyncInit = function () {
+        easyPack.init({});
+        var map = easyPack.mapWidget('easypack-map', function(point){
+            console.log(point);
+            easypack_map.removeClass('show');
+        });
+    };
+    var open_geo = $('#open_geo');
+    open_geo.on("click", function () {
+        easypack_map.toggleClass('show');
+    });
+
     var order_details = $('#order_details');
 
     var menu_burger = $('#menu_burger');
