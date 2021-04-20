@@ -17,7 +17,7 @@
 <link rel="canonical" href="{{cannonical}}">
 
 <script async src="https://geowidget.easypack24.net/js/sdk-for-javascript.js"></script>
-<link rel="stylesheet" href="https://geowidget.easypack24.net/css/easypack.css"/>
+<link rel="stylesheet" href="https://geowidget.easypack24.net/css/easypack.css" />
 {% endblock %}
 
 {% block title %}
@@ -120,7 +120,7 @@
             <h1 class="mt-2">TWOJE DANE OSOBOWE:</h1>
         </div>
         <div class="col-12 text-center row m-0 p-0">
-            <div class="border row text-center col-lg-12 m-0 p-0">
+            <div class="default row text-center col-lg-8 m-0 p-0">
                 <div class="row col-12 mx-auto">
                     {% if user.profile.company  %}
                     <div class="col-lg-10 row mx-auto m-0 p-0 mt-1">
@@ -168,98 +168,67 @@
         </div>
         <div class="col-12 text-center row m-0 p-0">
             {% for address in addresses %}
-            <div class="border row text-center col-lg-5 m-1 p-0">
-                <div class="col-10 row mx-auto m-0 p-0">
-                    <label for="" class="m-0 p-0 mt-2">Ulica</label>
-                    <input class="col-12" placeholder="{{address.street}}" disabled></input>
+            {% if address.main %}
+            <div class="row text-center col-lg-5 m-1 p-0 address default" id="address_id{{address.id}}"
+                data-address_id="{{address.id}}">
+                {% else %}
+                <div class="row text-center col-lg-5 m-1 p-0 address" id="address_id{{address.id}}"
+                    data-address_id="{{address.id}}">
+                    {% endif %}
+                    <form method="POST" class="col-12 m-0 p-0 row" data-address_id="{{address.id}}">
+                        {% csrf_token %}
+                        <input type="hidden" name="address_id" value="{{address.id}}">
+                        <div class="col-10 row mx-auto m-0 p-0">
+                            <label for="" class="m-0 p-0 mt-2">Ulica</label>
+                            <input class="col-12" placeholder="{{address.street}}" disabled></input>
+                        </div>
+                        <div class="col-10 row mx-auto m-0 p-0 d-flex justify-content-between">
+                            <div class="row col-5 col-lg-5 m-0 p-0">
+                                <label for="" class="m-0 p-0">Nr domu</label>
+                                <input class="mx-auto col-12 m-0 p-0" placeholder="{{address.house}}" disabled></input>
+                            </div>
+                            <div class="row col-5 col-lg-5 m-0 p-0">
+                                {% if address.door or address.door == "" %}
+                                <label for="" class="m-0 p-0">Nr lokalu</label>
+                                <input class="mx-auto col-12 m-0 p-0" placeholder="{{address.door}}" disabled></input>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-10 row mx-auto m-0 p-0">
+                            <div class="row col-12 mx-auto m-0 p-0">
+                                <label for="" class="m-0 p-0">Miasto</label>
+                                <input class="mx-auto col-12" placeholder="{{address.city}}" disabled></input>
+                            </div>
+                            <div class="row col-12 mx-auto m-0 p-0">
+                                <label for="" class="m-0 p-0">Kod pocztowy</label>
+                                <input class="mx-auto col-12" placeholder="{{address.post_code}}" disabled></input>
+                            </div>
+                        </div>
+                        <div class="row col-12 mx-auto row">
+                            <a href="{% url 'delete_address_basket' pk=address.pk %}" class="text-left col-6"><i
+                                    class="fas fa-trash text-danger"></i></a>
+                            <a href="{% url 'edit_address_basket' pk=address.pk %}" class="text-right col-6">edytuj</a>
+                        </div>
+                    </form>
                 </div>
-                <div class="col-10 row mx-auto m-0 p-0 d-flex justify-content-between">
-                    <div class="row col-5 col-lg-5 m-0 p-0">
-                        <label for="" class="m-0 p-0">Nr domu</label>
-                        <input class="mx-auto col-12 m-0 p-0" placeholder="{{address.house}}" disabled></input>
-                    </div>
-                    <div class="row col-5 col-lg-5 m-0 p-0">
-                         {% if address.door or address.door == "" %}
-                        <label for="" class="m-0 p-0">Nr lokalu</label>
-                        <input class="mx-auto col-12 m-0 p-0" placeholder="{{address.door}}" disabled></input>
-                        {% endif %}
-                    </div>
-                </div>
-                <div class="col-10 row mx-auto m-0 p-0">
-                    <div class="row col-12 mx-auto m-0 p-0">
-                        <label for="" class="m-0 p-0">Miasto</label>
-                        <input class="mx-auto col-12" placeholder="{{address.city}}" disabled></input>
-                    </div>
-                    <div class="row col-12 mx-auto m-0 p-0">
-                        <label for="" class="m-0 p-0">Kod pocztowy</label>
-                        <input class="mx-auto col-12" placeholder="{{address.post_code}}" disabled></input>
-                    </div>
-                </div>
-                <div class="row col-12 mx-auto text-right">
-                    <a href="{% url 'edit_address_basket' pk=address.pk %}" class="text-right col-12">edytuj</a>
-                </div>
+                {% empty %}
+                <p class="col-12 text-danger">Brak adresu</p>
+                {% endfor %}
             </div>
-
-            {% empty %}
-            <p class="col-12 text-danger">Brak adresu</p>
-            {% endfor %}
         </div>
         <div class="text-left headline m-1 mb-2 mt-2">
             <div class="mt-2">
                 <h1 class="mt-2">DOKUMENT HANDLOWY:</h1>
             </div>
         </div>
-        <div class="col-12 text-center mx-auto row">
-            <button class="btn btn-outline-secondary mx-auto text-center col-5">PARAGON
+        <form class="col-12 text-center mx-auto row">
+             {% csrf_token %}
+            <button name='bill_id' type="button" class="btn btn-outline-secondary mx-auto text-center col-5 choice_bill" data-bill_id="1">PARAGON
             </button>
-            <button class="btn btn-success mx-auto  text-center col-5">FAKTURA
+            <button name='bill_id' type="button" class="btn btn-success mx-auto  text-center col-5 choice_bill" data-bill_id="2">FAKTURA
             </button>
-        </div>
-        <!-- <div class="text-left headline m-1 mb-2 mt-2">
-            <h1 class="mt-2">DANE ADRESOWE:</h1>
+        </form>
 
-        </div>
-        <div class="col-12 text-left mx-auto row m-0 p-0">
-            <div class="border row text-center col-lg-6 m-0 p-0">
-                <div class="row col-10 mx-auto m-0 p-0">
-                    <div class="row mx-auto col-12 m-0 p-0">
-                        <label for="" class="m-0 p-0">Nazwa firmy</label>
-                        <input class="col-12" placeholder="Miktel Michał Pielak" disabled></input>
-                    </div>
-                    <div class="row mx-auto col-12 m-0 p-0">
-                        <label for="" class="m-0 p-0">Nip</label>
-                        <input class="col-12" placeholder="6782805234" disabled></input>
-                    </div>
-                </div>
-                <div class="row col-10 mx-auto m-0 p-0">
-                    <div class="row mx-auto col-12 m-0 p-0">
-                        <label for="" class="m-0 p-0">Ulica</label>
-                        <input class="col-12" placeholder="ul.Wspólna" disabled></input>
-                    </div>
-                    <div class="row col-6 col-lg-5 mx-auto">
-                        <label for="" class="m-0 p-0">Nr domu</label>
-                        <input class="mx-auto col-12" placeholder="2" disabled></input>
-                    </div>
-                    <div class="row col-6 col-lg-5 mx-auto">
-                        <label for="" class="m-0 p-0">Nr lokalu</label>
-                        <input class="mx-auto col-12" placeholder="2" disabled></input>
-                    </div>
-                </div>
-                <div class="row mx-auto col-10 m-0 p-0">
-                    <div class="row col-12 mx-auto m-0 p-0">
-                        <label for="" class="m-0 p-0">Miasto</label>
-                        <input class="mx-auto col-12" placeholder="Kraków" disabled></input>
-                    </div>
-                    <div class="row col-12 mx-auto m-0 p-0">
-                        <label for="" class="m-0 p-0">Kod pocztowy</label>
-                        <input class="mx-auto col-12" placeholder="31-926" disabled></input>
-                    </div>
-                </div>
-                <div class="row mx-auto col-10 m-0 p-0">
-                    <a href="" class="text-right col-12">edytuj</a>
-                </div>
-            </div>
-        </div> -->
         <div class="text-left headline m-1 mb-2 mt-2">
             <h1 class="mt-2">SPOSÓB DOSTAWY:</h1>
         </div>
@@ -305,7 +274,7 @@
                     <p class="col-12 text-right m-0 p-2">14.99 PLN</p>
                     {% endif %}
                 </div>
-                
+
                 <div id="easypack-map"></div>
             </div>
         </div>
@@ -356,7 +325,11 @@
             </div>
             <div class="col-12 row m-0 p-0 d-flex align-items-center">
                 <small class="m-0 p-0 ml-1">Dokument handlowy: </small>
-                <p class="m-0 p-0 ml-auto mr-1">Faktura</p>
+                 {% if client.company %}
+                <p class="m-0 p-0 ml-auto mr-1" id="bill_form">Faktura</p>
+                 {% else %}
+                <p class="m-0 p-0 ml-auto mr-1" id="bill_form">Paragon</p>
+                 {% endif %}
             </div>
             <div class="col-12 row m-0 p-0 d-flex align-items-center">
                 <small class="m-0 p-0 ml-1">Metoda dostawy: </small>
@@ -398,16 +371,26 @@
 
             <div class="col-12 row m-0 p-0 d-flex align-items-center">
                 <small class="m-0 p-0 ml-1">Adres: </small>
+
                 {% if address_default.door %}
-                <p class="m-0 p-0 ml-auto mr-1">{{address_default.street}}, {{address_default.house}}
-                    {{address_default.door}}</p>
+                <div class="m-0 p-0 ml-auto mr-1 row">
+                    <p class="m-0 p-1" id="street_form">{{address_default.street}}, </p> 
+                    <p class="m-0 p-1" id="house_form">{{address_default.house}}</p>
+                    <p class="m-0 p-1" id="door_form">/ {{address_default.door}}</p>    
+                </div>
                 {% else %}
-                <p class="m-0 p-0 ml-auto mr-1">{{address_default.street}}, {{address_default.house}}</p>
+               <div class="m-0 p-0 ml-auto mr-1 row">
+                    <p class="m-0 p-1" id="street_form">{{address_default.street}},</p> 
+                    <p class="m-0 p-1" id="house_form">{{address_default.house}}</p>
+                </div>
                 {% endif %}
             </div>
             <div class="col-12 row m-0 p-0 d-flex align-items-center">
                 <small class="m-0 p-0 ml-1">Adres c.d.: </small>
-                <p class="m-0 p-0 ml-auto mr-1">{{address_default.city}}, {{address_default.post_code}}</p>
+                <div class="m-0 p-0 ml-auto mr-1 row">
+                <p class="m-0 p-0" id="city_form">{{address_default.city}}, </p>
+                <p class="m-0 p-0" id="post_code_form">{{address_default.post_code}}</p>
+                </div>
             </div>
         </div>
         <div class="col-12 m-0 p-0 order_details row ">
@@ -417,7 +400,7 @@
             </div>
             <div class="col-12 row m-0 p-0 d-flex align-items-center">
                 <small class="m-0 p-0 ml-1">Dostawa koszt: </small><strong
-                    class="m-0 p-0 ml-auto mr-1">{{delivery_default.price}} PLN</strong>
+                    class="m-0 p-0 ml-auto mr-1">{{delivery_cost|floatformat:2}} PLN</strong>
             </div>
             <div class="col-12 row m-0 p-0 d-flex align-items-center">
                 <small class="m-0 p-0 ml-1">Płatność koszt: </small><strong

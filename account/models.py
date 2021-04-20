@@ -73,10 +73,21 @@ class Address(models.Model):
 
     main = models.BooleanField(verbose_name="Główny adres", default=False)
 
+    def save(self, *args, **kwargs):
+        if self.main == True:
+            all_addresses = Address.objects.filter(
+                user_id=self.user_id).exclude(pk=self.pk)
+            for el in all_addresses:
+                el.main = False
+                el.save()
+        super(Address, self).save(*args, **kwargs)
+
     class Meta:
-        ordering = ("user_id", )
+        ordering = (
+            "user_id",
+            "-id",
+        )
         verbose_name_plural = "Adresy"
 
     def __str__(self):
-        return "{}, {}, {}".format(self.user_id.username, self.street,
-                                   self.house)
+        return "{}, {}, {}".format(self.user_id, self.street, self.house)

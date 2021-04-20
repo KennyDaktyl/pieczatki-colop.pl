@@ -1,12 +1,13 @@
 from django.shortcuts import render
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from products.models import Category
 from .models import PayMethod, DeliveryMethod
 from .constants import DELIVERY_TYPE
 from cart.cart import Cart
 from account.models import Profile, Address
+from account.serializers import AddressSerializer
 
 import json
 from decimal import Decimal
@@ -30,8 +31,13 @@ class OrderDetails(View):
         delivery_default = delivery_type.filter(default=True).first()
         pay_methods = PayMethod.objects.filter(is_active=True)
         payment_default = pay_methods.filter(default=True).first()
+
+        if Decimal(cart.get_total_price()) > 50.00:
+            delivery_cost = 0.00
+        else:
+            delivery_cost = delivery_default.price
         order_price = Decimal(cart.get_total_price()) + Decimal(
-            payment_default.price) + Decimal(delivery_default.price)
+            payment_default.price) + Decimal(delivery_cost)
 
         form = LoginForm()
         ctx = {
@@ -45,9 +51,27 @@ class OrderDetails(View):
             'delivery_default': delivery_default,
             'payment_default': payment_default,
             'order_price': order_price,
-            'form': form
+            'form': form,
+            'delivery_cost': delivery_cost
         }
         return render(request, "orders/order_detail.html", ctx)
+
+    def post(self, request):
+        if request.is_ajax():
+            if 'address_id' in request.POST:
+                address_id = request.POST.get('address_id')
+                address = Address.objects.get(pk=address_id)
+                address.main = True
+                address.save()
+                address_serial = AddressSerializer(address)
+                return JsonResponse(address_serial.data)
+            if 'bill_id' in request.POST:
+                bill_id = request.POST.get('bill_id')
+                if int(bill_id) == 1:
+                    bill_text = 'Paragon'
+                else:
+                    bill_text = 'Faktura'
+                return HttpResponse(bill_text)
 
 
 import stripe
@@ -68,17 +92,32 @@ class CheckOutDetails(View):
         payment_default = pay_methods.filter(default=True).first()
         order_price = Decimal(cart.get_total_price()) + Decimal(
             payment_default.price) + Decimal(delivery_default.price)
+        order_price = "{0:.2f}".format(order_price / 100)
         print(order_price)
         ctx = {'STRIPE_PUBLIC_KEY': settings.STRIPE_PUBLIC_KEY}
         return render(request, "orders/checkout.html", ctx)
 
-    def post(self, requset, *args, **kwargs):
+    def post(self, request):
+        cart = Cart(request)
+        delivery_type = DeliveryMethod.objects.filter(is_active=True)
+        delivery_default = delivery_type.filter(default=True).first()
+        pay_methods = PayMethod.objects.filter(is_active=True)
+        payment_default = pay_methods.filter(default=True).first()
+        if Decimal(cart.get_total_price()) > 50.00:
+            payment_default.price = 0.00
+            delivery_default.price = 0.00
+        order_price = Decimal(cart.get_total_price()) + Decimal(
+            payment_default.price) + Decimal(delivery_default.price)
+        order_price = int(order_price * 100)
+        # order_price = "{0:.2f}".format(order_price[:3])
+        print(order_price)
         checkout_session = stripe.checkout.Session.create(
+            customer_email=request.user.email,
             payment_method_types=['card', 'p24'],
             line_items=[{
                 'price_data': {
                     'currency': 'pln',
-                    'unit_amount': 700,
+                    'unit_amount': order_price,
                     'product_data': {
                         'name':
                         'Pieczątka Colop Compact 20',

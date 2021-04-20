@@ -14,24 +14,6 @@
     <li class="breadcrumb-item text-dark active" aria-current="page">Logowanie</li>
 </nav>
 
-<div class="col-12 mx-auto text-center m-0 p-0  row d-flex align-items-center motto">
-    {% thumbnail "images/bcg-stamp_LrTJcQE_YRKH6ut.webp" "590x300" crop='center' format="WEBP"  as im %}
-    <img src="{{ MEDIA_URL }}{{im}}" class="img-fluid mx-auto text-center d-sm-none"
-        title="Prezentacja graficzna sklepu z pieczątki Colop" alt="Prezentacja graficzna sklepu z pieczątki Colop">
-    {% endthumbnail %}
-    {% thumbnail "images/bcg-stamp_LrTJcQE_YRKH6ut.webp" "720x300" crop='center' format="WEBP"  as im %}
-    <img src="{{ MEDIA_URL }}{{im}}" class="img-fluid mx-auto text-center d-none d-sm-block d-md-none"
-        title="Prezentacja graficzna sklepu z pieczątki Colop" alt="Prezentacja graficzna sklepu z pieczątki Colop">
-    {% endthumbnail %}
-    {% thumbnail "images/bcg-stamp_LrTJcQE_YRKH6ut.webp" "1280x350" crop='center' format="WEBP"  as im %}
-    <img src="{{ MEDIA_URL }}{{im}}" class="img-fluid mx-auto text-center d-none d-md-block d-lg-none"
-        title="Prezentacja graficzna sklepu z pieczątki Colop" alt="Prezentacja graficzna sklepu z pieczątki Colop">
-    {% endthumbnail %}
-    {% thumbnail "images/bcg-stamp_LrTJcQE_YRKH6ut.webp" "1480x250" crop='center' format="WEBP"  as im %}
-    <img src="{{ MEDIA_URL }}{{im}}" class="img-fluid mx-auto text-center d-none d-lg-block col-12 m-0 p-0"
-        title="Prezentacja graficzna sklepu z pieczątki Colop" alt="Prezentacja graficzna sklepu z pieczątki Colop">
-    {% endthumbnail %}
-</div>
 <div class="col-lg-8 mx-auto text-center row d-flex align-items-center justify-content-center border mt-3">
     <div class="form col-lg-6 text-center mt-3 mx-auto">
         <div class="m-0 p-2 col-9 headline">
@@ -61,8 +43,7 @@
                 <label for="id_street" class="requiredField col-12 align-self-center">
                     Ulica<span class="asteriskField ">*</span>
                 </label>
-                <input type="text" name="street" class="textinput col-10" maxlength="128" required=""
-                    id="id_street">
+                <input type="text" name="street" class="textinput col-10" maxlength="128" required="" id="id_street">
                 <span class="input-group-text col-2 text-center">
                     <i class="fas fa-road col-12 text-center mx-auto m-0 p-0"></i>
                 </span>
@@ -89,17 +70,16 @@
             </div>
             <div class="col-lg-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
                 <label for="id_street" class="requiredField col-12 align-self-center">
-                   Miasto<span class="asteriskField ">*</span>
+                    Miasto<span class="asteriskField ">*</span>
                 </label>
-                <input type="text" name="city" class="textinput col-10" maxlength="128" required=""
-                    id="id_city">
+                <input type="text" name="city" class="textinput col-10" maxlength="128" required="" id="id_city">
                 <span class="input-group-text col-2 text-center">
                     <i class="fas fa-city col-12 text-center mx-auto m-0 p-0"></i>
                 </span>
             </div>
             <div class="col-lg-6 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
                 <label for="id_street" class="requiredField col-12 align-self-center">
-                   Kod pocztowy<span class="asteriskField ">*</span>
+                    Kod pocztowy<span class="asteriskField ">*</span>
                 </label>
                 <input type="text" name="post_code" class="textinput col-10" maxlength="128" required=""
                     id="id_post_code">
@@ -107,43 +87,19 @@
                     <i class="fas fa-barcode col-12 text-center mx-auto m-0 p-0"></i>
                 </span>
             </div>
+            <div class="col-lg-12 p-1 mt-2 mx-auto text-center input-group row d-flex align-items-stretch">
+                <div id="div_id_main" class="ctrlHolder checkbox col-12 text-center mx-auto">
+                    <input type="checkbox" name="main" class="checkboxinput" id="id_main" checked>
+                    <label for="id_main" class="m-0 p-0 mx-auto col-12">
+                       Ustaw jako główny adres
+                    </label>
+                </div>
+            </div>
         </div>
-        <div class="col-12 mx-auto text-center">
+        <div class="col-12 mx-auto mb-2 text-center">
             <button class="btn btn-success mx-auto" type="submit" value="dodaj">Dodaj</button>
         </div>
     </form>
-
-    <div class="row mx-auto text-center col-lg-10 mt-3 mb-3">
-        <p class="mx-auto text-center"><a href="{% url "password_reset" %}">Zapomniałeś hasła?</a></p>
-    </div>
-    <div class="form col-lg-6 text-center mt-3 mx-auto">
-        <div class="m-0 p-2 col-9 headline">
-            <h2 class="mx-auto text-center m-0 p-0">WYBÓR KONTA DO REJESTRACJI:</h2>
-        </div>
-    </div>
-    <div class="col-12 mx-auto row m-0 p-0 mt-2 mb-2">
-        <div class="col-lg-6 mx-auto text-center row d-flex align-items-center justify-content-center">
-            <a href="{% url 'register_user_basket' %}"
-                class="border col-lg-10 m-2 row choice_reg d-flex align-items-center d-flex justify-content-center p-0">
-                <div class="m-0 p-2 col-3">
-                    <i class="fas fa-user-alt"></i>
-                </div>
-                <div class="m-0 p-2 col-9 headline">
-                    <h2 class="mx-auto text-center m-0 p-0">KONTO INDYWIDUALNE</h2>
-                </div>
-            </a>
-            <a href="{% url 'register_bisness_user_basket' %}"
-                class="border col-lg-10 m-2 row choice_reg d-flex align-items-center d-flex justify-content-center p-0">
-                <div class="m-0 p-2 col-3">
-                    <i class="far fa-building"></i>
-                </div>
-                <div class="m-0 p-2 col-9 headline">
-                    <h2 class="mx-auto text-center m-0 p-0">KONTO FIRMOWE</h2>
-                </div>
-            </a>
-        </div>
-    </div>
-    </main>
 </div>
 {% endblock %}
 

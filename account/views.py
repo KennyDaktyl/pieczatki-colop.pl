@@ -257,3 +257,17 @@ class UpdateAddressBasketView(SuccessMessageMixin, UpdateView):
 
     def get_success_url(self, *args, **kwargs):
         return reverse('order_details')
+
+
+@method_decorator(login_required, name="dispatch")
+class DeleteAddressBasketView(SuccessMessageMixin, DeleteView):
+    model = Address
+    fields = "__all__"
+    template_name_suffix = "_confirm_delete"
+    success_url = reverse_lazy("order_details")
+    success_message = 'Usunięto adres'
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, self.success_message)
+        return super(DeleteAddressBasketView,
+                     self).delete(request, *args, **kwargs)
