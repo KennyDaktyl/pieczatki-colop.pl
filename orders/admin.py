@@ -17,7 +17,6 @@ class OrdersAdmin(admin.ModelAdmin):
     list_display = [f.name for f in Orders._meta.fields]
     list_filter = (
         'store',
-        'user',
         'pay_method',
     )
     search_fields = ('number', )

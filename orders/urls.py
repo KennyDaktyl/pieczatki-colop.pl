@@ -7,5 +7,7 @@ from .views import OrderDetails, CheckOutDetails
 # CartDetails,
 urlpatterns = [
     path('podsumowanie/', OrderDetails.as_view(), name='order_details'),
-    path('platnosci/', CheckOutDetails.as_view(), name='checkout_details'),
+    path('platnosci/<int:order>/',
+         CheckOutDetails.as_view(),
+         name='checkout_details'),
 ]

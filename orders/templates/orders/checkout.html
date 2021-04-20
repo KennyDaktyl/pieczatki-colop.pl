@@ -22,50 +22,10 @@
     <li class="breadcrumb-item text-dark"><a href="{% url 'cart_details' %}" class="text-dark">Koszyk</a></li>
     <li class="breadcrumb-item text-dark active" aria-current="page">Zamówienie</li>
 </nav>
-<form id="payment-form" class="" style="margin-top: 250px;">
-    <div class="form-row">
-        <label for="accountholder-name">
-            Name
-        </label>
-        <input id="accountholder-name" name="accountholder-name">
-    </div>
-
-    <div class="form-row col-12">
-        <!--
-      Using a label with a for attribute that matches the ID of the
-      Element container enables the Element to automatically gain focus
-      when the customer clicks on the label.
-    -->
-        <label for="p24-bank-element">
-            P24 Bank
-        </label>
-        <div id="p24-bank-element">
-            <!-- A Stripe Element will be inserted here. -->
-        </div>
-    </div>
-
-    <button>Submit Payment</button>
-
-    <!-- Used to display form errors. -->
-    <div id="error-message" role="alert"></div>
-</form>
-<div class="col-12 row">
-    <!-- Display a payment form -->
-    <form method="POST" action="https://sandbox.przelewy24.pl/api/v1/transaction/register" class="col-12 row">
-        {% csrf_token %}
-        <button id="submit" type="button">Pay now</button>
-    </form>
-
+<input type="hidden" name="" id="order_id" value="{{order.id}}">
+  {% csrf_token %}
     <button id="checkout-button">CheckOut</button>
-    <div class="col-12 row">
-        {% for method in methods.data %}
-        {{method}}
-        {% if method.imgUrl %}
-        <img src="{{method.imgUrl}}" alt="" style="width: 50px; height: 50px;"><br>
-        {% endif %}
-        {% endfor %}
-    </div>
-</div>
+   
 {% endblock %}
 
 {% block script %}
@@ -73,9 +33,10 @@
     var csrfmiddlewaretoken = $('input[name=csrfmiddlewaretoken]').val();
     // var csrf_token=document.querySelector('[csrfmiddlewaretoken]').value();
     var stripe = Stripe("{{ STRIPE_PUBLIC_KEY }}");
+    var order_id=$('#order_id').val();
     var checkoutButton = document.getElementById("checkout-button");
     checkoutButton.addEventListener("click", function () {
-        fetch("{% url 'checkout_details' %}", {
+        fetch("{% url 'checkout_details' order=order.id %}", {
                 method: "POST",
                 headers: {
                     'X-CSRFToken': csrfmiddlewaretoken

@@ -1,9 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse, HttpResponse
-from products.models import Category
-from .models import PayMethod, DeliveryMethod
+from products.models import Category, Store
+from .models import PayMethod, DeliveryMethod, Orders
+from .functions import new_number
 from .constants import DELIVERY_TYPE
 from cart.cart import Cart
 from account.models import Profile, Address
@@ -15,8 +16,11 @@ from decimal import Decimal
 from account.forms import LoginForm
 
 import stripe
+from django.conf import settings
 
-stripe.api_key = "sk_test_51IhEZaIs63SrMUIijVMnqrGqnKdsUMAEbrW8S6HcVXKV9kcqQaLHQgBAwcPbi2npi6KPNPuhnHu38AjuaYEMhR1e00hx2DhSpM"
+from datetime import datetime
+
+stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
 class OrderDetails(View):
@@ -52,11 +56,22 @@ class OrderDetails(View):
             'payment_default': payment_default,
             'order_price': order_price,
             'form': form,
-            'delivery_cost': delivery_cost
+            'delivery_cost': delivery_cost,
+            'STRIPE_PUBLIC_KEY': settings.STRIPE_PUBLIC_KEY
         }
         return render(request, "orders/order_detail.html", ctx)
 
     def post(self, request):
+        cart = Cart(request)
+        categorys = Category.objects.filter(is_active=True)
+        profile = Profile.objects.get(user=request.user.id)
+        addresses = Address.objects.filter(user_id=profile.user.id)
+        address_default = addresses.filter(main=True).first()
+        delivery_type = DeliveryMethod.objects.filter(is_active=True)
+        delivery_default = delivery_type.filter(default=True).first()
+        pay_methods = PayMethod.objects.filter(is_active=True)
+        payment_default = pay_methods.filter(default=True).first()
+
         if request.is_ajax():
             if 'address_id' in request.POST:
                 address_id = request.POST.get('address_id')
@@ -72,45 +87,101 @@ class OrderDetails(View):
                 else:
                     bill_text = 'Faktura'
                 return HttpResponse(bill_text)
+            if 'delivery_id' in request.POST:
+                delivery_method_price = request.POST.get(
+                    'delivery_method_price')
+                delivery_method_name = request.POST.get('delivery_method_name')
 
+                order_price = Decimal(cart.get_total_price()) + Decimal(
+                    payment_default.price) + Decimal(delivery_method_price)
+                return JsonResponse({
+                    'delivery_method_price': delivery_method_price,
+                    'delivery_method_name': delivery_method_name,
+                    'order_price': order_price
+                })
+            if 'payment_id' in request.POST:
+                payment_method_price = request.POST.get('payment_method_price')
+                payment_method_name = request.POST.get('payment_method_name')
+                delivery_method_price = request.POST.get(
+                    'delivery_method_price')
+                order_price = Decimal(cart.get_total_price()) + Decimal(
+                    payment_method_price) + Decimal(delivery_method_price)
+                return JsonResponse({
+                    'payment_method_price': payment_method_price,
+                    'payment_method_name': payment_method_name,
+                    'order_price': order_price
+                })
+        if 'checkout' in request.POST:
+            address_id = request.POST.get('address_id')
+            delivery_name = request.POST.get('delivery_name')
+            delivery_price = request.POST.get('delivery_price')
+            payment_name = request.POST.get('payment_name')
+            payment_price = request.POST.get('payment_price')
+            product_total_price = request.POST.get('product_total_price')
+            order_total_price = request.POST.get('order_total_price')
+            # print(delivery_name, delivery_price, payment_name, payment_price,
+            #       product_total_price, order_total_price)
+            order_total_price = order_total_price.replace(",", ".")
+            # order_price = int(Decimal(order_total_price) * 100)
+            # print(order_price)
+            store = Store.objects.all().first()
+            address = Address.objects.all().first()
+            payment_name = PayMethod.objects.all().first()
+            day = datetime.now().day
+            month = datetime.now().month
+            year = datetime.now().year
+            order = Orders()
+            order.number = new_number(store.id, year, month, day)
+            order.date = datetime.now()
+            order.store = store
+            order.client = request.user
+            order.type_of_order = delivery_name
+            order.address = address
+            order.pay_method = payment_name
+            order.total_price = Decimal(order_total_price)
+            order.save()
+            return redirect('checkout_details', order=order.id)
 
-import stripe
-from django.conf import settings
-
-stripe.api_key = settings.STRIPE_SECRET_KEY
 
 # import requests
 # import hashlib
 
 
 class CheckOutDetails(View):
-    def get(self, request):
-        cart = Cart(request)
-        delivery_type = DeliveryMethod.objects.filter(is_active=True)
-        delivery_default = delivery_type.filter(default=True).first()
-        pay_methods = PayMethod.objects.filter(is_active=True)
-        payment_default = pay_methods.filter(default=True).first()
-        order_price = Decimal(cart.get_total_price()) + Decimal(
-            payment_default.price) + Decimal(delivery_default.price)
-        order_price = "{0:.2f}".format(order_price / 100)
-        print(order_price)
-        ctx = {'STRIPE_PUBLIC_KEY': settings.STRIPE_PUBLIC_KEY}
+    def get(self, request, order):
+        # cart = Cart(request)
+        # delivery_type = DeliveryMethod.objects.filter(is_active=True)
+        # delivery_default = delivery_type.filter(default=True).first()
+        # pay_methods = PayMethod.objects.filter(is_active=True)
+        # payment_default = pay_methods.filter(default=True).first()
+        # order_price = Decimal(cart.get_total_price()) + Decimal(
+        #     payment_default.price) + Decimal(delivery_default.price)
+        # order_price = "{0:.2f}".format(order_price / 100)
+        # print(order_price)
+        order = Orders.objects.get(pk=order)
+        order_price = int(order.total_price * 100)
+        print(order.total_price)
+        print(order.number)
+        ctx = {'STRIPE_PUBLIC_KEY': settings.STRIPE_PUBLIC_KEY, 'order': order}
         return render(request, "orders/checkout.html", ctx)
 
-    def post(self, request):
-        cart = Cart(request)
-        delivery_type = DeliveryMethod.objects.filter(is_active=True)
-        delivery_default = delivery_type.filter(default=True).first()
-        pay_methods = PayMethod.objects.filter(is_active=True)
-        payment_default = pay_methods.filter(default=True).first()
-        if Decimal(cart.get_total_price()) > 50.00:
-            payment_default.price = 0.00
-            delivery_default.price = 0.00
-        order_price = Decimal(cart.get_total_price()) + Decimal(
-            payment_default.price) + Decimal(delivery_default.price)
-        order_price = int(order_price * 100)
-        # order_price = "{0:.2f}".format(order_price[:3])
-        print(order_price)
+    def post(self, request, order):
+        # cart = Cart(request)
+        # delivery_type = DeliveryMethod.objects.filter(is_active=True)
+        # delivery_default = delivery_type.filter(default=True).first()
+        # pay_methods = PayMethod.objects.filter(is_active=True)
+        # payment_default = pay_methods.filter(default=True).first()
+        # if Decimal(cart.get_total_price()) > 50.00:
+        #     payment_default.price = 0.00
+        #     delivery_default.price = 0.00
+        # order_price = Decimal(cart.get_total_price()) + Decimal(
+        #     payment_default.price) + Decimal(delivery_default.price)
+        # order_price = int(order_price * 100)
+        # # order_price = "{0:.2f}".format(order_price[:3])
+        # print(order_price)
+        order = Orders.objects.get(pk=order)
+        order_price = int(order.total_price * 100)
+        # # order_price = "{0:.2f}".format(order_price[:3])
         checkout_session = stripe.checkout.Session.create(
             customer_email=request.user.email,
             payment_method_types=['card', 'p24'],
@@ -120,9 +191,9 @@ class CheckOutDetails(View):
                     'unit_amount': order_price,
                     'product_data': {
                         'name':
-                        'Pieczątka Colop Compact 20',
+                        'Zamówienie nr :' + order.number,
                         'images': [
-                            'https://pieczatki-colop.com/media/images/pieczatki-budowlane.webp'
+                            "https://pieczatki-colop.com/media/images/bcg-stamp_LrTJcQE_YRKH6ut.webp"
                         ],
                     },
                 },

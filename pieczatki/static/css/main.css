@@ -328,7 +328,6 @@ p.product_title {
     background-color: white;
     transition: 0.3s;
     box-shadow: 5px 10px #888888;
-
 }
 
 #order_details.slider {
@@ -655,6 +654,10 @@ ul.social-footer2 li a {
     -o-transition: all 250ms ease-in-out 0s;
     transition: all 250ms ease-in-out 0s;
 
+}
+
+.choice_bill:hover {
+    background: green;
 }
 
 /**

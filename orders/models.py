@@ -81,20 +81,14 @@ class Orders(models.Model):
                               verbose_name="Magazyn",
                               db_index=True)
 
-    user = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
-        verbose_name="Osoba rejestrująca zamówienie",
-        related_name="profile_id",
-    )
     client = models.ForeignKey(settings.AUTH_USER_MODEL,
                                on_delete=models.CASCADE,
                                verbose_name="Klient",
                                related_name="clinet_id",
                                null=True,
                                blank=True)
-    type_of_order = models.IntegerField(verbose_name="Rodzaj zamówienia",
-                                        choices=DELIVERY_TYPE)
+    type_of_order = models.CharField(verbose_name="Rodzaj dostawy",
+                                     max_length=64)
 
     address = models.ForeignKey("account.Address",
                                 on_delete=models.CASCADE,
@@ -145,33 +139,6 @@ class Orders(models.Model):
 
     def counter_positions(self):
         return ProductCopy.objects.filter(order_id=self).count()
-
-    def total_price_1(self):
-        positions_order = ProductCopy.objects.filter(order=self).exclude(
-            order=None)
-        if positions_order.aggregate(Sum('total_price'))['total_price__sum']:
-            _sum = positions_order.aggregate(
-                Sum('total_price'))['total_price__sum']
-        else:
-            _sum = 0.00
-        return Decimal(_sum)
-
-    def total_price_2(self):
-        total_price = Decimal(self.total_price_1())
-
-        if int(self.discount) > 0:
-            return round(
-                Decimal(
-                    (total_price -
-                     (Decimal(total_price) * Decimal(self.discount) / 100))),
-                2,
-            )
-        if int(self.discount) == 0:
-            return Decimal(self.total_price_1())
-
-    def save(self, *args, **kwargs):
-        self.total_price = self.total_price_2()
-        super(Orders, self).save(*args, **kwargs)
 
     class Meta:
         ordering = ("-id", )
