@@ -70,30 +70,5 @@ Kontak z nami | pieczatki-colop.com
 
 {% block script %}
 <script type="application/ld+json">
-    {
-        %
-        for workplace in workplaces %
-    } {
-        "@context": "https://schema.org",
-        "@type": "Organization",
-        "name": "{{workplace.name}}",
-        "description": "",
-        "telephone": "{{workplace.phone_number}}",
-        "address": {
-            "@type": "PostalAddress",
-            "streetAddress": "{{workplace.street}}",
-            "addressLocality": "{{workplace.city}}",
-            "postalCode": "{{workplace.post_code}}",
-            "addressCountry": "PL"
-        },
-        "url": "https://pizzeria-babilon.pl",
-        "logo": "https://pizzeria-babilon.pl/{{ MEDIA_URL }}/images/bablion_logo.png",
-        "sameAs": [
-            https: //www.facebook.com/Pizza.Babilon"
-        ]
-    } {
-        %
-        endfor %
-    }
 </script>
 {% endblock %}

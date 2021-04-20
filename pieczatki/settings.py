@@ -19,6 +19,8 @@ if socket.gethostname() == "Asus":
     DOMAIN = "127.0.0.1"
     DatabaseName = "colop_v1"
     SECURE_SSL_REDIRECT = False
+    STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLIC_KEY_TEST')
+    STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY_TEST')
 else:
     DOMAIN = "pieczatki-colop.com"
     DatabaseName = "colop_v1"
@@ -32,6 +34,8 @@ else:
     SESSION_SAVE_EVERY_REQUEST = True
     CSRF_COOKIE_DOMAIN = f".{DOMAIN}"
     CSRF_COOKIE_HTTPONLY = True
+    STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLIC_KEY')
+    STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY')
 
 # Application definition
 

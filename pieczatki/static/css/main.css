@@ -642,6 +642,37 @@ ul.social-footer2 li a {
 
 }
 
+/**
+* Shows how you can use CSS to style your Element's container.
+* These classes are added to your Stripe Element by default.
+* You can override these classNames by using the options passed
+* to the `p24Bank` element.
+* https://stripe.com/docs/js/elements_object/create_element?type=p24Bank#elements_create-options-classes
+*/
+
+.payment-form input,
+.StripeElement {
+    height: 40px;
+
+    color: #32325d;
+    background-color: white;
+    border: 1px solid transparent;
+    border-radius: 4px;
+
+    box-shadow: 0 1px 3px 0 #e6ebf1;
+    -webkit-transition: box-shadow 150ms ease;
+    transition: box-shadow 150ms ease;
+}
+
+.payment-form input {
+    padding: 10px 12px;
+}
+
+.payment-form input:focus,
+.StripeElement--focus {
+    box-shadow: 0 1px 3px 0 #cfd7df;
+}
+
 @media (max-width: 992px) and (orientation: landscape) {
     #nav_ul {
         overflow-y: scroll;

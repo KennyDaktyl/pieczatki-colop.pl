@@ -1,12 +1,10 @@
 from django.contrib import messages
-from .models import Orders, PositionOrder
-from .constants import ORDER_STATUS
-from products.models import Toppings, Toppings_Copy
+from .models import Orders
+import stripe
 
-
-def new_number(pizzeria_id, year, month, day):
+def new_number(store_id, year, month, day):
     try:
-        last_number = Orders.objects.filter(workplace_id=pizzeria_id).first()
+        last_number = Orders.objects.filter(store_id=store_id).first()
         if last_number:
             number_indx = int(last_number.number[:3]) + 1
             ln_day = last_number.date.day
@@ -38,3 +36,16 @@ def new_number(pizzeria_id, year, month, day):
     except Orders.DoesNotExist:
         number_format = f"001/{day}/{month}/{year}"
         return number_format
+
+def session_create_stripe();
+    stripe.checkout.Session.create(
+        payment_method_types=['card', 'p24',],line_items=[{
+        'price_data': {
+        'currency': 'pln',
+        'product_data': {
+        'name': 'T-shirt',
+      },
+      'unit_amount': 2000,
+    },
+    'quantity': 1,
+  }], mode='payment', success_url='https://example.com/success', cancel_url='https://example.com/cancel')
