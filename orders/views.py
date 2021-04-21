@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect
+from django.contrib import messages
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse, HttpResponse
 from products.models import Category, Store
 from .models import PayMethod, DeliveryMethod, Orders
 from .functions import new_number
+from .forms import OrderBigForm
 from .constants import DELIVERY_TYPE
 from cart.cart import Cart
 from account.models import Profile, Address
@@ -37,13 +39,58 @@ class OrderDetails(View):
         payment_default = pay_methods.filter(default=True).first()
 
         if Decimal(cart.get_total_price()) > 50.00:
-            delivery_cost = 0.00
+            delivery_cost = delivery_default.price_promo
         else:
             delivery_cost = delivery_default.price
         order_price = Decimal(cart.get_total_price()) + Decimal(
             payment_default.price) + Decimal(delivery_cost)
-
-        form = LoginForm()
+        if profile.company:
+            account = 'Firmowe'
+            bill = 'Faktura'
+            name = profile.business_name
+            if profile.business_name_l:
+                name_long = profile.business_name_l
+            else:
+                name_long = False
+            nip = profile.nip_number
+        else:
+            account = 'Indywidualne'
+            bill = 'Paragon'
+            name = profile.user_id.first_name + " " + profile.user_id.last_name
+            name_long = False
+            nip = False
+        phone = profile.phone_number
+        if delivery_default.inpost_box:
+            inpost_box = 'sdsdssdsd'
+        else:
+            inpost_box = False
+        if address_default.door:
+            street = address_default.street + " " + address_default.house + " / " + address_default.door
+        else:
+            street = address_default.street + " " + address_default.house
+        city = address_default.post_code + ", " + address_default.city
+        products_total = round(Decimal(cart.get_total_price()), 2)
+        delivery_cost = round(Decimal(delivery_cost), 2)
+        payment_cost = round(Decimal(payment_default.price), 2)
+        order_total_price = round(
+            (products_total + delivery_cost + payment_cost), 2)
+        form = OrderBigForm(
+            initial={
+                'account': account,
+                'bill': bill,
+                'delivery': delivery_default.name,
+                'payment': payment_default.name,
+                'name': name,
+                'name_long': name_long,
+                'nip': nip,
+                'phone': phone,
+                'street': street,
+                'city': city,
+                'products_total': products_total,
+                'payment_cost': payment_cost,
+                'delivery_cost': delivery_cost,
+                'order_total_price': 50.00
+            })
         ctx = {
             'client': profile,
             'addresses': addresses,
@@ -112,35 +159,48 @@ class OrderDetails(View):
                     'order_price': order_price
                 })
         if 'checkout' in request.POST:
-            address_id = request.POST.get('address_id')
-            delivery_name = request.POST.get('delivery_name')
-            delivery_price = request.POST.get('delivery_price')
-            payment_name = request.POST.get('payment_name')
-            payment_price = request.POST.get('payment_price')
-            product_total_price = request.POST.get('product_total_price')
-            order_total_price = request.POST.get('order_total_price')
-            # print(delivery_name, delivery_price, payment_name, payment_price,
-            #       product_total_price, order_total_price)
-            order_total_price = order_total_price.replace(",", ".")
-            # order_price = int(Decimal(order_total_price) * 100)
-            # print(order_price)
-            store = Store.objects.all().first()
-            address = Address.objects.all().first()
-            payment_name = PayMethod.objects.all().first()
-            day = datetime.now().day
-            month = datetime.now().month
-            year = datetime.now().year
-            order = Orders()
-            order.number = new_number(store.id, year, month, day)
-            order.date = datetime.now()
-            order.store = store
-            order.client = request.user
-            order.type_of_order = delivery_name
-            order.address = address
-            order.pay_method = payment_name
-            order.total_price = Decimal(order_total_price)
-            order.save()
-            return redirect('checkout_details', order=order.id)
+            form = OrderBigForm(request.POST, None)
+            # print(form)
+            address_id = request.POST.get('order_total_price')
+            print(address_id)
+            if form.is_valid():
+                return JsonResponse({'id': 2})
+                # else:
+                #     address_id = request.POST.get('delivery_cost')
+                #     print(address_id)
+                # delivery_price = form.cleaned_data['delivery_cost']
+                # delivery = form.cleaned_data['delivery']
+                # payment_price = form.cleaned_data['payment_cost']
+                # payment = form.cleaned_data['payment']
+                # products_total = form.cleaned_data['products_total']
+                # order_total_price = form.cleaned_data['order_total_price']
+                #     # # print(delivery_name, delivery_price, payment_name, payment_price,
+                #     # #       product_total_price, order_total_price)
+                #     # order_total_price = order_total_price.replace(",", ".")
+                #     # # order_price = int(Decimal(order_total_price) * 100)
+                #     # # print(order_price)
+                #     store = Store.objects.all().first()
+                #     address = Address.objects.all().first()
+                #     payment_name = PayMethod.objects.all().first()
+                #     day = datetime.now().day
+                #     month = datetime.now().month
+                #     year = datetime.now().year
+                #     order = Orders()
+                #     order.number = new_number(store.id, year, month, day)
+                #     order.date = datetime.now()
+                #     order.store = store
+                #     order.client = request.user
+                #     order.type_of_order = delivery
+                #     order.address = address
+                #     order.pay_method = payment
+                #     order.total_price = round(Decimal(order_total_price), 2)
+                #     order.save()
+                # return JsonResponse({'id': 1})
+                # return redirect('checkout_details', order=1)
+            else:
+                messages.error(request, 'Wystąpił błąd')
+                ctx = {'form': form}
+                return render(request, "orders/order_detail.html", ctx)
 
 
 # import requests

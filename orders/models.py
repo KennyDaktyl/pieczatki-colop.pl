@@ -58,6 +58,8 @@ class DeliveryMethod(models.Model):
                                       decimal_places=2,
                                       max_digits=7)
     default = models.BooleanField(verbose_name="Czy domyślny?", default=False)
+    inpost_box = models.BooleanField(verbose_name="Czy dostawa to paczkomat?",
+                                     default=False)
     is_active = models.BooleanField(verbose_name="Czy aktualna?", default=True)
 
     class Meta:

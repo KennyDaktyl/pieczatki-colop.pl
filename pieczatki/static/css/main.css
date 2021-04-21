@@ -335,6 +335,9 @@ p.product_title {
     transition: 0.3s;
 }
 
+.order_form input {
+    border: none;
+}
 
 
 div.address {
