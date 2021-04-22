@@ -43,7 +43,6 @@ class OrderDetails(View):
         payment_default = pay_methods.filter(default=True).first()
 
         session_dict = (request.session.get(str(request.user.id)))
-        print(session_dict['payment_id'])
         try:
             payment_set = PayMethod.objects.get(pk=session_dict['payment_id'])
             payment_default = PayMethod.objects.get(
