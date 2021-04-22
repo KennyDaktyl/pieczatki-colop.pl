@@ -2,7 +2,7 @@ import random
 from decimal import Decimal
 from datetime import datetime
 from django.conf import settings
-from orders.models import ProductCopy
+from orders.models import ProductCopy, DeliveryMethod, PayMethod
 from orders.serializers import ProductCopySerializer
 
 # def new_number(store):
@@ -25,7 +25,9 @@ class Cart(object):
             #zapis pustego koszyka w sesji
             cart = self.session[settings.CART_SESSION_ID] = {}
         self.cart = cart
-        # self.number = new_number(1)
+        # self.delivery = {}
+        # self.payment = {}
+        # self.inpost_box = {}
 
     def add(self,
             product,
@@ -67,11 +69,7 @@ class Cart(object):
                 self.cart[product_id]['quantity'] += int(quantity)
             if info:
                 self.cart[product_id]['info'] = info
-
             self.save()
-
-    def save(self):
-        self.session.modified = True
 
     def remove(self, product):
         """
@@ -141,6 +139,9 @@ class Cart(object):
         Obliczanie sumy elementów w koszyku
         """
         return sum(item['quantity'] for item in self.cart.values())
+
+    def save(self):
+        self.session.modified = True
 
     def clear(self):
         """Usunięcie koszyka z sesji"""

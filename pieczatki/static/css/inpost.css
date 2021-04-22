@@ -64,25 +64,12 @@ span.asteriskField {
     border: 1px solid #ced4da;
 }
 
-input {
-    border: 5px solid #ced4da;
-    border-left: 5px solid #ff9b00;
-
-}
-
-input:focus {
-    background-color: #ced4da;
-    border: 5px solid #ff9b00;
-}
 
 .choice_reg i {
     font-size: 35px;
     color: #ff9b00;
 }
 
-div.choice_reg {
-    border: 5px solid #ff9b00;
-}
 
 
 #basket_div {
@@ -263,11 +250,6 @@ a.logout:hover {
     transition: 0.5s;
 }
 
-.title {
-    border: 1px solid;
-    padding: 10px;
-    box-shadow: 5px 10px #888888;
-}
 
 .motto_2 div:hover {
     height: 280px;
@@ -348,16 +330,9 @@ p.product_title {
     z-index: 9999;
     background-color: white;
 }
-div.address {
-    border: 5px solid #ced4da;
-    cursor: pointer;
-}
+
 div.default {
     border: 5px solid #ff8d1e;
-}
-div.address:hover {
-    border: 5px solid #ff8d1e;
-    cursor: pointer;
 }
 
 #close {

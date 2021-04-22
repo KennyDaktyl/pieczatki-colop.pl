@@ -8,6 +8,8 @@ from decimal import Decimal
 from products.constants import STAMP_COLORS, STAMP_COLORS_TEXT
 from .constants import PAY_METHOD, ORDER_STATUS, DELIVERY_TYPE
 
+# from cart.cart import Cart
+
 
 class PayMethod(models.Model):
     id = models.AutoField(primary_key=True)
@@ -22,6 +24,14 @@ class PayMethod(models.Model):
                                 max_digits=7)
     default = models.BooleanField(verbose_name="Czy domyślny?", default=False)
     is_active = models.BooleanField(verbose_name="Czy aktualna", default=True)
+
+    def save(self, *args, **kwargs):
+        if self.default == True:
+            all_methods = PayMethod.objects.exclude(pk=self.id)
+            for el in all_methods:
+                el.default = False
+                el.save()
+        super(PayMethod, self).save(*args, **kwargs)
 
     def total_income(self, orders):
         orders_in_this_pay_m = orders.filter(pay_method=self)
@@ -47,6 +57,8 @@ class PayMethod(models.Model):
 class DeliveryMethod(models.Model):
     id = models.AutoField(primary_key=True)
     number = models.IntegerField(verbose_name="Numer wyświetlania")
+    id_code = models.CharField(verbose_name="Kod dla id iframe inposta",
+                               max_length=64)
     name = models.CharField(verbose_name="Nazwa metody płatności",
                             max_length=64)
     price = models.DecimalField(verbose_name="Cena za dostawę",
@@ -61,6 +73,21 @@ class DeliveryMethod(models.Model):
     inpost_box = models.BooleanField(verbose_name="Czy dostawa to paczkomat?",
                                      default=False)
     is_active = models.BooleanField(verbose_name="Czy aktualna?", default=True)
+
+    def price_active(self, Cart):
+        cart = Cart
+        if cart.get_total_price() > 50.00:
+            return self.price_promo
+        else:
+            return self.price
+
+    def save(self, *args, **kwargs):
+        if self.default == True:
+            all_methods = DeliveryMethod.objects.exclude(pk=self.id)
+            for el in all_methods:
+                el.default = False
+                el.save()
+        super(DeliveryMethod, self).save(*args, **kwargs)
 
     class Meta:
         ordering = ("number", )

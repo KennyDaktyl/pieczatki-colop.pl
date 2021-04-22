@@ -1,0 +1,75 @@
+{% extends 'orders/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% crispy form.helper %}
+{% load templatetag %}
+{% load thumbnail %}
+{% load l10n %}
+
+
+{% block head %}
+<meta property="fb:app_id" content="{{app_id}}" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="{{request.build_absolute_uri}}" />
+<meta property="og:title" content="{{page.title}}" />
+<meta property="og:image" content="" />
+<meta property="og:description" content="{{page.description}}" />
+<meta name="description" content="{{page.description}}">
+<link rel="canonical" href="{{cannonical}}">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta http-equiv="x-ua-compatible" content="IE=11" />
+<script src="https://geowidget.easypack24.net/js/sdk-for-javascript.js"></script>
+<link rel="stylesheet" href="https://geowidget.easypack24.net/css/easypack.css" />
+{% endblock %}
+
+{% block title %}
+Wybierz paczkomat | Pieczatki-Colop.com
+{% endblock %}
+
+{% block content %}
+<nav id="link_map" aria-label="breadcrumb" class="col-12 bg-white mx-auto d-md-none row fixed-top">
+    <li class="breadcrumb-item text-dark"><a href="{% url 'welcome' %}" class="text-dark">Strona startowa</a></li>
+    <li class="breadcrumb-item text-dark"><a href="{% url 'cart_details' %}" class="text-dark">Koszyk</a></li>
+    <li class="breadcrumb-item text-dark active" aria-current="page">Wybór paczkomatu</li>
+</nav>
+<div class="col-lg-8 mx-auto text-center mt-3 pt-0 row d-flex align-items-start">
+    <main class="col-lg-12 mx-auto row">
+        <div class="text-left headline m-1 mb-2">
+            <h1 class="mt-2">WYBIERZ PACZKOMAT</h1>
+        </div>
+    </main>
+</div>
+<div id="easypack-map" style="display: block;"></div>
+ {% csrf_token %}
+{% endblock %}
+
+{% block script %}
+<script>
+    var url = "{% url 'order_details' %}";
+    var easypack_map = $('#easypack-map');
+    console.log(url);
+    window.easyPackAsyncInit = function () {
+        easyPack.init({
+            mapType: 'osm',
+            searchType: 'osm',
+        });
+        var map = easyPack.mapWidget('easypack-map', function (point) {
+            console.log(point);
+            $.ajax({
+                url: url,
+                type: "POST",
+                data: {
+                    inpost_box_id: point['name'],
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+                },
+            }).done(function (result) {
+                console.log(result);
+                easypack_map.css('display', 'none');
+                $(location).attr('href', url);
+            }).fail(function (xhr, status, err) {}).always(function (xhr, status) {});
+        });
+    };
+</script>
+<script src="{% static "js/inpost_box.js" %}" type="text/javascript"></script>
+{% endblock %}
