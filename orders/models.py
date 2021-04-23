@@ -116,9 +116,12 @@ class Orders(models.Model):
                                related_name="clinet_id",
                                null=True,
                                blank=True)
-    type_of_order = models.CharField(verbose_name="Rodzaj dostawy",
-                                     max_length=64)
-
+    delivery_method = models.CharField(verbose_name="Rodzaj dostawy",
+                                       max_length=64)
+    inpost_box = models.CharField(verbose_name="Numer paczkomatu",
+                                  null=True,
+                                  blank=True,
+                                  max_length=64)
     address = models.ForeignKey("account.Address",
                                 on_delete=models.CASCADE,
                                 verbose_name="Adres dostawy",
@@ -128,11 +131,8 @@ class Orders(models.Model):
                                     null=True,
                                     blank=True,
                                     max_length=12)
-    pay_method = models.ForeignKey("PayMethod",
-                                   on_delete=models.CASCADE,
-                                   verbose_name="Rodzaj płatności",
-                                   null=True,
-                                   blank=True)
+    pay_method = models.CharField(verbose_name="Rodzaj płatności",
+                                  max_length=64)
 
     start_delivery_time = models.TimeField(verbose_name="Czas wywozu",
                                            blank=True,

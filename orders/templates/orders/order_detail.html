@@ -160,403 +160,385 @@
         </div>
         <div class="text-left headline m-1 mb-2 mt-2">
             <h1 class="mt-2">DANE ADRESOWE:</h1>
-            <a href="{% url 'add_address_basket' %}" class="text-right ml-auto">
-                <button class="btn btn-outline-success"><i class="fas fa-map-marker-alt m-1"></i>Dodaj adres</button>
-            </a>
         </div>
         <div class="col-12 text-center row m-0 p-0">
-            {% for address in addresses %}
-            {% if address.main %}
             <div class="row text-center col-lg-5 m-1 p-0 address default" id="address_id{{address.id}}"
                 data-address_id="{{address.id}}">
-                {% else %}
-                <div class="row text-center col-lg-5 m-1 p-0 address" id="address_id{{address.id}}"
-                    data-address_id="{{address.id}}">
-                    {% endif %}
-                    <form method="POST" class="col-12 m-0 p-0 row" data-address_id="{{address.id}}">
-                        {% csrf_token %}
-                        <input type="hidden" name="address_id" value="{{address.id}}">
-                        <div class="col-10 row mx-auto m-0 p-0">
-                            <label for="" class="m-0 p-0 mt-2">Ulica</label>
-                            <input class="col-12" placeholder="{{address.street}}" disabled></input>
+                <div class="col-12 m-0 p-0 row" data-address_id="{{address.id}}">
+                    <div class="col-10 row mx-auto m-0 p-0">
+                        <label for="" class="m-0 p-0 mt-2">Ulica</label>
+                        <input class="col-12" placeholder="{{address.street}}" disabled></input>
+                    </div>
+                    <div class="col-10 row mx-auto m-0 p-0 d-flex justify-content-between">
+                        <div class="row col-5 col-lg-5 m-0 p-0">
+                            <label for="" class="m-0 p-0">Nr domu</label>
+                            <input class="mx-auto col-12 m-0 p-0" placeholder="{{address.house}}" disabled></input>
                         </div>
-                        <div class="col-10 row mx-auto m-0 p-0 d-flex justify-content-between">
-                            <div class="row col-5 col-lg-5 m-0 p-0">
-                                <label for="" class="m-0 p-0">Nr domu</label>
-                                <input class="mx-auto col-12 m-0 p-0" placeholder="{{address.house}}" disabled></input>
-                            </div>
-                            <div class="row col-5 col-lg-5 m-0 p-0">
-                                {% if address.door or address.door == "" %}
-                                <label for="" class="m-0 p-0">Nr lokalu</label>
-                                <input class="mx-auto col-12 m-0 p-0" placeholder="{{address.door}}" disabled></input>
-                                {% endif %}
-                            </div>
+                        <div class="row col-5 col-lg-5 m-0 p-0">
+                            {% if address.door or address.door == "" %}
+                            <label for="" class="m-0 p-0">Nr lokalu</label>
+                            <input class="mx-auto col-12 m-0 p-0" placeholder="{{address.door}}" disabled></input>
+                            {% endif %}
                         </div>
-                        <div class="col-10 row mx-auto m-0 p-0">
-                            <div class="row col-12 mx-auto m-0 p-0">
-                                <label for="" class="m-0 p-0">Miasto</label>
-                                <input class="mx-auto col-12" placeholder="{{address.city}}" disabled></input>
-                            </div>
-                            <div class="row col-12 mx-auto m-0 p-0">
-                                <label for="" class="m-0 p-0">Kod pocztowy</label>
-                                <input class="mx-auto col-12" placeholder="{{address.post_code}}" disabled></input>
-                            </div>
+                    </div>
+                    <div class="col-10 row mx-auto m-0 p-0">
+                        <div class="row col-12 mx-auto m-0 p-0">
+                            <label for="" class="m-0 p-0">Miasto</label>
+                            <input class="mx-auto col-12" placeholder="{{address.city}}" disabled></input>
                         </div>
-                        <div class="row col-12 mx-auto row">
-                            <a href="{% url 'delete_address_basket' pk=address.pk %}" class="text-left col-6"><i
-                                    class="fas fa-trash text-danger"></i></a>
-                            <a href="{% url 'edit_address_basket' pk=address.pk %}" class="text-right col-6">edytuj</a>
+                        <div class="row col-12 mx-auto m-0 p-0">
+                            <label for="" class="m-0 p-0">Kod pocztowy</label>
+                            <input class="mx-auto col-12" placeholder="{{address.post_code}}" disabled></input>
                         </div>
-                    </form>
+                    </div>
+                    <div class="row col-12 mx-auto row">
+                        <a href="{% url 'edit_address_basket' pk=address.pk %}" class="text-right col-12">edytuj</a>
+                    </div>
                 </div>
-                {% empty %}
-                <p class="col-12 text-danger">Brak adresu</p>
-                {% endfor %}
             </div>
         </div>
-        <div class="text-left headline m-1 mb-2 mt-2">
-            <div class="mt-2">
-                <h1 class="mt-2">DOKUMENT HANDLOWY:</h1>
-            </div>
+    </div>
+    <div class="text-left headline m-1 mb-2 mt-2">
+        <div class="mt-2">
+            <h1 class="mt-2">DOKUMENT HANDLOWY:</h1>
         </div>
-        <form class="col-12 text-center mx-auto row">
-            {% csrf_token %}
-            {% if client.company %}
-            <button name='bill_id' type="button" class="btn-outline-secondary mx-auto text-center col-5 choice_bill"
-                data-bill_id="1">PARAGON
-            </button>
-            <button name='bill_id' type="button" class="btn-success mx-auto  text-center col-5 choice_bill"
-                data-bill_id="2">FAKTURA
-            </button>
-            {% else %}
-            <button name='bill_id' type="button" class="btn-success mx-auto text-center col-5 choice_bill"
-                data-bill_id="1">PARAGON
-            </button>
-            <button name='bill_id' type="button" class="btn-outline-secondary mx-auto  text-center col-5 choice_bill"
-                data-bill_id="2">FAKTURA
-            </button>
-            {% endif %}
-        </form>
+    </div>
+    <form class="col-12 text-center mx-auto row">
+        {% csrf_token %}
+        {% if client.company %}
+        <button name='bill_id' type="button" class="btn-outline-secondary mx-auto text-center col-5 choice_bill"
+            data-bill_id="1">PARAGON
+        </button>
+        <button name='bill_id' type="button" class="btn-success mx-auto  text-center col-5 choice_bill"
+            data-bill_id="2">FAKTURA
+        </button>
+        {% else %}
+        <button name='bill_id' type="button" class="btn-success mx-auto text-center col-5 choice_bill"
+            data-bill_id="1">PARAGON
+        </button>
+        <button name='bill_id' type="button" class="btn-outline-secondary mx-auto  text-center col-5 choice_bill"
+            data-bill_id="2">FAKTURA
+        </button>
+        {% endif %}
+    </form>
 
-        <div class="text-left headline m-1 mb-2 mt-2">
-            <h1 class="mt-2">SPOSÓB DOSTAWY:</h1>
-        </div>
-        <div class="col-12 text-center mx-auto row m-0 p-0 ">
-            {% for delivery in delivery_methods %}
-            {% if delivery.id == delivery_set.id %}
+    <div class="text-left headline m-1 mb-2 mt-2">
+        <h1 class="mt-2">SPOSÓB DOSTAWY:</h1>
+    </div>
+    <div class="col-12 text-center mx-auto row m-0 p-0 ">
+        {% for delivery in delivery_methods %}
+        {% if delivery.id == delivery_set.id %}
+        <div id={{delivery.id_code}}
+            class="delivery_methods table-success border row text-center m-0 p-0 mt-1  col-12 d-flex align-items-center"
+            data-delivery_id="{{delivery.id}}">
+            {% else %}
             <div id={{delivery.id_code}}
-                class="delivery_methods table-success border row text-center m-0 p-0 mt-1  col-12 d-flex align-items-center"
+                class="delivery_methods border row text-center m-0 p-0 mt-1  col-12 d-flex align-items-center"
                 data-delivery_id="{{delivery.id}}">
+                {% endif %}
+                <div class="row col-6 mx-auto">
+                    <p class="col-12 text-left m-0 p-2">{{delivery.name}}</p>
+                </div>
+                <div class="row col-6 mx-auto ">
+                    {% if cart.get_total_price > 50.00 %}
+                    <p class="col-12 text-right m-0 p-2" id="delivery{{delivery.id}}"
+                        data-price="{{delivery.price_promo}}" data-name="{{delivery.name}}">
+                        {{delivery.price_promo}} PLN</p>
+                    {% else %}
+                    <p class="col-12 text-right m-0 p-2" id="delivery{{delivery.id}}" data-price="{{delivery.price}}"
+                        data-name="{{delivery.name}}">
+                        {{delivery.price}} PLN</p>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="text-left headline m-1 mb-2">
+            <h1 class="mt-2">SPOSÓB PŁATNOŚCI:</h1>
+        </div>
+        <div class="col-lg-12 mx-auto row m-0 p-0 mb-3">
+            {% for pay in pay_methods %}
+            {% if pay.id == payment_set.id %}
+            <div class="payments table-success border row text-center m-0 p-0 mt-1 col-12 d-flex align-items-center"
+                data-payment_id="{{pay.id}}">
                 {% else %}
-                <div id={{delivery.id_code}}
-                    class="delivery_methods border row text-center m-0 p-0 mt-1  col-12 d-flex align-items-center"
-                    data-delivery_id="{{delivery.id}}">
+                <div class="payments border row text-center m-0 p-0 mt-1 col-12 d-flex align-items-center"
+                    data-payment_id="{{pay.id}}">
                     {% endif %}
                     <div class="row col-6 mx-auto">
-                        <p class="col-12 text-left m-0 p-2">{{delivery.name}}</p>
+                        <p class="col-12 text-left m-0 p-2">{{pay.name}}</p>
                     </div>
                     <div class="row col-6 mx-auto ">
-                        {% if cart.get_total_price > 50.00 %}
-                        <p class="col-12 text-right m-0 p-2" id="delivery{{delivery.id}}"
-                            data-price="{{delivery.price_promo}}" data-name="{{delivery.name}}">
-                            {{delivery.price_promo}} PLN</p>
-                        {% else %}
-                        <p class="col-12 text-right m-0 p-2" id="delivery{{delivery.id}}"
-                            data-price="{{delivery.price}}" data-name="{{delivery.name}}">
-                            {{delivery.price}} PLN</p>
-                        {% endif %}
+                        <p class="col-12 text-right m-0 p-2" id="payment{{pay.id}}" data-price="{{pay.price}}"
+                            data-name="{{pay.name}}">
+                            {{pay.price}} PLN</p>
                     </div>
                 </div>
                 {% endfor %}
-            </div>
-
-            <div class="text-left headline m-1 mb-2">
-                <h1 class="mt-2">SPOSÓB PŁATNOŚCI:</h1>
-            </div>
-            <div class="col-lg-12 mx-auto row m-0 p-0 mb-3">
-                {% for pay in pay_methods %}
-                {% if pay.id == payment_set.id %}
-                <div class="payments table-success border row text-center m-0 p-0 mt-1 col-12 d-flex align-items-center"
-                    data-payment_id="{{pay.id}}">
-                    {% else %}
-                    <div class="payments border row text-center m-0 p-0 mt-1 col-12 d-flex align-items-center"
-                        data-payment_id="{{pay.id}}">
-                        {% endif %}
-                        <div class="row col-6 mx-auto">
-                            <p class="col-12 text-left m-0 p-2">{{pay.name}}</p>
-                        </div>
-                        <div class="row col-6 mx-auto ">
-                            <p class="col-12 text-right m-0 p-2" id="payment{{pay.id}}" data-price="{{pay.price}}"
-                                data-name="{{pay.name}}">
-                                {{pay.price}} PLN</p>
-                        </div>
+                <div class="col-lg-12 mx-auto row m-0 p-0 mb-3 border mt-3 mb-2">
+                    <div class="text-left headline m-1 mb-2">
+                        <h1 class="mt-2">FORMULARZ ZAMÓWIENIA</h1>
                     </div>
-                    {% endfor %}
-                    <div class="col-lg-12 mx-auto row m-0 p-0 mb-3 border mt-3 mb-2">
-                        <div class="text-left headline m-1 mb-2">
-                            <h1 class="mt-2">FORMULARZ ZAMÓWIENIA</h1>
+                    <div class="col-lg-12 mx-auto row m-0 p-0 mb-3">
+                        <div class="col-12 mx-auto row m-0 p-0 mt-2 mb-2">
+                            {% if form.errors %}
+                            {% for field in form %}
+                            {% for error in field.errors %}
+                            <div class="alert alert-danger">
+                                <strong>{{ error|escape }}</strong>
+                            </div>
+                            {% endfor %}
+                            {% endfor %}
+                            {% for error in form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                <strong>{{ error|escape }}</strong>
+                            </div>
+                            {% endfor %}
+                            {% endif %}
                         </div>
-                        <div class="col-lg-12 mx-auto row m-0 p-0 mb-3">
-                            <div class="col-12 mx-auto row m-0 p-0 mt-2 mb-2">
-                                {% if form.errors %}
-                                {% for field in form %}
-                                {% for error in field.errors %}
-                                <div class="alert alert-danger">
-                                    <strong>{{ error|escape }}</strong>
+                        <form class="col-12 m-0 p-0 mx-auto row order_form" method="post">
+                            {% csrf_token %}
+                            <!-- {{ form.account|as_crispy_field}} -->
+                            <div class="col-12 m-0 p-1 order_details row">
+                                <div id="div_id_account"
+                                    class="ctrlHolder col-12 row m-0 p-0 mt-1 mb-1 d-flex align-items-center">
+                                    <div class="col-6 row m-0 p-0">
+                                        <label for="id_account" class="requiredField col-12 m-0 p-0">
+                                            {{ form.account.field.label }}
+                                            <span class="asteriskField col-2 m-0 p-0">*</span>
+                                        </label>
+                                    </div>
+                                    <input type="text" name="account" value="{{ form.account.value }}"
+                                        maxlength="{{ form.account.field.max_length }}"
+                                        class="text-right font-weight-bold col-6 m-0 p-0 textinput textInput"
+                                        required="{{ form.account.field.required }}" id="id_account">
                                 </div>
-                                {% endfor %}
-                                {% endfor %}
-                                {% for error in form.non_field_errors %}
-                                <div class="alert alert-danger">
-                                    <strong>{{ error|escape }}</strong>
+                                <div id="div_id_bill"
+                                    class="ctrlHolder col-12 row m-0 p-0 mt-1 mb-1 d-flex align-items-center">
+                                    <div class="col-6 row m-0 p-0">
+                                        <label for="id_bill" class="requiredField col-12 m-0 p-0">
+                                            {{ form.bill.field.label }}
+                                            <span class="asteriskField col-2 m-0 p-0">*</span>
+                                        </label>
+                                    </div>
+                                    <input type="text" name="bill" value="{{ form.bill.value }}"
+                                        maxlength="{{ form.bill.field.max_length }}"
+                                        class="text-right font-weight-bold col-6 m-0 p-0 textinput textInput"
+                                        required="{{ form.bill.field.required }}" id="id_bill">
                                 </div>
-                                {% endfor %}
+                                <div id="div_id_delivery"
+                                    class="ctrlHolder col-12 row m-0 p-0 mt-1 mb-1 d-flex align-items-center">
+                                    <div class="col-6 row m-0 p-0">
+                                        <label for="id_delivery" class="requiredField col-12 m-0 p-0">
+                                            {{ form.delivery.field.label }}
+                                            <span class="asteriskField col-2 m-0 p-0">*</span>
+                                        </label>
+                                    </div>
+                                    <input type="text" name="delivery" value="{{ form.delivery.value }}"
+                                        maxlength="{{ form.delivery.field.max_length }}"
+                                        class="text-right font-weight-bold col-6 m-0 p-0 textinput textInput"
+                                        required="{{ form.delivery.field.required }}" id="id_delivery">
+                                </div>
+                                <div id="div_id_payment"
+                                    class="ctrlHolder col-12 row m-0 p-0 mt-1 mb-1 d-flex align-items-center">
+                                    <div class="col-6 row m-0 p-0">
+                                        <label for="id_payment" class="requiredField col-12 m-0 p-0">
+                                            {{ form.payment.field.label }}
+                                            <span class="asteriskField col-2 m-0 p-0">*</span>
+                                        </label>
+                                    </div>
+                                    <input type="text" name="payment" value="{{ form.payment.value }}"
+                                        maxlength="{{ form.payment.field.max_length }}"
+                                        class="text-right font-weight-bold col-6 m-0 p-0 textinput textInput"
+                                        required="{{ form.payment.field.required }}" id="id_payment">
+                                </div>
+                            </div>
+                            <div class="col-12 m-0 p-1 order_details row">
+                                <div id="div_id_name"
+                                    class="ctrlHolder col-12 row m-0 p-0 mt-1 mb-1 d-flex align-items-center">
+                                    <div class="col-6 row m-0 p-0">
+                                        <label for="id_name" class="requiredField col-12 m-0 p-0">
+                                            {{ form.name.field.label }}
+                                            <span class="asteriskField col-2 m-0 p-0">*</span>
+                                        </label>
+                                    </div>
+                                    <input type="text" name="name" value="{{ form.name.value }}"
+                                        maxlength="{{ form.name.field.max_length }}"
+                                        class="text-right font-weight-bold col-6 m-0 p-0 textinput textInput"
+                                        required="{{ form.name.field.required }}" id="id_name">
+                                </div>
+                                {% if form.name_long.value %}
+                                <div id="div_id_name_long"
+                                    class="ctrlHolder col-12 row m-0 p-0 mt-1 mb-1 d-flex align-items-center">
+                                    <div class="col-6 row m-0 p-0">
+                                        <label for="id_name_long" class="requiredField col-12 m-0 p-0">
+                                            {{ form.name_long.field.label }}
+                                            <span class="asteriskField col-2 m-0 p-0">*</span>
+                                        </label>
+                                    </div>
+                                    <input type="text" name="name_long" value="{{ form.name_long.value }}"
+                                        maxlength="{{ form.name_long.field.max_length }}"
+                                        class="text-right font-weight-bold col-6 m-0 p-0 textinput textInput"
+                                        required="{{ form.name_long.field.required }}" id="id_name_long">
+                                </div>
+                                {% endif %}
+                                {% if form.nip.value %}
+                                <div id="div_id_nip"
+                                    class="ctrlHolder col-12 row m-0 p-0 mt-1 mb-1 d-flex align-items-center">
+                                    <div class="col-6 row m-0 p-0">
+                                        <label for="id_nip" class="requiredField col-12 m-0 p-0">
+                                            {{ form.nip.field.label }}
+                                            <span class="asteriskField col-2 m-0 p-0">*</span>
+                                        </label>
+                                    </div>
+                                    <input type="text" name="nip" value="{{ form.nip.value }}"
+                                        maxlength="{{ form.nip.field.max_length }}"
+                                        class="text-right font-weight-bold col-6 m-0 p-0 textinput textInput"
+                                        required="{{ form.nip.field.required }}" id="id_nip">
+                                </div>
+                                {% endif %}
+                                <div id="div_id_phone"
+                                    class="ctrlHolder col-12 row m-0 p-0 mt-1 mb-1 d-flex align-items-center">
+                                    <div class="col-6 row m-0 p-0">
+                                        <label for="id_phone" class="requiredField col-12 m-0 p-0">
+                                            {{ form.phone.field.label }}
+                                            <span class="asteriskField col-2 m-0 p-0">*</span>
+                                        </label>
+                                    </div>
+                                    <input type="text" name="phone" value="{{ form.phone.value }}"
+                                        maxlength="{{ form.phone.field.max_length }}"
+                                        class="text-right font-weight-bold col-6 m-0 p-0 textinput textInput"
+                                        required="{{ form.phone.field.required }}" id="id_phone">
+                                </div>
+                                <div id="div_id_street"
+                                    class="ctrlHolder col-12 row m-0 p-0 mt-1 mb-1 d-flex align-items-center">
+                                    <div class="col-6 row m-0 p-0">
+                                        <label for="id_street" class="requiredField col-12 m-0 p-0">
+                                            {{ form.street.field.label }}
+                                            <span class="asteriskField col-2 m-0 p-0">*</span>
+                                        </label>
+                                    </div>
+                                    <input type="text" name="street" value="{{ form.street.value }}"
+                                        maxlength="{{ form.street.field.max_length }}"
+                                        class="text-right font-weight-bold col-6 m-0 p-0 textinput textInput"
+                                        required="{{ form.street.field.required }}" id="id_street">
+                                </div>
+                                <div id="div_id_city"
+                                    class="ctrlHolder col-12 row m-0 p-0 mt-1 mb-1 d-flex align-items-center">
+                                    <div class="col-6 row m-0 p-0">
+                                        <label for="id_city" class="requiredField col-12 m-0 p-0">
+                                            {{ form.city.field.label }}
+                                            <span class="asteriskField col-2 m-0 p-0">*</span>
+                                        </label>
+                                    </div>
+                                    <input type="text" name="city" value="{{ form.city.value }}"
+                                        maxlength="{{ form.city.field.max_length }}"
+                                        class="text-right font-weight-bold col-6 m-0 p-0 textinput textInput"
+                                        required="" id="id_city">
+                                </div>
+                                {% if delivery_default.inpost_box %}
+                                <div id="div_id_inpost_box" class="ctrlHolder col-12 row m-0 p-0 mt-1 mb-1 ">
+                                    <div class="col-6 row m-0 p-0">
+                                        <label for="id_inpost_box" class="requiredField col-12 m-0 p-0">
+                                            {{ form.inpost_box.field.label }}
+                                            <span class="asteriskField col-2 m-0 p-0">*</span>
+                                        </label>
+                                    </div>
+                                    <input type="text" name="inpost_box" value="{{ form.inpost_box.value }}"
+                                        maxlength="{{ form.inpost_box.field.max_length }}"
+                                        class="text-right font-weight-bold col-6 m-0 p-0 textinput textInput"
+                                        required="True" id="id_inpost_box">
+                                </div>
                                 {% endif %}
                             </div>
-                            <form class="col-12 mx-auto row order_form" method="post">
-                                {% csrf_token %}
-                                <!-- {{ form.account|as_crispy_field}} -->
-                                <div class="col-12 m-0 p-1 order_details row">
-                                    <div id="div_id_account"
-                                        class="ctrlHolder col-12 row m-0 p-0 mt-1 mb-1 d-flex align-items-center">
-                                        <div class="col-6 row m-0 p-0">
-                                            <label for="id_account" class="requiredField col-12 m-0 p-0">
-                                                {{ form.account.field.label }}
-                                                <span class="asteriskField col-2 m-0 p-0">*</span>
-                                            </label>
-                                        </div>
-                                        <input type="text" name="account" value="{{ form.account.value }}"
-                                            maxlength="{{ form.account.field.max_length }}"
-                                            class="text-right font-weight-bold col-6 m-0 p-0 textinput textInput"
-                                            required="{{ form.account.field.required }}" id="id_account">
-                                    </div>
-                                    <div id="div_id_bill"
-                                        class="ctrlHolder col-12 row m-0 p-0 mt-1 mb-1 d-flex align-items-center">
-                                        <div class="col-6 row m-0 p-0">
-                                            <label for="id_bill" class="requiredField col-12 m-0 p-0">
-                                                {{ form.bill.field.label }}
-                                                <span class="asteriskField col-2 m-0 p-0">*</span>
-                                            </label>
-                                        </div>
-                                        <input type="text" name="bill" value="{{ form.bill.value }}"
-                                            maxlength="{{ form.bill.field.max_length }}"
-                                            class="text-right font-weight-bold col-6 m-0 p-0 textinput textInput"
-                                            required="{{ form.bill.field.required }}" id="id_bill">
-                                    </div>
-                                    <div id="div_id_delivery"
-                                        class="ctrlHolder col-12 row m-0 p-0 mt-1 mb-1 d-flex align-items-center">
-                                        <div class="col-6 row m-0 p-0">
-                                            <label for="id_delivery" class="requiredField col-12 m-0 p-0">
-                                                {{ form.delivery.field.label }}
-                                                <span class="asteriskField col-2 m-0 p-0">*</span>
-                                            </label>
-                                        </div>
-                                        <input type="text" name="delivery" value="{{ form.delivery.value }}"
-                                            maxlength="{{ form.delivery.field.max_length }}"
-                                            class="text-right font-weight-bold col-6 m-0 p-0 textinput textInput"
-                                            required="{{ form.delivery.field.required }}" id="id_delivery">
-                                    </div>
-                                    <div id="div_id_payment"
-                                        class="ctrlHolder col-12 row m-0 p-0 mt-1 mb-1 d-flex align-items-center">
-                                        <div class="col-6 row m-0 p-0">
-                                            <label for="id_payment" class="requiredField col-12 m-0 p-0">
-                                                {{ form.payment.field.label }}
-                                                <span class="asteriskField col-2 m-0 p-0">*</span>
-                                            </label>
-                                        </div>
-                                        <input type="text" name="payment" value="{{ form.payment.value }}"
-                                            maxlength="{{ form.payment.field.max_length }}"
-                                            class="text-right font-weight-bold col-6 m-0 p-0 textinput textInput"
-                                            required="{{ form.payment.field.required }}" id="id_payment">
-                                    </div>
-                                </div>
-                                <div class="col-12 m-0 p-1 order_details row">
-                                    <div id="div_id_name"
-                                        class="ctrlHolder col-12 row m-0 p-0 mt-1 mb-1 d-flex align-items-center">
-                                        <div class="col-6 row m-0 p-0">
-                                            <label for="id_name" class="requiredField col-12 m-0 p-0">
-                                                {{ form.name.field.label }}
-                                                <span class="asteriskField col-2 m-0 p-0">*</span>
-                                            </label>
-                                        </div>
-                                        <input type="text" name="name" value="{{ form.name.value }}"
-                                            maxlength="{{ form.name.field.max_length }}"
-                                            class="text-right font-weight-bold col-6 m-0 p-0 textinput textInput"
-                                            required="{{ form.name.field.required }}" id="id_name">
-                                    </div>
-                                    {% if form.name_long.value %}
-                                    <div id="div_id_name_long"
-                                        class="ctrlHolder col-12 row m-0 p-0 mt-1 mb-1 d-flex align-items-center">
-                                        <div class="col-6 row m-0 p-0">
-                                            <label for="id_name_long" class="requiredField col-12 m-0 p-0">
-                                                {{ form.name_long.field.label }}
-                                                <span class="asteriskField col-2 m-0 p-0">*</span>
-                                            </label>
-                                        </div>
-                                        <input type="text" name="name_long" value="{{ form.name_long.value }}"
-                                            maxlength="{{ form.name_long.field.max_length }}"
-                                            class="text-right font-weight-bold col-6 m-0 p-0 textinput textInput"
-                                            required="{{ form.name_long.field.required }}" id="id_name_long">
-                                    </div>
-                                    {% endif %}
-                                    {% if form.nip.value %}
-                                    <div id="div_id_nip"
-                                        class="ctrlHolder col-12 row m-0 p-0 mt-1 mb-1 d-flex align-items-center">
-                                        <div class="col-6 row m-0 p-0">
-                                            <label for="id_nip" class="requiredField col-12 m-0 p-0">
-                                                {{ form.nip.field.label }}
-                                                <span class="asteriskField col-2 m-0 p-0">*</span>
-                                            </label>
-                                        </div>
-                                        <input type="text" name="nip" value="{{ form.nip.value }}"
-                                            maxlength="{{ form.nip.field.max_length }}"
-                                            class="text-right font-weight-bold col-6 m-0 p-0 textinput textInput"
-                                            required="{{ form.nip.field.required }}" id="id_nip">
-                                    </div>
-                                    {% endif %}
-                                    <div id="div_id_phone"
-                                        class="ctrlHolder col-12 row m-0 p-0 mt-1 mb-1 d-flex align-items-center">
-                                        <div class="col-6 row m-0 p-0">
-                                            <label for="id_phone" class="requiredField col-12 m-0 p-0">
-                                                {{ form.phone.field.label }}
-                                                <span class="asteriskField col-2 m-0 p-0">*</span>
-                                            </label>
-                                        </div>
-                                        <input type="text" name="phone" value="{{ form.phone.value }}"
-                                            maxlength="{{ form.phone.field.max_length }}"
-                                            class="text-right font-weight-bold col-6 m-0 p-0 textinput textInput"
-                                            required="{{ form.phone.field.required }}" id="id_phone">
-                                    </div>
-                                    <div id="div_id_street"
-                                        class="ctrlHolder col-12 row m-0 p-0 mt-1 mb-1 d-flex align-items-center">
-                                        <div class="col-6 row m-0 p-0">
-                                            <label for="id_street" class="requiredField col-12 m-0 p-0">
-                                                {{ form.street.field.label }}
-                                                <span class="asteriskField col-2 m-0 p-0">*</span>
-                                            </label>
-                                        </div>
-                                        <input type="text" name="street" value="{{ form.street.value }}"
-                                            maxlength="{{ form.street.field.max_length }}"
-                                            class="text-right font-weight-bold col-6 m-0 p-0 textinput textInput"
-                                            required="{{ form.street.field.required }}" id="id_street">
-                                    </div>
-                                    <div id="div_id_city"
-                                        class="ctrlHolder col-12 row m-0 p-0 mt-1 mb-1 d-flex align-items-center">
-                                        <div class="col-6 row m-0 p-0">
-                                            <label for="id_city" class="requiredField col-12 m-0 p-0">
-                                                {{ form.city.field.label }}
-                                                <span class="asteriskField col-2 m-0 p-0">*</span>
-                                            </label>
-                                        </div>
-                                        <input type="text" name="city" value="{{ form.city.value }}"
-                                            maxlength="{{ form.city.field.max_length }}"
-                                            class="text-right font-weight-bold col-6 m-0 p-0 textinput textInput"
-                                            required="" id="id_city">
-                                    </div>
-                                    {% if delivery_default.inpost_box %}
-                                    <div id="div_id_inpost_box"
-                                        class="ctrlHolder col-12 row m-0 p-0 mt-1 mb-1 d-flex align-items-center">
-                                        <div class="col-6 row m-0 p-0">
-                                            <label for="id_inpost_box" class="requiredField col-12 m-0 p-0">
-                                                {{ form.inpost_box.field.label }}
-                                                <span class="asteriskField col-2 m-0 p-0">*</span>
-                                            </label>
-                                        </div>
-                                        <input type="text" name="inpost_box" value="{{ form.inpost_box.value }}"
-                                            maxlength="{{ form.inpost_box.field.max_length }}"
-                                            class="text-right font-weight-bold col-6 m-0 p-0 textinput textInput"
-                                            required="{{ form.inpost_box.field.required }}" id="id_inpost_box">
-                                    </div>
-                                    {% endif %}
-                                </div>
 
-                                <div class="col-12 m-0 p-1 order_details row">
-                                    <div id="div_id_products_total"
-                                        class="ctrlHolder col-12 row m-0 p-0 mt-1 mb-1 d-flex align-items-center">
-                                        <div class="col-6 row m-0 p-0">
-                                            <label for="id_products_total" class="requiredField col-12 m-0 p-0">
-                                                {{ form.products_total.field.label }}
-                                                <span class="asteriskField col-2 m-0 p-0">*</span>
-                                            </label>
-                                        </div>
-                                        <input type="hidden" name="products_total"
-                                            value="{{ form.products_total.value|unlocalize }}"
-                                            maxlength="{{ form.products_total.field.max_length }}"
-                                            class="text-right font-weight-bold col-6 m-0 p-0 textinput textInput"
-                                            required="{{ form.products_total.field.required }}" id="id_products_total">
-                                        <p class="text-right font-weight-bold col-6 m-0 p-0">
-                                            {{ form.products_total.value }}
-                                            PLN
-                                        </p>
+                            <div class="col-12 m-0 p-1 order_details row">
+                                <div id="div_id_products_total"
+                                    class="ctrlHolder col-12 row m-0 p-0 mt-1 mb-1 d-flex align-items-center">
+                                    <div class="col-6 row m-0 p-0">
+                                        <label for="id_products_total" class="requiredField col-12 m-0 p-0">
+                                            {{ form.products_total.field.label }}
+                                            <span class="asteriskField col-2 m-0 p-0">*</span>
+                                        </label>
                                     </div>
-                                    <div id="div_id_delivery_cost"
-                                        class="ctrlHolder col-12 row m-0 p-0 mt-1 mb-1 d-flex align-items-center">
-                                        <div class="col-6 row m-0 p-0">
-                                            <label for="id_delivery_cost" class="requiredField col-12 m-0 p-0">
-                                                {{ form.delivery_cost.field.label }}
-                                                <span class="asteriskField col-2 m-0 p-0">*</span>
-                                            </label>
-                                        </div>
-                                        <input type="hidden" name="delivery_cost"
-                                            value="{{ form.delivery_cost.value|unlocalize }}"
-                                            maxlength="{{ form.products_total.field.max_length }}"
-                                            class="text-right font-weight-bold col-6 m-0 p-0 textinput textInput"
-                                            required="{{ form.delivery_cost.field.required }}" 
-                                             id="id_delivery_price_input">
-                                        <p id="id_delivery_price_text" class="text-right font-weight-bold col-6 m-0 p-0">
-                                            {{ form.delivery_cost.value }}
-                                            PLN
-                                        </p>
-                                    </div>
-                                    <div id="div_id_payment_cost"
-                                        class="ctrlHolder col-12 row m-0 p-0 mt-1 mb-1 d-flex align-items-center">
-                                        <div class="col-6 row m-0 p-0">
-                                            <label for="id_payment_cost" class="requiredField col-12 m-0 p-0">
-                                                {{ form.payment_cost.field.label }}
-                                                <span class="asteriskField col-2 m-0 p-0">*</span>
-                                            </label>
-                                        </div>
-                                        <input type="hidden" name="payment_cost"
-                                            value="{{ form.payment_cost.value|unlocalize }}"
-                                            maxlength="{{ form.payment_cost.field.max_length }}"
-                                            class="text-right font-weight-bold col-6 m-0 p-0 textinput textInput"
-                                            required="{{ form.payment_cost.field.required }}" id="id_payment_form_input">
-                                        <p id="id_payment_form_text" class="text-right font-weight-bold col-6 m-0 p-0">
-                                            {{ form.payment_cost.value }}
-                                            PLN
-                                        </p>
-                                    </div>
+                                    <input type="hidden" name="products_total"
+                                        value="{{ form.products_total.value|unlocalize }}"
+                                        maxlength="{{ form.products_total.field.max_length }}"
+                                        class="text-right font-weight-bold col-6 m-0 p-0 textinput textInput"
+                                        required="{{ form.products_total.field.required }}" id="id_products_total">
+                                    <p class="text-right font-weight-bold col-6 m-0 p-0">
+                                        {{ form.products_total.value }}
+                                        PLN
+                                    </p>
                                 </div>
-                                <div class="col-12 m-0 p-0 order_details row">
-                                    <div id="div_id_payment_cost"
-                                        class="ctrlHolder col-12 row m-0 p-0 mt-1 mb-1 d-flex align-items-center">
-                                        <div class="col-6 row m-0 p-0">
-                                            <label for="id_payment_cost" class="requiredField col-12 m-0 p-0">
-                                                {{ form.payment_cost.field.label }}
-                                                <span class="asteriskField col-2 m-0 p-0">*</span>
-                                            </label>
-                                        </div>
-                                        <input type="hidden" name="order_total_price"
-                                            value="{{ form.order_total_price.value|unlocalize }}"
-                                            maxlength="{{ form.order_total_price.field.max_length }}"
-                                            required="{{ form.order_total_price.field.required }}"
-                                            id="id_order_total_price_input">
-                                        <p id="id_order_total_price_text" class="text-right font-weight-bold col-6 m-0 p-0">
-                                            {{ form.order_total_price.value }}
-                                            PLN
-                                        </p>
+                                <div id="div_id_delivery_cost"
+                                    class="ctrlHolder col-12 row m-0 p-0 mt-1 mb-1 d-flex align-items-center">
+                                    <div class="col-6 row m-0 p-0">
+                                        <label for="id_delivery_cost" class="requiredField col-12 m-0 p-0">
+                                            {{ form.delivery_cost.field.label }}
+                                            <span class="asteriskField col-2 m-0 p-0">*</span>
+                                        </label>
                                     </div>
+                                    <input type="hidden" name="delivery_cost"
+                                        value="{{ form.delivery_cost.value|unlocalize }}"
+                                        maxlength="{{ form.products_total.field.max_length }}"
+                                        class="text-right font-weight-bold col-6 m-0 p-0 textinput textInput"
+                                        required="{{ form.delivery_cost.field.required }}" id="id_delivery_price_input">
+                                    <p id="id_delivery_price_text" class="text-right font-weight-bold col-6 m-0 p-0">
+                                        {{ form.delivery_cost.value }}
+                                        PLN
+                                    </p>
                                 </div>
-                                <button name="checkout" type="submit" class="btn-success col-12 p-2">Zamawiam</button>
-                            </form>
+                                <div id="div_id_payment_cost"
+                                    class="ctrlHolder col-12 row m-0 p-0 mt-1 mb-1 d-flex align-items-center">
+                                    <div class="col-6 row m-0 p-0">
+                                        <label for="id_payment_cost" class="requiredField col-12 m-0 p-0">
+                                            {{ form.payment_cost.field.label }}
+                                            <span class="asteriskField col-2 m-0 p-0">*</span>
+                                        </label>
+                                    </div>
+                                    <input type="hidden" name="payment_cost"
+                                        value="{{ form.payment_cost.value|unlocalize }}"
+                                        maxlength="{{ form.payment_cost.field.max_length }}"
+                                        class="text-right font-weight-bold col-6 m-0 p-0 textinput textInput"
+                                        required="{{ form.payment_cost.field.required }}" id="id_payment_form_input">
+                                    <p id="id_payment_form_text" class="text-right font-weight-bold col-6 m-0 p-0">
+                                        {{ form.payment_cost.value }}
+                                        PLN
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-12 m-0 p-0 order_details row">
+                                <div id="div_id_payment_cost"
+                                    class="ctrlHolder col-12 row m-0 p-0 mt-1 mb-1 d-flex align-items-center">
+                                    <div class="col-6 row m-0 p-0">
+                                        <label for="id_payment_cost" class="requiredField col-12 m-0 p-0">
+                                            {{ form.order_total_price.field.label }}
+                                            <span class="asteriskField col-2 m-0 p-0">*</span>
+                                        </label>
+                                    </div>
+                                    <input type="hidden" name="order_total_price"
+                                        value="{{ form.order_total_price.value|unlocalize }}"
+                                        maxlength="{{ form.order_total_price.field.max_length }}"
+                                        required="{{ form.order_total_price.field.required }}"
+                                        id="id_order_total_price_input">
+                                    <p id="id_order_total_price_text" class="text-right font-weight-bold col-6 m-0 p-0">
+                                        {{ form.order_total_price.value }}
+                                        PLN
+                                    </p>
+                                </div>
+                            </div>
+                            <button name="checkout" type="submit" class="btn-success col-12 p-2">Zamawiam</button>
+                        </form>
 
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- <div id="order_details" class="col-lg-4 mx-auto row m-0 d-flex align-items-start align-self-start border p-1">
+    <!-- <div id="order_details" class="col-lg-4 mx-auto row m-0 d-flex align-items-start align-self-start border p-1">
         <div class="text-left headline m-1 mb-2 row col-12 d-flex align-items-center mx-auto">
             <h1 class="mt-2">DANE ZAMÓWIENIA:</h1>
             <i id="close" class="ml-auto p-2 fas fa-arrow-down"></i>
@@ -668,16 +650,16 @@
             <button class="btn-success col-12 p-2">Zamawiam</button>
         </div>
     </div> -->
-    </div>
-    {% endblock %}
+</div>
+{% endblock %}
 
-    {% block script %}
-    <script>
-        var open_geo = $('#open_geo');
-        open_geo.on("click", function () {
-            var url = "{% url 'inpost_box' %}";
-            $(location).attr('href', url);
-        });
-    </script>
-    <script src="{% static "js/order_details.js" %}" type="text/javascript"></script>
-    {% endblock %}
+{% block script %}
+<script>
+    var open_geo = $('#open_geo');
+    open_geo.on("click", function () {
+        var url = "{% url 'inpost_box' %}";
+        $(location).attr('href', url);
+    });
+</script>
+<script src="{% static "js/order_details.js" %}" type="text/javascript"></script>
+{% endblock %}

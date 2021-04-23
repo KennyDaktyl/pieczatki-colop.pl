@@ -6,12 +6,13 @@
 {% block head %}
 {% endblock %}
 
-{% block title %}Dodawanie adresu{% endblock %}
+{% block title %}Edycja adresu{% endblock %}
 
 {% block content %}
 <nav id="link_map" aria-label="breadcrumb" class="col-12 bg-white mx-auto d-md-none row fixed-top">
     <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'welcome' %}">Strona startowa</a></li>
-    <li class="breadcrumb-item text-dark active" aria-current="page">Logowanie</li>
+    <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'order_details' %}">Koszyk</a></li>
+    <li class="breadcrumb-item text-dark active" aria-current="page">Edycja adresu</li>
 </nav>
 
 
@@ -74,7 +75,7 @@
                 </div>
             </div>
             <div class="col-lg-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
-                <label for="id_street" class="requiredField col-12 align-self-center">
+                <label for="id_street" class="requiredField col-12 m-0 p-0 align-self-center">
                     Miasto<span class="asteriskField ">*</span>
                 </label>
                 <input type="text" name="city" placeholder="{{object.city}}" value="{{object.city}}" class="textinput col-10" maxlength="128" required="" id="id_city">
@@ -83,7 +84,7 @@
                 </span>
             </div>
             <div class="col-lg-6 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
-                <label for="id_street" class="requiredField col-12 align-self-center">
+                <label for="id_street" class="requiredField col-12 m-0 p-0 align-self-center">
                     Kod pocztowy<span class="asteriskField ">*</span>
                 </label>
                 <input type="text" name="post_code" placeholder="{{object.post_code}}" value="{{object.post_code}}" class="textinput col-10" maxlength="128" required=""

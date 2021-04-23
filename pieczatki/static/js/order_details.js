@@ -77,8 +77,7 @@ $(document).ready(function () {
     });
 
     var choice_bill = $('button.choice_bill');
-    var bill_form = $('#bill_form');
-    var bill_form_big = $('#bill_form_big');
+    var bill_form = $('#id_bill');
 
     choice_bill.each(function (index) {
         $(this).on("click", function () {
@@ -99,16 +98,17 @@ $(document).ready(function () {
                 // var result_js = $.parseJSON(result);
                 console.log(result);
                 bill_form.text(result);
-                bill_form_big.text(result);
+                bill_form.val(result);
             }).fail(function (xhr, status, err) {}).always(function (xhr, status) {});
         });
     });
 
+    var div_id_inpost_box = $('#div_id_inpost_box');
+    var id_inpost_box = $('#id_inpost_box');
     var delivery_methods = $('div.delivery_methods');
-    var delivery_form = $('#delivery_form');
-    var delivery_cost_form = $('#delivery_cost_form');
-    var id_delivery_price_text = $('#id_delivery_price_text');
+    var id_delivery_name_input = $('#id_delivery');
     var id_delivery_price_input = $('#id_delivery_price_input');
+    var id_delivery_price_text = $('#id_delivery_price_text');
     var id_order_total_price_text = $('#id_order_total_price_text');
     var id_order_total_price_input = $('#id_order_total_price_input');
     delivery_methods.each(function (index) {
@@ -129,7 +129,18 @@ $(document).ready(function () {
                 },
             }).done(function (result) {
                 // var result_js = $.parseJSON(result);
-                id_delivery_price_text.text(delivery_method_price + " PLN");
+                console.log(result);
+                if (result.inpost_box_id == false) {
+                    div_id_inpost_box.css('display', 'none');
+                } else {
+                    div_id_inpost_box.css('display', 'block');
+                    id_inpost_box.val(result.inpost_box_id);
+                }
+
+                id_delivery_name_input.text(delivery_method_name);
+                id_delivery_name_input.val(result.delivery_method_name);
+
+                id_delivery_price_text.text(result.delivery_method_price + " PLN");
                 id_delivery_price_input.val(result.delivery_method_price);
                 
                 order_price = parseFloat(result.order_price).toFixed(2);
@@ -143,8 +154,7 @@ $(document).ready(function () {
     var payments_methods = $('div.payments');
     var id_payment_form_text = $('#id_payment_form_text');
     var id_payment_form_input = $('#id_payment_form_input');
-    var payment_name_form = $('#payment_name_form');
-    var payment_name_form_big = $('#payment_name_form_big');
+    var id_payment = $('#id_payment');
     payments_methods.each(function (index) {
         $(this).on("click", function () {
             payments_methods.each(function (index) {
@@ -162,6 +172,8 @@ $(document).ready(function () {
                 // var result_js = $.parseJSON(result);
                 order_price = parseFloat(result.order_price).toFixed(2);
                 order_price = result.order_price.replace(".", ",");
+                id_payment.text(result.payment_method_name);
+                id_payment.val(result.payment_method_name);
                 id_payment_form_input.val(result.payment_method_price);
                 var payment_method_price = parseFloat(result.payment_method_price).toFixed(2);
                 payment_method_price = payment_method_price.replace(".", ",");

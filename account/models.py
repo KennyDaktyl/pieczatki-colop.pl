@@ -45,42 +45,24 @@ class Profile(models.Model):
 
 class Address(models.Model):
     id = models.AutoField(primary_key=True)
-    user_id = models.ForeignKey(
+    user_id = models.OneToOneField(
         settings.AUTH_USER_MODEL,
         null=True,
         blank=True,
         verbose_name="Użytkownik",
         on_delete=models.CASCADE,
     )
-    street = models.CharField(verbose_name="Ulica",
-                              null=True,
-                              blank=True,
-                              max_length=128)
+    street = models.CharField(verbose_name="Ulica", max_length=128)
     house = models.CharField(verbose_name="Nr domu", max_length=8)
     door = models.CharField(verbose_name="Nr lokalu",
                             null=True,
                             blank=True,
                             max_length=8)
-    city = models.CharField(verbose_name="Miasto",
-                            null=True,
-                            blank=True,
-                            max_length=64,
-                            default="Kraków")
+    city = models.CharField(verbose_name="Miasto", max_length=64)
     post_code = models.CharField(verbose_name="Kod pocztowy",
                                  null=True,
                                  blank=True,
                                  max_length=6)
-
-    main = models.BooleanField(verbose_name="Główny adres", default=False)
-
-    def save(self, *args, **kwargs):
-        if self.main == True:
-            all_addresses = Address.objects.filter(
-                user_id=self.user_id).exclude(pk=self.pk)
-            for el in all_addresses:
-                el.main = False
-                el.save()
-        super(Address, self).save(*args, **kwargs)
 
     class Meta:
         ordering = (

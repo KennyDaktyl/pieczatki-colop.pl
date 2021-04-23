@@ -68,10 +68,20 @@ class AddClientFromBasketView(View):
             profile.user_id = new_user.id
             profile.phone_number = form.cleaned_data['phone_number']
             profile.save()
+            address = Address()
+            address.user_id = new_user
+            address.street = form.cleaned_data['street']
+            address.house = form.cleaned_data['house']
+            if form.cleaned_data['door']:
+                address.door = form.cleaned_data['door']
+            address.zip_code = form.cleaned_data['zip_code']
+            address.city = form.cleaned_data['city']
+            address.save()
             login(request, new_user)
             messages.error(request, 'Utworzono konto')
             return redirect('cart_details')
         else:
+            print(form)
             messages.error(request, 'Wystąpił błąd')
             categorys = Category.objects.filter(is_active=True)
             ctx = {'form': form, 'categorys': categorys}
@@ -101,6 +111,15 @@ class AddBusinessClientFromBasketView(View):
             profile.nip_number = form.cleaned_data['nip_number']
             profile.company = True
             profile.save()
+            address = Address()
+            address.user_id = new_user
+            address.street = form.cleaned_data['street']
+            address.house = form.cleaned_data['house']
+            if form.cleaned_data['door']:
+                address.door = form.cleaned_data['door']
+            address.zip_code = form.cleaned_data['zip_code']
+            address.city = form.cleaned_data['city']
+            address.save()
             login(request, new_user)
             messages.error(request, 'Utworzono konto')
             return redirect('cart_details')

@@ -33,22 +33,20 @@ class OrderDetails(View):
         cart = Cart(request)
         categorys = Category.objects.filter(is_active=True)
         profile = Profile.objects.get(user=request.user.id)
-        addresses = Address.objects.filter(user_id=profile.user.id)
-        address_default = addresses.filter(main=True).first()
+        address = Address.objects.get(user_id=profile.user.id)
 
         delivery_methods = DeliveryMethod.objects.filter(is_active=True)
-        delivery_default = delivery_methods.filter(default=True).first()
-
         pay_methods = PayMethod.objects.filter(is_active=True)
-        payment_default = pay_methods.filter(default=True).first()
 
         session_dict = (request.session.get(str(request.user.id)))
+        print(session_dict)
         try:
             payment_set = PayMethod.objects.get(pk=session_dict['payment_id'])
             payment_default = PayMethod.objects.get(
                 pk=int(session_dict['payment_id']))
         except:
-            payment_set = payment_default.id
+            payment_default = pay_methods.filter(default=True).first()
+            payment_set = payment_default
 
         try:
             delivery_set = DeliveryMethod.objects.get(
@@ -56,7 +54,13 @@ class OrderDetails(View):
             delivery_default = DeliveryMethod.objects.get(
                 pk=int(session_dict['delivery_id']))
         except:
-            delivery_set = delivery_default.id
+            delivery_default = delivery_methods.filter(default=True).first()
+            delivery_set = delivery_default
+
+        try:
+            inpost_box = session_dict['inpost_box_id']
+        except:
+            inpost_box = False
 
         if Decimal(cart.get_total_price()) > 50.00:
             delivery_cost = delivery_default.price_promo
@@ -80,15 +84,12 @@ class OrderDetails(View):
             name_long = False
             nip = False
         phone = profile.phone_number
-        if delivery_default.inpost_box:
-            inpost_box = 'sdsdssdsd'
+
+        if address.door:
+            street = address.street + " " + address.house + " / " + address.door
         else:
-            inpost_box = False
-        if address_default.door:
-            street = address_default.street + " " + address_default.house + " / " + address_default.door
-        else:
-            street = address_default.street + " " + address_default.house
-        city = address_default.post_code + ", " + address_default.city
+            street = address.street + " " + address.house
+        city = address.post_code + ", " + address.city
         products_total = round(Decimal(cart.get_total_price()), 2)
         delivery_cost = round(Decimal(delivery_cost), 2)
         payment_cost = round(Decimal(payment_default.price), 2)
@@ -106,15 +107,17 @@ class OrderDetails(View):
                 'phone': phone,
                 'street': street,
                 'city': city,
+                'inpost_box': inpost_box,
                 'products_total': products_total,
                 'payment_cost': payment_cost,
                 'delivery_cost': delivery_cost,
                 'order_total_price': order_total_price
             })
+        print(delivery_set.inpost_box)
         ctx = {
             'client': profile,
-            'addresses': addresses,
-            'address_default': address_default,
+            'address': address,
+            'inpost_box': inpost_box,
             'cart_ctx': cart,
             'categorys': categorys,
             'pay_methods': pay_methods,
@@ -134,21 +137,34 @@ class OrderDetails(View):
         cart = Cart(request)
         categorys = Category.objects.filter(is_active=True)
         profile = Profile.objects.get(user=request.user.id)
-        addresses = Address.objects.filter(user_id=profile.user.id)
-        address_default = addresses.filter(main=True).first()
+        address = Address.objects.get(user_id=profile.user.id)
+
         delivery_type = DeliveryMethod.objects.filter(is_active=True)
-        delivery_default = delivery_type.filter(default=True).first()
         pay_methods = PayMethod.objects.filter(is_active=True)
-        payment_default = pay_methods.filter(default=True).first()
+
+        session_dict = (request.session.get(str(request.user.id)))
+        try:
+            payment_set = PayMethod.objects.get(pk=session_dict['payment_id'])
+            payment_default = PayMethod.objects.get(
+                pk=int(session_dict['payment_id']))
+        except:
+            payment_default = pay_methods.filter(default=True).first()
+            payment_set = payment_default
+        try:
+            delivery_set = DeliveryMethod.objects.get(
+                pk=session_dict['delivery_id'])
+            delivery_default = DeliveryMethod.objects.get(
+                pk=int(session_dict['delivery_id']))
+        except:
+            delivery_default = delivery_type.filter(default=True).first()
+            delivery_set = delivery_default
+
+        try:
+            inpost_box_id = session_dict['inpost_box_id']
+        except:
+            inpost_box_id = False
 
         if request.is_ajax():
-            if 'address_id' in request.POST:
-                address_id = request.POST.get('address_id')
-                address = Address.objects.get(pk=address_id)
-                address.main = True
-                address.save()
-                address_serial = AddressSerializer(address)
-                return JsonResponse(address_serial.data)
             if 'bill_id' in request.POST:
                 bill_id = request.POST.get('bill_id')
                 if int(bill_id) == 1:
@@ -162,31 +178,50 @@ class OrderDetails(View):
                 delivery_id = request.POST.get('delivery_id')
                 delivery_method = DeliveryMethod.objects.get(
                     pk=int(delivery_id))
-                request.session[str(request.user.id)] = {
-                    'payment_id': str(payment_default.id),
-                    'delivery_id': delivery_id
-                }
+                delivery_default = delivery_method
                 order_price = Decimal(cart.get_total_price()) + Decimal(
                     payment_default.price) + Decimal(
                         delivery_method.price_active(cart))
+                print(request.session[str(request.user.id)])
+                if delivery_method.inpost_box == False:
+                    request.session[str(request.user.id)] = {
+                        'payment_id': str(delivery_default.id),
+                        'delivery_id': str(delivery_default.id),
+                        'inpost_box_id': False
+                    }
+                    inpost_box_id = False
+                else:
+                    request.session[str(request.user.id)] = {
+                        'payment_id':
+                        str(payment_default.id),
+                        'delivery_id':
+                        delivery_id,
+                        'inpost_box_id':
+                        request.session[str(request.user.id)]['inpost_box_id']
+                    }
+                    inpost_box_id = True
                 return JsonResponse({
                     'delivery_method_price':
                     delivery_method.price_active(cart),
                     'delivery_method_name':
                     delivery_method.name,
                     'order_price':
-                    order_price
+                    order_price,
+                    'inpost_box_id':
+                    inpost_box_id
                 })
             if 'payment_id' in request.POST:
                 payment_id = request.POST.get('payment_id')
                 payment_method = PayMethod.objects.get(pk=int(payment_id))
                 request.session[str(request.user.id)] = {
                     'payment_id': payment_id,
-                    'delivery_id': str(delivery_default.id)
+                    'delivery_id': str(delivery_default.id),
+                    'inpost_box_id': inpost_box_id
                 }
                 order_price = Decimal(cart.get_total_price()) + Decimal(
                     payment_method.price) + Decimal(
                         delivery_default.price_active(cart))
+                print(request.session[str(request.user.id)])
                 return JsonResponse({
                     'payment_method_price': payment_method.price,
                     'payment_method_name': payment_method.name,
@@ -195,6 +230,14 @@ class OrderDetails(View):
             if 'inpost_box_id' in request.POST:
                 inpost_box_id = request.POST.get('inpost_box_id')
                 request.session['inpost_box_id'] = inpost_box_id
+
+                request.session[str(request.user.id)] = {
+                    'payment_id': str(delivery_default.id),
+                    'delivery_id': str(delivery_default.id),
+                    'inpost_box_id': inpost_box_id
+                }
+
+                print(request.session[str(request.user.id)])
                 return JsonResponse({
                     'inpost_box_id': inpost_box_id,
                 })
@@ -205,39 +248,56 @@ class OrderDetails(View):
             address_id = request.POST.get('order_total_price')
             print(address_id)
             if form.is_valid():
-                return JsonResponse({'id': 2})
-                # else:
-                #     address_id = request.POST.get('delivery_cost')
-                #     print(address_id)
-                # delivery_price = form.cleaned_data['delivery_cost']
-                # delivery = form.cleaned_data['delivery']
-                # payment_price = form.cleaned_data['payment_cost']
-                # payment = form.cleaned_data['payment']
-                # products_total = form.cleaned_data['products_total']
-                # order_total_price = form.cleaned_data['order_total_price']
-                #     # # print(delivery_name, delivery_price, payment_name, payment_price,
-                #     # #       product_total_price, order_total_price)
-                #     # order_total_price = order_total_price.replace(",", ".")
-                #     # # order_price = int(Decimal(order_total_price) * 100)
-                #     # # print(order_price)
-                #     store = Store.objects.all().first()
-                #     address = Address.objects.all().first()
-                #     payment_name = PayMethod.objects.all().first()
-                #     day = datetime.now().day
-                #     month = datetime.now().month
-                #     year = datetime.now().year
-                #     order = Orders()
-                #     order.number = new_number(store.id, year, month, day)
-                #     order.date = datetime.now()
-                #     order.store = store
-                #     order.client = request.user
-                #     order.type_of_order = delivery
-                #     order.address = address
-                #     order.pay_method = payment
-                #     order.total_price = round(Decimal(order_total_price), 2)
-                #     order.save()
-                # return JsonResponse({'id': 1})
-                # return redirect('checkout_details', order=1)
+                delivery_cost = request.POST.get('delivery_cost')
+                delivery = form.cleaned_data['delivery']
+                payment_cost = form.cleaned_data['payment_cost']
+                payment = form.cleaned_data['payment']
+                products_total = form.cleaned_data['products_total']
+                order_total_price = form.cleaned_data['order_total_price']
+                inpost_box = form.cleaned_data['inpost_box']
+                street = form.cleaned_data['street']
+                city = form.cleaned_data['city']
+                phone = form.cleaned_data['phone']
+                nip = form.cleaned_data['nip']
+                name = form.cleaned_data['name']
+                name_long = form.cleaned_data['name_long']
+                print(delivery_cost)
+                print(delivery)
+                print(payment_cost)
+                print(payment)
+                print(products_total)
+                print(order_total_price)
+                print(inpost_box)
+                print(street)
+                print(city)
+                print(phone)
+                print(nip)
+                print(name)
+                print(name_long)
+                print(request.session.get(str(request.user.id)))
+                session_data = request.session.get(str(request.user.id))
+                # order_total_price = order_total_price.replace(",", ".")
+                # order_price = int(Decimal(order_total_price) * 100)
+                # print(order_price)
+                store = Store.objects.all().first()
+                # address = Address.objects.all().first()
+                # payment_name = PayMethod.objects.all().first()
+                day = datetime.now().day
+                month = datetime.now().month
+                year = datetime.now().year
+                order = Orders()
+                order.number = new_number(store.id, year, month, day)
+                order.date = datetime.now()
+                order.store = store
+                order.phone = phone
+                order.client = request.user
+                order.delivery_method = delivery
+                order.inpost_box = inpost_box
+                order.address = request.user.address
+                order.pay_method = payment
+                order.total_price = round(Decimal(order_total_price), 2)
+                order.save()
+                return redirect('checkout_details', order=order.id)
             else:
                 messages.error(request, 'Wystąpił błąd')
                 ctx = {'form': form}
@@ -252,6 +312,38 @@ class OrderDetails(View):
 class InpostBoxSearchView(View):
     def get(self, request):
         return render(request, "orders/inpost_box.html")
+
+    def post(self, request):
+        session_dict = (request.session.get(str(request.user.id)))
+        try:
+            payment_set = PayMethod.objects.get(pk=session_dict['payment_id'])
+            payment_default = PayMethod.objects.get(
+                pk=int(session_dict['payment_id']))
+        except:
+            payment_set = payment_default
+
+        try:
+            delivery_set = DeliveryMethod.objects.get(
+                pk=session_dict['delivery_id'])
+            delivery_default = DeliveryMethod.objects.get(
+                pk=int(session_dict['delivery_id']))
+        except:
+            delivery_set = delivery_default
+
+        try:
+            inpost_box_id = session_dict['inpost_box_id']
+        except:
+            inpost_box_id = False
+        if 'inpost_box_id' in request.POST:
+            inpost_box_id = request.POST.get('inpost_box_id')
+            request.session['inpost_box_id'] = inpost_box_id
+
+            request.session[str(request.user.id)] = {
+                'payment_id': str(delivery_default.id),
+                'delivery_id': str(delivery_default.id),
+                'inpost_box_id': inpost_box_id
+            }
+        return redirect('order_details')
 
 
 class CheckOutDetails(View):
@@ -269,7 +361,11 @@ class CheckOutDetails(View):
         order_price = int(order.total_price * 100)
         print(order.total_price)
         print(order.number)
-        ctx = {'STRIPE_PUBLIC_KEY': settings.STRIPE_PUBLIC_KEY, 'order': order}
+        ctx = {
+            'order': order,
+            'STRIPE_PUBLIC_KEY': settings.STRIPE_PUBLIC_KEY,
+            'order': order
+        }
         return render(request, "orders/checkout.html", ctx)
 
     def post(self, request, order):
@@ -307,8 +403,9 @@ class CheckOutDetails(View):
                 'quantity': 1,
             }],
             mode='payment',
-            success_url='https://onet.pl',
-            cancel_url='https://wp.pl',
+            success_url='https://pieczatki-colop.com/',
+            cancel_url="https://pieczatki-colop.com/zamowienia/platnosci/" +
+            str(order.id) + "/",
         )
         return JsonResponse({'id': checkout_session.id})
 

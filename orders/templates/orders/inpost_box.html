@@ -46,7 +46,8 @@ Wybierz paczkomat | Pieczatki-Colop.com
 
 {% block script %}
 <script>
-    var url = "{% url 'order_details' %}";
+    var url_redirect = "{% url 'order_details' %}";
+    var url=window.location.href;
     var easypack_map = $('#easypack-map');
     console.log(url);
     window.easyPackAsyncInit = function () {
@@ -66,7 +67,7 @@ Wybierz paczkomat | Pieczatki-Colop.com
             }).done(function (result) {
                 console.log(result);
                 easypack_map.css('display', 'none');
-                $(location).attr('href', url);
+                $(location).attr('href', url_redirect);
             }).fail(function (xhr, status, err) {}).always(function (xhr, status) {});
         });
     };

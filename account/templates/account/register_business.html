@@ -30,102 +30,170 @@
 
 <div class="col-lg-8 mx-auto text-center mt-3 pt-0 row d-flex align-items-start">
   <main class="col-lg-12 mx-auto row m-0 p-0">
-    <div class="text-left headline m-1 mb-2">
-      <h1 class="mt-2">REJESTRACJA KLIENTA BIZNESOWEGO:</h1>
-    </div>
-    <div class="col-12 mx-auto row m-0 p-0 mt-2 mb-2">
-      {% if form.errors %}
-      {% for field in form %}
-      {% for error in field.errors %}
-      <div class="alert alert-danger">
-        <strong>{{ error|escape }}</strong>
+    <div class="col-lg-12 mx-auto text-center row m-0 p-0">
+      <div class="text-left headline m-1 mb-2">
+        <h1 class="col-12 mt-2">REJESTRACJA FIRMY:</h1>
       </div>
-      {% endfor %}
-      {% endfor %}
-      {% for error in form.non_field_errors %}
-      <div class="alert alert-danger">
-        <strong>{{ error|escape }}</strong>
-      </div>
-      {% endfor %}
-      {% endif %}
     </div>
     <form method="post" class="uniForm col-lg-8 m-0 p-0 mt-2 mb-2 mx-auto text-center blueForms border">
       {% csrf_token %}
       <div class="col-12 mx-auto row m-0 p-0 mt-2 mb-2">
         <div class="col-lg-12 m-0 p-0 mx-auto text-center row">
           <div class="col-lg-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
-            <label for="id_email" class="requiredField col-12 m-0 p-0 align-self-center">
+            <div class="text-left headline m-1 mb-2">
+              <h1 class="ml-2 mt-2">DANE FIRMY:</h1>
+            </div>
+          </div>
+          <div class="col-lg-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
+             <small class="text-danger col-12">{{ form.email.errors }}</small>
+            <label for="id_email" class="requiredField col-lg-2 m-0 p-0 align-self-center">
               Email<span class="asteriskField ">*</span>
             </label>
-            <input type="email" name="email" class="emailinput col-10" required="" id="id_email">
+            <input type="email" name="email" class="emailinput col-10 col-lg-8"
+              maxlength="{{ form.email.field.max_length }}" required="{{ form.email.field.required }}" id="id_email">
             <span class="input-group-text col-2 text-center">
               <i class="fas fa-at col-12 text-center mx-auto m-0 p-0"></i>
             </span>
           </div>
           <div class="col-lg-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
-            <label for="id_password" class="requiredField col-12 m-0 p-0 align-self-center">
+            <small class="text-danger col-12">{{ form.password.errors }}</small>
+            <label for="id_password" class="requiredField col-lg-2 m-0 p-0 align-self-center">
               Hasło<span class="asteriskField">*</span>
             </label>
-            <input type="password" name="password" class="textinput textInput col-10" required="" id="id_password">
+            <input type="password" name="password" class="textinput textInput col-10 col-lg-8"
+              maxlength="{{ form.password.field.max_length }}" required="{{ form.password.field.required }}"
+              id="id_password">
             <span class="input-group-text col-2 text-center">
               <i class="fas fa-unlock-alt col-12 text-center mx-auto m-0 p-0"></i>
             </span>
           </div>
 
           <div class="col-lg-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
-            <label for="id_password2" class="requiredField col-12 m-0 p-0 align-self-center">
+             <small class="text-danger col-12">{{ form.password2.errors }}</small>
+            <label for="id_password2" class="requiredField col-lg-2 m-0 p-0 align-self-center">
               Powtórz hasło<span class="asteriskField">*</span>
             </label>
-            <input type="password" name="password2" class="textinput textInput col-10" required="" id="id_password2">
-            <span class="input-group-text col-2 text-center">
-              <i class="fas fa-unlock-alt col-12 text-center mx-auto m-0 p-0"></i>
+            <input type="password" name="password2" class="textinput textInput col-10 col-lg-8 align-self-start"
+              maxlength="{{ form.password2.field.max_length}}" required="{{ form.password2.field.required }}">
+            <span class="input-group-text col-2 text-center align-self-stretch">
+              <i class="fas fa-unlock-alt col-12 text-center mx-auto m-0 p-0 align-self-start"></i>
             </span>
           </div>
           <div class="col-lg-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
-            <label for="id_business_name" class="requiredField col-12 m-0 p-0 align-self-center">
+             <small class="text-danger col-12">{{ form.business_name.errors }}</small>
+            <label for="id_business_name" class="requiredField col-lg-2 m-0 p-0 align-self-center">
               Nazwa firmy<span class="asteriskField">*</span>
             </label>
-            <input type="text" name="business_name" class="textinput textInput col-10" maxlength="128" required=""
+            <input type="text" name="business_name" class="textinput textInput col-10 col-lg-8"
+              maxlength="{{ form.business_name.field.max_length }}" required="{{ form.business_name.field.required }}"
               id="id_business_name">
             <span class="input-group-text col-2 text-center">
               <i class="fas fa-user col-12 text-center mx-auto m-0 p-0"></i>
             </span>
           </div>
           <div class="col-lg-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
-            <label for="id_business_name_l" class="requiredField col-12 m-0 p-0 align-self-center">
-              nazwa c.d.</span>
+            <small class="text-danger col-12">{{ form.business_name_l.errors }}</small>
+            <label for="id_business_name_l" class="col-lg-2 m-0 p-0 align-self-center">
+              Nazwa c.d. {{ form.business_name_l.field.required }}
             </label>
-            <input type="text" name="business_name_l" class="textinput textInput col-10" maxlength="128"
-              id="id_business_name_l">
+            <input type="text" name="business_name_l" class="textinput textInput col-10 col-lg-8"
+              maxlength="{{ form.business_name_l.field.max_length }}" id="id_business_name_l">
             <span class="input-group-text col-2 text-center">
               <i class="fas fa-user col-12 text-center mx-auto m-0 p-0"></i>
             </span>
           </div>
           <div class="col-lg-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
-            <label for="id_nip_number" class="requiredField col-12 m-0 p-0 align-self-center">
-              NIP<span class="asteriskField ">*</span>
+            <small class="text-danger col-12">{{ form.nip_number.errors }}</small>
+            <label for="id_nip_number" class="requiredField col-lg-2 m-0 p-0 align-self-center">
+              NIP<span class="asteriskField">*</span>
             </label>
-            <input type="text" name="nip_number" class="textinput col-10" maxlength="13" required="" id="id_nip_number">
+            <input type="text" name="nip_number" class="textinput textInput col-10 col-lg-8"
+              maxlength="{{ form.nip_number.field.max_length }}" required="{{ form.nip_number.field.required }}"
+              id="id_nip_number">
             <span class="input-group-text col-2 text-center">
-              <i class="fas fa-cash-register col-12 text-center mx-auto m-0 p-0"></i>
+              <i class="fas fa-user col-12 text-center mx-auto m-0 p-0"></i>
             </span>
           </div>
           <div class="col-lg-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
-            <label for="id_phone_number" class="requiredField col-12 m-0 p-0 align-self-center">
+            <small class="text-danger col-12">{{ form.phone_number.errors }}</small>
+            <label for="id_phone_number" class="requiredField col-lg-2 m-0 p-0 align-self-center">
               Telefon<span class="asteriskField ">*</span>
             </label>
-            <input type="text" name="phone_number" class="emailinput col-10" axlength="18" required=""
+            <input type="text" name="phone_number" class="col-10 col-lg-8"
+              maxlength="{{ form.phone_number.field.max_length }}" required="{{ form.phone_number.field.required }}"
               id="id_phone_number">
             <span class="input-group-text col-2 text-center">
               <i class="fas fa-phone col-12 text-center mx-auto m-0 p-0"></i>
             </span>
           </div>
+          <div class="col-lg-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
+            <div class="text-left headline m-1 mb-2">
+              <h1 class="ml-2 mt-2">DANE ADRESOWE:</h1>
+            </div>
+          </div>
+          <div class="col-lg-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
+            <small class="text-danger col-12">{{ form.street.errors }}</small>
+            <label for="id_street" class="requiredField col-lg-2 m-0 p-0 align-self-center">
+              Ulica<span class="asteriskField">*</span>
+            </label>
+            <input type="text" name="street" class="textinput textInput col-10 col-lg-8"
+              maxlength="{{ form.street.field.max_length }}" required="{{ form.street.field.required }}" id="id_street">
+            <span class="input-group-text col-2 text-center">
+              <i class="fas fa-road col-12 text-center mx-auto m-0 p-0"></i>
+            </span>
+          </div>
+          <div class="col-lg-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
+            <small class="text-danger col-12">{{ form.house.errors }}</small>
+            <label for="id_house" class="requiredField col-lg-2 m-0 p-0 align-self-center">
+              Nr domu<span class="asteriskField">*</span>
+            </label>
+            <input type="text" name="house" class="textinput textInput col-10 col-lg-8"
+              maxlength="{{ form.house.field.max_length }}" required="{{ form.house.field.required }}" id="id_house">
+            <span class="input-group-text col-2 text-center">
+              <i class="fas fa-home col-12 text-center mx-auto m-0 p-0"></i>
+            </span>
+          </div>
+          <div class="col-lg-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
+            <small class="text-danger col-12">{{ form.door.errors }}</small>
+            <label for="id_door" class="requiredField col-lg-2 m-0 p-0 align-self-center">
+              Nr lokalu
+            </label>
+            <input type="text" name="door" class="textinput textInput col-10 col-lg-8"
+              maxlength="{{ form.door.field.max_length }}" id="id_door">
+            <span class="input-group-text col-2 text-center">
+              <i class="fas fa-home col-12 text-center mx-auto m-0 p-0"></i>
+            </span>
+          </div>
+          <div class="col-lg-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
+            <small class="text-danger col-12">{{ form.zip_code.errors }}</small>
+            <label for="id_zip_code" class="requiredField col-lg-2 m-0 p-0 align-self-center">
+              Kod pocztowy<span class="asteriskField">*</span>
+            </label>
+            <input type="text" name="zip_code" class="textinput textInput col-10 col-lg-8"
+              maxlength="{{ form.zip_code.field.max_length }}" required="{{ form.zip_code.field.required }}"
+              id="id_zip_code">
+            <span class="input-group-text col-2 text-center">
+              <i class="fas fa-barcode col-12 text-center mx-auto m-0 p-0"></i>
+            </span>
+          </div>
+          <div class="col-lg-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
+            <small class="text-danger col-12">{{ form.city.errors }}</small>
+            <label for="id_city" class="requiredField col-lg-2 m-0 p-0 align-self-center">
+              Miasto<span class="asteriskField">*</span>
+            </label>
+            <input type="text" name="city" class="textinput textInput col-10 col-lg-8"
+              maxlength="{{ form.city.field.max_length }}" required="{{ form.city.field.required }}" id="id_city">
+            <span class="input-group-text col-2 text-center">
+              <i class="fas fa-city col-12 text-center mx-auto m-0 p-0"></i>
+            </span>
+          </div>
           <div class="g-recaptcha-outer mx-auto text-center m-2">
-            <div class="g-recaptcha-inner">
+            <small class="text-danger col-12">{{ form.captcha.errors }}</small>
+            <div class="g-recaptcha-inner mx-auto">
               {{ form.captcha|as_crispy_field}}
             </div>
           </div>
-          <div class="col-lg-12 p-1 mx-auto text-center  row d-flex align-items-stretch justify-content-center">
+         <div class="col-lg-12 p-1 mx-auto text-center  row d-flex align-items-stretch justify-content-center">
             <a href="" class="col-11">
               <label for="id_rules" class="col-12 requiredField m-0 p-0 align-self-center">
                 Regulamin sklepu<span class="asteriskField ">*</span>

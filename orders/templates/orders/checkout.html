@@ -24,8 +24,14 @@
 </nav>
 <input type="hidden" name="" id="order_id" value="{{order.id}}">
   {% csrf_token %}
-    <button id="checkout-button">CheckOut</button>
-   
+
+  <div class="col-lg-10 mx-auto text-center checkout d-flex align-items-center row">
+      <h1 class="col-12 mx-auto">{{order.number}}</h1>
+      <h1 class="col-12 mx-auto">{{order.delivery_method}}</h1>
+      <h1 class="col-12 mx-auto">{{order.total_price}} PLN</h1>
+      
+    <button id="checkout-button" class="btn btn-success mx-auto text-center">Kupuję z obowiązkiem zapłaty</button>
+   </div>
 {% endblock %}
 
 {% block script %}
