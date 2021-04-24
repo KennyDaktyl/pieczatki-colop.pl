@@ -28,9 +28,9 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="{% static "css/main.css" %}" />
+    <link rel="stylesheet" href="{{ STATIC_URL }}"css/main.css" %}" />
 
-    <link href="{% static "lightbox/dist/css/lightbox.css" %}" rel="stylesheet" />
+    <link href="{{ STATIC_URL }}lightbox/dist/css/lightbox.css" %}" rel="stylesheet" />
     <link rel="shortcut icon" type="image/jpg" href="{{ MEDIA_URL }}images/postage_stamp.png" />
     <link rel="apple-touch-icon" href="{{ MEDIA_URL }}images/postage_stamp.png" />
     {% block head %}
@@ -216,8 +216,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
     </script>
-    <script src="{% static "js/main.js" %}" type="text/javascript"></script>
-    <script src="{% static "lightbox/dist/js/lightbox.js" %}"></script>
+    <script src="{{ STATIC_URL }}js/main.js" %}" type="text/javascript"></script>
+    <script src="{{ STATIC_URL }}lightbox/dist/js/lightbox.js" %}"></script>
     <script>
         lightbox.option({
             'albumLabel': "Zdjęcie %1 z %2"
