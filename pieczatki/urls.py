@@ -34,4 +34,28 @@ urlpatterns = [
     path('zamowienia/', include('orders.urls')),
     path('', include('front.urls')),
     # path('produkty', include('products.urls')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    # ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
+#KEYCDN
+if settings.DEBUG:
+    urlpatterns += urlpatterns(
+        '',
+        url(
+            r'^static/(?P<path>.*)$',
+            'django.views.static.serve',  # NOQA
+            {
+                'document_root': settings.STATIC_ROOT,
+                'show_indexes': True
+            }),
+    ) + urlpatterns  # NOQA
+urlpatterns += urlpatterns(
+    '',
+    url(
+        r'^media/(?P<path>.*)$',
+        'django.views.static.serve',  # NOQA
+        {
+            'document_root': settings.MEDIA_ROOT,
+            'show_indexes': True
+        }),
+) + staticfiles_urlpatterns() + urlpatterns  # NOQA
+#urlpatterns = static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

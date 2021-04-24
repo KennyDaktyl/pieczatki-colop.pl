@@ -246,7 +246,17 @@ class OrderDetails(View):
             form = OrderBigForm(request.POST, None)
             # print(form)
             address_id = request.POST.get('order_total_price')
-            print(address_id)
+            session_data = request.session.get(str(request.user.id))
+
+            try:
+                delivery_method = DeliveryMethod.objects.get(
+                    pk=session_data['delivery_id'])
+                print('jestem')
+            except:
+                messages.error(request, 'Wybierz paczkomat')
+                print('nie jestem')
+                return redirect('inpost_box')
+            print(request.session.get(str(request.user.id)))
             if form.is_valid():
                 delivery_cost = request.POST.get('delivery_cost')
                 delivery = form.cleaned_data['delivery']
@@ -315,6 +325,23 @@ class InpostBoxSearchView(View):
 
     def post(self, request):
         session_dict = (request.session.get(str(request.user.id)))
+        delivery_type = DeliveryMethod.objects.filter(is_active=True)
+        pay_methods = PayMethod.objects.filter(is_active=True)
+        try:
+            payment_set = PayMethod.objects.get(pk=session_dict['payment_id'])
+            payment_default = PayMethod.objects.get(
+                pk=int(session_dict['payment_id']))
+        except:
+            payment_default = pay_methods.filter(default=True).first()
+            payment_set = payment_default
+        try:
+            delivery_set = DeliveryMethod.objects.get(
+                pk=session_dict['delivery_id'])
+            delivery_default = DeliveryMethod.objects.get(
+                pk=int(session_dict['delivery_id']))
+        except:
+            delivery_default = delivery_type.filter(default=True).first()
+            delivery_set = delivery_default
         try:
             payment_set = PayMethod.objects.get(pk=session_dict['payment_id'])
             payment_default = PayMethod.objects.get(

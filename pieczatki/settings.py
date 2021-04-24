@@ -30,13 +30,13 @@ else:
     SESSION_COOKIE_DOMAIN = f".{DOMAIN}"
     SESSION_COOKIE_HTTPONLY = True
     # SESSION_COOKIE_AGE = 10 * 60
-    SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
     SESSION_SAVE_EVERY_REQUEST = True
     CSRF_COOKIE_DOMAIN = f".{DOMAIN}"
     CSRF_COOKIE_HTTPONLY = True
     STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLIC_KEY')
     STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY')
-
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 # Application definition
 
 INSTALLED_APPS = [
@@ -143,10 +143,15 @@ DATETIME_FORMAT = "Y-m-d H:M:S"
 DATE_INPUT_FORMATS = "Y-m-d H:M:S"
 
 STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
+
+STATIC_URL = 'http://pieczatki-18fbf.kxcdn.com/static/'
+MEDIA_URL = 'http://pieczatki-18fbf.kxcdn.com/media/'
+
 STATIC_ROOT = "static"
 SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
 STATICFILES_DIRS = (os.path.join(SITE_ROOT, "static/"), )
-MEDIA_URL = '/media/'
+
 # MEDIA_URL = f'http://127.0.0.1:8000/static/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
