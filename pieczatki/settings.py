@@ -143,15 +143,10 @@ DATETIME_FORMAT = "Y-m-d H:M:S"
 DATE_INPUT_FORMATS = "Y-m-d H:M:S"
 
 STATIC_URL = '/static/'
-MEDIA_URL = '/media/'
-
-STATIC_URL = 'http://pieczatki-18fbf.kxcdn.com/static/'
-MEDIA_URL = 'http://pieczatki-18fbf.kxcdn.com/media/'
-
 STATIC_ROOT = "static"
 SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
 STATICFILES_DIRS = (os.path.join(SITE_ROOT, "static/"), )
-
+MEDIA_URL = '/media/'
 # MEDIA_URL = f'http://127.0.0.1:8000/static/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
